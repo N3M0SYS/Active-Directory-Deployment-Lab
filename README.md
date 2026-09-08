@@ -24,7 +24,7 @@ Build and administer a small Windows domain, assess it using Kali, detect activi
 ## Current priorities
 
 1. Track the unresolved Windows notification-mode issue with the server administrator.
-2. Confirm recovery arrangements and shared resource expectations.
+2. Follow the agreed wipe-and-rebuild recovery approach and document each change.
 3. Finalize an isolated network and controlled remote access.
 4. Deploy the firewall, AD, Windows clients, Kali, and monitoring in phases.
 
@@ -33,3 +33,7 @@ All architecture and VM allocations are proposals until deployment evidence is r
 ## Working agreement
 
 Show the full procedure first, then run one command at a time and review the output. Document the current state, recovery plan, and backup status before infrastructure changes. Update this repository during working sessions after verifying results. Screenshots and recordings supplied by the operator become supporting evidence after review.
+
+## Recovery decision
+
+The Security Engineer approved a disposable lab with wipe-and-rebuild recovery, as reported by the operator. No local/cloud backups will be configured. Backup setup no longer blocks deployment. See [recovery approach](docs/recovery.md).
