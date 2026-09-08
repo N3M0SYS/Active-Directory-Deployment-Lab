@@ -10,7 +10,7 @@ Goal: penetration testing foundations, detection and remediation, then AI securi
 - [ ] Investigate Windows notification mode and establish valid licensing status.
 - [ ] Agree on available resources and shared VM ownership.
 - [ ] Record current host network settings securely.
-- [ ] Verify backups or document an agreed recovery approach for affected resources.
+- [x] Document the Security Engineer's accepted wipe-and-rebuild recovery approach; no backups will be configured.
 - [ ] Confirm local recovery access and a rollback procedure.
 - [ ] Finalize addressing and network design.
 
@@ -81,3 +81,5 @@ Deliverable: AI threat model, test set, findings, and mitigation evidence.
 - [ ] Prepare a public-safe portfolio version and concise demonstrations.
 
 This repository remains private unless deliberately changed. Completing a plan is not evidence that a control works; attach test results.
+
+Recovery update: the 2026-09-08 no-backup decision supersedes backup setup gates. Host licensing is tracked with the server administrator; isolated lab work may proceed. No deployment step is marked complete until verified.
