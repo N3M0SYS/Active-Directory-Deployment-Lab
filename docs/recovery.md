@@ -18,9 +18,13 @@ Do not treat Hyper-V checkpoints as independent backups. GitHub documentation do
 
 | Item | Status |
 |---|---|
-| Backup location and retention | Unknown |
+| Backup location and retention | No backup configured/history reported in Ninja by operator; other methods unverified |
 | Latest successful backup | Unknown |
 | Restore validation | Not performed |
 | Local recovery access | Physical proximity confirmed; usable console/credentials not yet verified |
 | Network rollback procedure | Pending final design |
 | License resolution | Pending; notification mode observed |
+
+## Operator cleanup and preservation scope — 2026-09-08
+
+Operator removed six VM entries and retained ninjatest (Off), VulScan (Off), and Wazuh (Saved), confirmed by Hyper-V Manager screenshot. Preserve the three remaining VMs. Their backup/export destination and recoverability remain unresolved. Identify separate storage for recovery copies before changes that could affect them. Cleanup did not establish removal of unused virtual disk files. No further deletion is requested.
