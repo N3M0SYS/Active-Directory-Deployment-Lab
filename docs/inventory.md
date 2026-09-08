@@ -24,9 +24,9 @@ Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are
 | Access | Operator uses ScreenConnect and has physical access |
 | iDRAC | Address/access unconfirmed; discovery deferred |
 | RACADM | Not on command path or found in searched Dell Program Files folders |
-| Backups | Not verified |
+| Backups | Operator checked Ninja: no backup configured/history reported; other methods unverified |
 
-## Existing VMs — verified
+## Initial VMs — historical baseline before operator cleanup
 
 All have 20 configured vCPUs, dynamic memory disabled, and 0 assigned RAM at capture.
 
@@ -66,4 +66,16 @@ The Hyper-V host offers more installed RAM, storage capacity, and cores. No CPU 
 
 ## License detail follow-up — 2026-09-08
 
-The operator's `slmgr.vbs /dlv` output confirmed ServerStandardEval, TIMEBASED_EVAL channel, license status Notification, and notification reason `0xC004FC07`. Remaining Windows rearm count and SKU rearm count both show 1. This does not prove an available extension duration or successful activation. Activation identifiers and partial product key are intentionally omitted. No rearm, conversion, or reinstall performed. Next proposed step: attempt normal activation using the installed evaluation key (`slmgr.vbs /ato`) and review the result; not yet executed.
+The operator's `slmgr.vbs /dlv` output confirmed ServerStandardEval, TIMEBASED_EVAL channel, license status Notification, and notification reason `0xC004FC07`. Remaining Windows rearm count and SKU rearm count both show 1. This does not prove an available extension duration or successful activation. Activation identifiers and partial product key are intentionally omitted. No rearm, conversion, or reinstall performed. Subsequent `/ato` attempt failed with `0x80072EE2` (timeout). Further licensing changes are deferred to the server administrator.
+
+## Current VMs after operator cleanup — 2026-09-08
+
+The operator reports deleting the other six VMs. Hyper-V Manager now shows only:
+
+| Name | Current state |
+|---|---|
+| ninjatest | Off |
+| VulScan | Off |
+| Wazuh | Saved |
+
+Preserve these three guests. Possible future deletion was discussed but is not an instruction to delete them now. Original allocations were 4, 8, and 8 GiB respectively; not re-queried after cleanup. Removal of VM entries does not establish deletion of their virtual disks or reclaimed space. Current disk free space has not been re-measured. No new lab guests deployed.
