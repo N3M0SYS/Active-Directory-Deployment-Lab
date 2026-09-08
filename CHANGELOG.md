@@ -28,3 +28,11 @@ Next: investigate licensing, verify recovery arrangements, then finalize isolate
 - Operator clarified the host belongs to the company. Further licensing changes are deferred to the server owner/administrator.
 - Planning and read-only inventory may continue. Host evaluation status remains an unresolved reliability dependency before sustained lab use.
 - No rearm, key replacement, edition conversion, or reinstall is planned by this project at this point.
+
+## 2026-09-08 — Operator VM cleanup and backup check
+
+- Operator checked Ninja and reported no backup configuration/history.
+- Operator deleted six prior VMs; screenshot confirms only ninjatest (Off), VulScan (Off), and Wazuh (Saved) remain.
+- Preserve the remaining guests; future deletion is only a possibility, not currently authorized.
+- Virtual disk removal and reclaimed storage have not been verified.
+- Next recovery task: identify separate storage for backups/exports of retained guests before changes affecting them.
