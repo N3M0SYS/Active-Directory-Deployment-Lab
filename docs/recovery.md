@@ -1,30 +1,27 @@
-# Recovery and deployment gates
+# Recovery approach
 
-Status: **not yet completed**. No infrastructure changes were made during inventory.
+## Current decision — 2026-09-08
 
-Before changing networking or creating project infrastructure:
+The operator reports that the Security Engineer approved using this disposable test server for the project. Local/cloud backup storage cannot be configured for it. If the environment breaks, the agreed recovery approach is to wipe and rebuild. **Backups are intentionally not configured; backup setup is not a deployment gate.**
 
-1. Resolve the host licensing question.
-2. Record affected adapters, IP configuration, routes, DNS, switches, VM attachments, and access method in an appropriate private location.
-3. Identify what existing guests/data could be affected and coordinate shared use.
-4. Verify the backup destination and recovery procedure; record a restore check where available.
-5. Define the exact change, success criteria, rollback steps, and stop conditions.
-6. Confirm physical console access and required administrative credentials are available to the operator.
-7. Apply one change, validate access/isolation, then update the change log.
+This supersedes the earlier requirement to obtain backups of retained guests. The decision accepts loss of local VM data, configuration, and lab progress. GitHub preserves documented procedures, not VM data. The remaining ninjatest, VulScan, and Wazuh guests will stay in place unless removal is needed and directed. No wipe or deletion is being performed now.
 
-Do not treat Hyper-V checkpoints as independent backups. GitHub documentation does not back up VMs. Do not place VM disks, backup archives, credentials, or host recovery secrets in this repository.
+## Before each change
 
-## Open record
+1. Record the relevant starting state and intended outcome.
+2. Prefer a small reversible change and document its rollback.
+3. Apply one step and inspect its result.
+4. Record verified outcomes in GitHub so a rebuild is repeatable.
 
-| Item | Status |
-|---|---|
-| Backup location and retention | No backup configured/history reported in Ninja by operator; other methods unverified |
-| Latest successful backup | Unknown |
-| Restore validation | Not performed |
-| Local recovery access | Physical proximity confirmed; usable console/credentials not yet verified |
-| Network rollback procedure | Pending final design |
-| License resolution | Pending; notification mode observed |
+## First network change — planned, not executed
 
-## Operator cleanup and preservation scope — 2026-09-08
+- Baseline: previous Get-VMSwitch returned no switches; NIC1 was the active 1 Gbps adapter.
+- Proposed action: create a private switch named LAB-PRIVATE.
+- Scope: new isolated switch only; no physical adapter binding or existing VM attachment changes.
+- Validation: output must show LAB-PRIVATE with SwitchType Private.
+- Rollback: remove the newly created switch through Hyper-V Virtual Switch Manager while it has no attached guests.
+- Later uplink changes require their own network baseline and isolation validation.
 
-Operator removed six VM entries and retained ninjatest (Off), VulScan (Off), and Wazuh (Saved), confirmed by Hyper-V Manager screenshot. Preserve the three remaining VMs. Their backup/export destination and recoverability remain unresolved. Identify separate storage for recovery copies before changes that could affect them. Cleanup did not establish removal of unused virtual disk files. No further deletion is requested.
+## Other open items
+
+Host evaluation activation failed with a timeout and remains the server administrator's responsibility. This is tracked as a reliability issue, not a reason to continue activation changes without the owner. Recovery installation media and access should be documented as the build proceeds.
