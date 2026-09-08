@@ -14,3 +14,10 @@
 - No host configuration, existing VM, or networking changes made.
 
 Next: investigate licensing, verify recovery arrangements, then finalize isolated networking.
+
+## 2026-09-08 — License details reviewed
+
+- Confirmed TIMEBASED_EVAL channel and Notification status with reason `0xC004FC07` from `/dlv`.
+- Recorded remaining Windows/SKU rearm counts of 1 without assuming an extension is available.
+- Kept activation identifiers and the screenshot out of GitHub.
+- Normal activation attempt proposed; outcome pending. No host changes performed in this step.
