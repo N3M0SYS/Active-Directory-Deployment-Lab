@@ -1,0 +1,20 @@
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+# VM images and installation media
+*.vhd
+*.vhdx
+*.avhd
+*.avhdx
+*.vmdk
+*.qcow2
+*.iso
+# Local transient files
+.DS_Store
+Thumbs.db
+~$*
