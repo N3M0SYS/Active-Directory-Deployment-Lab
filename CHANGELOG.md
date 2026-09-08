@@ -21,3 +21,10 @@ Next: investigate licensing, verify recovery arrangements, then finalize isolate
 - Recorded remaining Windows/SKU rearm counts of 1 without assuming an extension is available.
 - Kept activation identifiers and the screenshot out of GitHub.
 - Normal activation attempt proposed; outcome pending. No host changes performed in this step.
+
+## 2026-09-08 — Activation attempt and ownership boundary
+
+- Operator ran `/ato`; it failed with `0x80072EE2` (operation timed out). Activation success has not been established.
+- Operator clarified the host belongs to the company. Further licensing changes are deferred to the server owner/administrator.
+- Planning and read-only inventory may continue. Host evaluation status remains an unresolved reliability dependency before sustained lab use.
+- No rearm, key replacement, edition conversion, or reinstall is planned by this project at this point.
