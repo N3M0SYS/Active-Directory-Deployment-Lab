@@ -1,0 +1,16 @@
+# Change log
+
+## 2026-09-08 — Initial planning baseline
+
+- Established the private Security-Engineering-Lab repository.
+- Recorded the Dell R630 Hyper-V inventory from read-only PowerShell results.
+- Chose to host Kali, Windows clients, and lab infrastructure on the test server.
+- Added a proposed nine-VM plan totaling 22 vCPUs, 38 GiB RAM, and 862 GiB virtual disk capacity.
+- Corrected the earlier chat's vCPU total of 24 to 22.
+- Added a proposed isolated network diagram; uplink and address space remain undecided.
+- Added the penetration-testing-to-AI-security roadmap and evidence workflow.
+- Recorded Windows notification mode as unresolved.
+- Deferred physical disk/RAID details and iDRAC discovery.
+- No host configuration, existing VM, or networking changes made.
+
+Next: investigate licensing, verify recovery arrangements, then finalize isolated networking.
