@@ -23,12 +23,12 @@ Build and administer a small Windows domain, assess it using Kali, detect activi
 
 ## Current priorities
 
-1. Investigate the host's Windows notification-mode result.
+1. Track the unresolved Windows notification-mode issue with the server administrator.
 2. Confirm recovery arrangements and shared resource expectations.
 3. Finalize an isolated network and controlled remote access.
 4. Deploy the firewall, AD, Windows clients, Kali, and monitoring in phases.
 
-All architecture and VM allocations are proposals until deployment evidence is recorded. The existing nine VMs have not been modified. GitHub tracks documentation and reviewed scripts; it is not the VM backup destination.
+All architecture and VM allocations are proposals until deployment evidence is recorded. The operator removed six prior VMs; ninjatest, VulScan, and Wazuh remain and are to be preserved. Ninja backup coverage is absent per the operator; other backup methods are unverified. GitHub tracks documentation and reviewed scripts; it is not the VM backup destination.
 
 ## Working agreement
 
