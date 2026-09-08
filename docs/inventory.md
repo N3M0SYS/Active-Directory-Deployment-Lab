@@ -63,3 +63,7 @@ The Hyper-V host offers more installed RAM, storage capacity, and cores. No CPU 
 - Approved resource reserve for coworkers' test tools.
 - Lab address range, uplink design, and isolation rules.
 - Drive media, RAID level, and individual drive health if performance or recovery planning requires them.
+
+## License detail follow-up — 2026-09-08
+
+The operator's `slmgr.vbs /dlv` output confirmed ServerStandardEval, TIMEBASED_EVAL channel, license status Notification, and notification reason `0xC004FC07`. Remaining Windows rearm count and SKU rearm count both show 1. This does not prove an available extension duration or successful activation. Activation identifiers and partial product key are intentionally omitted. No rearm, conversion, or reinstall performed. Next proposed step: attempt normal activation using the installed evaluation key (`slmgr.vbs /ato`) and review the result; not yet executed.
