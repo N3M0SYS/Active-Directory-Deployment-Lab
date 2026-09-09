@@ -19,7 +19,8 @@ Deliverable: verified baseline, decision log, and recovery plan.
 ## Phase 1 — Isolated networking
 
 - [ ] Select the lab firewall and validate its requirements.
-- [ ] Create the private lab network.
+- [x] Create the private lab virtual switch: `Lab-Private-Switch` (properties reviewed 2026-09-09; operator reports applied).
+- [ ] Validate guest connectivity after deploying and attaching test VMs.
 - [ ] Configure the approved uplink and access restrictions.
 - [ ] Verify lab DHCP remains contained.
 - [ ] Verify required access works and access to company/client networks is blocked.
