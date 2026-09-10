@@ -48,7 +48,7 @@ Before enabling an uplink, record the host network and recovery access, check ad
 
 | Workload | vCPU | RAM | Disk | State |
 |---|---:|---:|---:|---|
-| N3M0-DC01 | 20 observed; 2 originally proposed | 4 GB | 60 GB OS + 100 GB backup | Deployed |
+| N3M0-DC01 | 2 | 4 GB | 60 GB OS + 100 GB backup | Deployed |
 | Firewall | TBD | TBD | TBD | Platform and sizing pending |
 | DC02 | 2 | 4 GB | 80 GB | Proposed |
 | FS01 | 2 | 4 GB | 150 GB | Proposed |
