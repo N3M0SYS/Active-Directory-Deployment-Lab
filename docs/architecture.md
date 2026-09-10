@@ -57,6 +57,6 @@ Before enabling an uplink, record the host network and recovery access, check ad
 | Kali / attacker VM | 4 | 4 GB | 80 GB | Placement and sizing proposed |
 | Wazuh | 4 | 8 GB | 200 GB | Prior sizing proposal; inspect existing VM first |
 
-Hyper-V settings screenshots show 20 processors for DC01. No reduction is recorded. Do not treat the old nine-VM totals as current allocations. The original firewall estimate of 2 GB RAM requires replacement after platform selection.
+DC01 is now configured with 2 vCPUs, as confirmed by the operator on 2026-09-10. This supersedes the earlier screenshot showing 20 processors. Do not treat the old nine-VM totals as current allocations. The original firewall estimate of 2 GB RAM requires replacement after platform selection.
 
 Preserve existing shared guests. Start workloads in phases, measure utilization, and add CLIENT03/04 only if resources permit. Defer Security Onion and local AI model hosting.

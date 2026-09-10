@@ -69,7 +69,7 @@ Preserve these three guests. Possible future deletion was discussed but is not a
 - Later host C: screenshot showed 3,723 GiB total and 2,940.3 GiB free before DC01 installation/backup. Current free space after the backup has not been measured.
 - Switch: Lab-Private-Switch, Private.
 - N3M0-DC01 deployed and running; the three retained guests have not been removed.
-- DC01: Generation 2; 4096 MB RAM; 20 virtual processors shown in settings (2 originally proposed; adjustment not recorded).
+- DC01: Generation 2; 4096 MB RAM; 2 virtual processors (operator confirmed the correction on 2026-09-10).
 - Disks: 60 GB OS VHDX and 100 GB dynamic backup VHDX on host storage.
 - IPv4 10.50.10.10/24; preferred DNS 10.50.10.10; gateway and alternate DNS blank; IPv6 enabled.
 - AD domain/forest n3m0.test, NetBIOS N3M0, Windows Server 2025 functional levels; DNS and GC enabled.

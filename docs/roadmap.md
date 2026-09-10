@@ -37,7 +37,7 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Complete first Windows Server Backup to E: (15.32 GB).
 - [ ] Test restoration and decide retention/off-host protection.
 - [ ] Complete guest activation and updates through controlled connectivity.
-- [ ] Review observed 20-vCPU allocation against the proposed 2 vCPUs.
+- [x] Correct DC01 CPU allocation to 2 vCPUs (operator confirmed 2026-09-10).
 - [ ] Deploy DC02 and verify replication.
 - [ ] Configure organizational units, users, groups, and separate admin accounts.
 - [ ] Deploy FS01 and test share/NTFS permissions.

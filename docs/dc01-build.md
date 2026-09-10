@@ -13,7 +13,7 @@ Work completed across the 2026-09-09–10 session; documentation updated 2026-09
 | Generation | 2 |
 | Secure Boot | On; MicrosoftWindows template in reviewed firmware output |
 | RAM | 4096 MB |
-| CPU | 20 virtual processors shown in settings; original proposal was 2; review pending |
+| CPU | 2 virtual processors; correction confirmed by the operator on 2026-09-10 |
 | OS disk | N3M0-DC01.vhdx; 60 GB |
 | OS | Windows Server 2025 Standard Evaluation, Desktop Experience selected during guided installation |
 | Network | Lab-Private-Switch; Private |
@@ -44,6 +44,7 @@ Work completed across the 2026-09-09–10 session; documentation updated 2026-09
 10. Verified AD registration, DNS records, and shared folders.
 11. Installed Windows Server Backup; created and formatted the separate guest backup disk.
 12. Ran Backup Once, Full server, VSS Copy Backup to E:. All listed items completed; 15.32 GB transferred.
+13. Operator confirmed changing DC01's CPU allocation from 20 to the planned 2 vCPUs on 2026-09-10. Confirmation is operator-reported; no new screenshot or performance test was required.
 
 ## Verification results
 
@@ -73,7 +74,6 @@ These are initial GUI checks. They do not establish client domain-join success, 
 
 - Select and deploy a firewall with a controlled uplink and isolation tests.
 - Activate/update the guest using the approved path; neither is verified complete.
-- Review DC01 CPU allocation (20 observed versus 2 proposed).
 - Test restore capability and decide backup retention/off-host protection.
 - Deploy a client and verify actual domain join, authentication, and Group Policy.
 - Add OUs, separate admin/user accounts, DC02, FS01, and monitoring in later steps.

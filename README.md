@@ -26,7 +26,7 @@ Build and administer a small Windows domain, assess it using authorized lab targ
 
 - All current project workloads remain on the Hyper-V server.
 - Private switch: `Lab-Private-Switch`; subnet: `10.50.10.0/24`.
-- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`.
+- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; CPU: 2 vCPUs (operator confirmed).
 - AD DS, DNS, Global Catalog, DNS A/SRV records, and NETLOGON/SYSVOL presence verified through GUI screenshots.
 - Windows Server Backup completed to `DC01-Backup (E:)`, transferring 15.32 GB. Restore testing and off-host protection remain pending.
 - No lab firewall, gateway, DHCP scope, or controlled internet path has been deployed.
@@ -36,9 +36,8 @@ Build and administer a small Windows domain, assess it using authorized lab targ
 
 1. Select the firewall platform and design an approved uplink with explicit isolation rules.
 2. Provide controlled activation/update access; guest activation and patching are not yet verified.
-3. Review DC01's observed 20-vCPU allocation against the proposed 2 vCPUs.
-4. Test recovery, then expand with clients, DC02, file services, and monitoring.
-5. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
+3. Test recovery, then expand with clients, DC02, file services, and monitoring.
+4. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
 
 ## Working agreement
 
