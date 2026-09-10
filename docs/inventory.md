@@ -1,4 +1,6 @@
-# Host inventory
+# Host and VM inventory
+
+**Current update: 2026-09-10.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
 
 Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are snapshots, not live monitoring. Commands labeled GB used PowerShell binary units (GiB).
 
@@ -12,7 +14,6 @@ Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are
 | Installed / usable RAM | Approximately 64 GB / 63.9 GiB |
 | Free RAM at capture | 55 GiB |
 | OS | Windows Server 2025 Standard Evaluation |
-| License query | Windows is in Notification mode; no expiration date returned |
 | C: filesystem | NTFS |
 | C: capacity / free | 3,723 GiB / 2,963 GiB |
 | Storage presented to Windows | DELL PERC H730 Mini; RAID bus; 3,724 GiB; Healthy |
@@ -44,31 +45,14 @@ All have 20 configured vCPUs, dynamic memory disabled, and 0 assigned RAM at cap
 
 The displayed startup allocations total approximately 78.9 GiB, exceeding host RAM if all were started together. Saved/off VMs are not currently consuming assigned guest RAM. Review shared usage before starting guests. Existing Wazuh suitability remains unknown.
 
-## Proxmox comparison — historical, not re-verified
+## Outstanding information at the initial baseline
 
-| Item | Prior reported baseline |
-|---|---|
-| CPU | AMD Ryzen AI 9 HX 370; 12 cores / 24 threads |
-| RAM | 32 GB |
-| Storage | 1 TB SSD |
-| Networking | USB-C Ethernet adapter |
-| Current free resources and guests | Not re-verified |
-
-The Hyper-V host offers more installed RAM, storage capacity, and cores. No CPU or storage benchmarks were performed; greater core count does not prove greater workload performance.
-
-## Outstanding information
-
-- License details and valid activation/evaluation state.
 - Backup destination, recovery access, and restore evidence.
 - Approved resource reserve for coworkers' test tools.
 - Lab address range, uplink design, and isolation rules.
 - Drive media, RAID level, and individual drive health if performance or recovery planning requires them.
 
-## License detail follow-up — 2026-09-08
-
-The operator's `slmgr.vbs /dlv` output confirmed ServerStandardEval, TIMEBASED_EVAL channel, license status Notification, and notification reason `0xC004FC07`. Remaining Windows rearm count and SKU rearm count both show 1. This does not prove an available extension duration or successful activation. Activation identifiers and partial product key are intentionally omitted. No rearm, conversion, or reinstall performed. Subsequent `/ato` attempt failed with `0x80072EE2` (timeout). Further licensing changes are deferred to the server administrator.
-
-## Current VMs after operator cleanup — 2026-09-08
+## VMs after operator cleanup — historical 2026-09-08 baseline
 
 The operator reports deleting the other six VMs. Hyper-V Manager now shows only:
 
@@ -79,3 +63,16 @@ The operator reports deleting the other six VMs. Hyper-V Manager now shows only:
 | Wazuh | Saved |
 
 Preserve these three guests. Possible future deletion was discussed but is not an instruction to delete them now. Original allocations were 4, 8, and 8 GiB respectively; not re-queried after cleanup. Removal of VM entries does not establish deletion of their virtual disks or reclaimed space. Current disk free space has not been re-measured. No new lab guests deployed.
+
+## Current deployment — 2026-09-10
+
+- Later host C: screenshot showed 3,723 GiB total and 2,940.3 GiB free before DC01 installation/backup. Current free space after the backup has not been measured.
+- Switch: Lab-Private-Switch, Private.
+- N3M0-DC01 deployed and running; the three retained guests have not been removed.
+- DC01: Generation 2; 4096 MB RAM; 20 virtual processors shown in settings (2 originally proposed; adjustment not recorded).
+- Disks: 60 GB OS VHDX and 100 GB dynamic backup VHDX on host storage.
+- IPv4 10.50.10.10/24; preferred DNS 10.50.10.10; gateway and alternate DNS blank; IPv6 enabled.
+- AD domain/forest n3m0.test, NetBIOS N3M0, Windows Server 2025 functional levels; DNS and GC enabled.
+- Windows Server Backup completed to guest E: (DC01-Backup), 15.32 GB. This is DC01-only coverage, not host or retained-guest coverage.
+
+See [DC01 build journal](dc01-build.md), [address plan](architecture.md), and [backup limits](recovery.md). Firewall, DHCP, guest internet access, activation, restore test, and client validation remain pending.

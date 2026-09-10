@@ -4,9 +4,9 @@ GitHub is the source of truth for this project's documentation. Updates occur du
 
 ## After each meaningful change
 
-1. Record the objective and starting state.
+1. Record the objective and starting state. Reuse established facts unless a change or uncertainty requires rechecking.
 2. Record the exact procedure actually used.
-3. Capture the result and validation evidence.
+3. Capture the result and validation evidence. Prefer GUI guidance; use commands when they materially help.
 4. Record problems, corrections, and rollback steps.
 5. Update inventory/architecture if the deployed state changed.
 6. Update the change log and phase checklist.

@@ -1,18 +1,20 @@
 # Roadmap
 
+**Current milestone (2026-09-10):** DC01 and first local guest backup complete; firewall selection/uplink and client validation pending. Work proceeded with isolated DC01 before firewall deployment.
+
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
 ## Phase 0 — Baseline and recovery
 
 - [x] Inventory CPU, RAM, volumes, existing guests, switches, and physical adapters.
-- [x] Choose Hyper-V as the main lab platform, including Kali and Windows clients.
+- [x] Choose Hyper-V as the main lab platform for current servers and clients; later attacker placement remains open.
 - [x] Establish a private GitHub documentation repository.
-- [ ] Investigate Windows notification mode and establish valid licensing status.
 - [ ] Agree on available resources and shared VM ownership.
 - [ ] Record current host network settings securely.
-- [x] Document the Security Engineer's accepted wipe-and-rebuild recovery approach; no backups will be configured.
+- [x] Document recovery approach; DC01 now has a local guest backup, with wipe-and-rebuild still the fallback for host loss.
 - [ ] Confirm local recovery access and a rollback procedure.
-- [ ] Finalize addressing and network design.
+- [x] Select lab IPv4 addressing and domain name.
+- [ ] Finalize uplink design and isolation rules.
 
 Deliverable: verified baseline, decision log, and recovery plan.
 
@@ -30,19 +32,25 @@ Deliverable: network diagram and isolation test evidence.
 
 ## Phase 2 — Windows business environment
 
-- [ ] Deploy DC01 with AD DS and DNS.
+- [x] Deploy N3M0-DC01 with AD DS and DNS in n3m0.test.
+- [x] Verify DC object, DNS A/SRV records, NETLOGON, and SYSVOL.
+- [x] Complete first Windows Server Backup to E: (15.32 GB).
+- [ ] Test restoration and decide retention/off-host protection.
+- [ ] Complete guest activation and updates through controlled connectivity.
+- [ ] Review observed 20-vCPU allocation against the proposed 2 vCPUs.
 - [ ] Deploy DC02 and verify replication.
 - [ ] Configure organizational units, users, groups, and separate admin accounts.
 - [ ] Deploy FS01 and test share/NTFS permissions.
 - [ ] Deploy IT-ADMIN and two employee clients.
 - [ ] Join clients to the domain and verify DNS and Group Policy.
-- [ ] Document a clean recovery baseline.
+- [x] Document the initial DC01 configuration and backup baseline.
+- [ ] Refresh baseline after updates and expanded configuration.
 
 Deliverable: domain design, permissions matrix, and validation screenshots.
 
 ## Phase 3 — Penetration testing foundations
 
-- [ ] Deploy Kali inside the lab.
+- [ ] Choose and deploy attacker placement; consider a separate simulated external segment after the internal lab is stable.
 - [ ] Define exercise targets, scope, starting access, and reset procedure.
 - [ ] Practice discovery and service enumeration.
 - [ ] Assess deliberately introduced lab weaknesses.
@@ -83,4 +91,4 @@ Deliverable: AI threat model, test set, findings, and mitigation evidence.
 
 This repository remains private unless deliberately changed. Completing a plan is not evidence that a control works; attach test results.
 
-Recovery update: the 2026-09-08 no-backup decision supersedes backup setup gates. Host licensing is tracked with the server administrator; isolated lab work may proceed. No deployment step is marked complete until verified.
+Recovery update (2026-09-10): a DC01 guest backup is now verified complete, superseding the earlier blanket no-backup status. Restore testing, retained-guest coverage, and off-host backup remain unverified.

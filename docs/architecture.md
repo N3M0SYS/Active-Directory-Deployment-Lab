@@ -1,52 +1,62 @@
-# Proposed architecture
+# Current and planned architecture
 
-**Status: design only. No switches, firewall rules, or VMs have been created for this project.**
+Updated 2026-09-10. Current and proposed components are separated below.
 
-Keep Kali, Windows clients, and infrastructure on Hyper-V. Begin remote access through the existing host ScreenConnect connection and VM consoles.
+## Deployed
 
-## Network concept
+All project workloads currently run on the authorized Hyper-V test server. Management uses the existing host access and VM consoles.
 
 ```mermaid
 flowchart TD
-    Admin["Operator via ScreenConnect"] --> Host["Hyper-V host and VM consoles"]
-    Host -. "Console access" .-> Lab["Private lab virtual switch"]
-    Uplink["Approved uplink: design pending"] --> FW["Lab firewall"]
-    FW --> Lab
-    Lab --> AD["DC01, DC02, FS01"]
-    Lab --> Clients["IT-ADMIN, CLIENT01, CLIENT02"]
-    Lab --> Kali["Kali"]
-    Lab --> Monitor["Wazuh"]
+    Host["Hyper-V host"] -. "VM console access" .-> DC["N3M0-DC01: AD DS and DNS"]
+    Switch["Lab-Private-Switch: 10.50.10.0/24"] --- DC
+    DC --- OS["60 GB OS VHDX"]
+    DC --- Backup["100 GB backup VHDX: E:"]
 ```
 
-Console access is a management path, not an IP route shown by the dashed link. A private lab switch is proposed to keep guest traffic separate from the host's network. The firewall uplink method, address space, DNS, and rules remain undecided.
+Console access is not an IP route. A private switch does not provide host-to-guest network access or internet connectivity. Both VHDX files reside on the same host storage; the backup is not an independent failure domain.
 
-Before enabling any uplink, define explicit denial of lab access to company/client networks and permit only required destinations. Validate isolation using agreed test destinations. Keep lab DHCP confined to the lab. Do not attach attack targets directly to an external switch. An external switch alone does not provide isolation.
+## Address plan
 
-## Starting VM budget
+| Device/purpose | Address | State |
+|---|---|---|
+| Network | 10.50.10.0/24; mask 255.255.255.0 | Selected |
+| Firewall LAN / future gateway | 10.50.10.1 | Reserved; not deployed |
+| N3M0-DC01 | 10.50.10.10 | Configured |
+| Future DC02 | 10.50.10.11 | Reserved |
+| Future file server | 10.50.10.20 | Reserved |
+| Future DHCP client pool | 10.50.10.100–10.50.10.199 | Planned; no DHCP scope exists |
 
-| VM | Role | vCPU | RAM (GiB) | Virtual disk (GiB) |
-|---|---|---:|---:|---:|
-| Lab firewall | Routing and traffic control | 2 | 2 | 32 |
-| DC01 | AD DS and DNS | 2 | 4 | 80 |
-| DC02 | Additional domain controller | 2 | 4 | 80 |
-| FS01 | File shares and permissions | 2 | 4 | 150 |
-| IT-ADMIN | Administrative Windows client | 2 | 4 | 80 |
-| CLIENT01 | Employee Windows client | 2 | 4 | 80 |
-| CLIENT02 | Employee Windows client | 2 | 4 | 80 |
-| Kali | Authorized lab assessment | 4 | 4 | 80 |
-| Wazuh | Security monitoring | 4 | 8 | 200 |
-| **Total: 9 VMs** | | **22** | **38** | **862** |
+DC01's gateway is blank. Preferred DNS is 10.50.10.10; alternate DNS is blank. IPv6 remains enabled with automatic settings. Forest/domain: n3m0.test; NetBIOS: N3M0. Forest and domain functional levels: Windows Server 2025. Future DCs must support that functional level.
 
-Correction to the initial chat estimate: vCPUs sum to **22**, not 24. Allocations are planning estimates, not validated product requirements. Validate current OS/tool requirements and Windows guest licensing before provisioning. Verify Windows 11 VM prerequisites during its build phase.
+## Next network phase — not deployed
 
-At the observed 55 GiB free, 38 GiB guest RAM would leave roughly 17 GiB before additional overhead or coworker activity. This is not guaranteed spare capacity. Start in phases and monitor actual utilization. Thin/dynamic disks still need sufficient future capacity; checkpoints and logs add consumption.
+```mermaid
+flowchart TD
+    Uplink["Approved uplink: design pending"] --> FW["Firewall: platform undecided"]
+    FW --> LAN["Lab-Private-Switch"]
+    LAN --> DC["N3M0-DC01"]
+    LAN --> Future["Future clients and servers"]
+    Attack["Future simulated external attacker segment"] -. "Scoped assessment" .-> FW
+```
 
-Review the existing Wazuh VM before creating another. Do not repurpose shared VMs without establishing ownership and recovery needs.
+Select the firewall platform before provisioning. OPNsense and pfSense CE are candidates, not approved selections. Validate current Hyper-V compatibility, release notes, and sizing at installation time.
 
-## Growth
+Before enabling an uplink, record the host network and recovery access, check address overlap, define denial of company/client and other protected networks, and allow only required destinations. Test the policy in both directions. Keep lab DHCP confined to its segment. Do not put targets directly on an external switch. A second attacker segment can simulate external penetration testing without publishing services to the internet.
 
-Add CLIENT03/04 on demand after measuring usage. Defer Security Onion and local AI model hosting. Begin AI security later with a small test application and a model endpoint selected for resource and data-handling requirements. A GPU/local model is not part of the initial build.
+## Resource plan
 
-## Decisions still needed
+| Workload | vCPU | RAM | Disk | State |
+|---|---:|---:|---:|---|
+| N3M0-DC01 | 20 observed; 2 originally proposed | 4 GB | 60 GB OS + 100 GB backup | Deployed |
+| Firewall | TBD | TBD | TBD | Platform and sizing pending |
+| DC02 | 2 | 4 GB | 80 GB | Proposed |
+| FS01 | 2 | 4 GB | 150 GB | Proposed |
+| IT-ADMIN | 2 | 4 GB | 80 GB | Proposed |
+| CLIENT01 / CLIENT02, each | 2 | 4 GB | 80 GB | Proposed |
+| Kali / attacker VM | 4 | 4 GB | 80 GB | Placement and sizing proposed |
+| Wazuh | 4 | 8 GB | 200 GB | Prior sizing proposal; inspect existing VM first |
 
-Firewall product, domain name, subnet, VM naming details, uplink implementation, update access, backup location, and remote guest access remain open.
+Hyper-V settings screenshots show 20 processors for DC01. No reduction is recorded. Do not treat the old nine-VM totals as current allocations. The original firewall estimate of 2 GB RAM requires replacement after platform selection.
+
+Preserve existing shared guests. Start workloads in phases, measure utilization, and add CLIENT03/04 only if resources permit. Defer Security Onion and local AI model hosting.

@@ -1,27 +1,44 @@
-# Recovery approach
+# Recovery and backup status
 
-## Current decision — 2026-09-08
+## Current state — 2026-09-10
 
-The operator reports that the Security Engineer approved using this disposable test server for the project. Local/cloud backup storage cannot be configured for it. If the environment breaks, the agreed recovery approach is to wipe and rebuild. **Backups are intentionally not configured; backup setup is not a deployment gate.**
+A first Windows Server Backup of N3M0-DC01 completed successfully. This supersedes the previous blanket statement that no local backups are configured. It does not establish host backup coverage or backups of retained shared guests.
 
-This supersedes the earlier requirement to obtain backups of retained guests. The decision accepts loss of local VM data, configuration, and lab progress. GitHub preserves documented procedures, not VM data. The remaining ninjatest, VulScan, and Wazuh guests will stay in place unless removal is needed and directed. No wipe or deletion is being performed now.
+| Item | Verified value |
+|---|---|
+| Backup source | N3M0-DC01 |
+| Tool / job | Windows Server Backup; Backup Once; Full server |
+| Mode | VSS Copy Backup |
+| Destination | DC01-Backup (E:) |
+| Destination storage | Separate 100 GB dynamically expanding VHDX on the same host storage |
+| Included items | C:, EFI/system and recovery partitions, System State, bare-metal recovery |
+| Result | Completed; all listed items completed |
+| Data transferred | 15.32 GB |
+| Recurring schedule | Not configured |
+| Restore test | Not performed |
+| Off-host copy | Not configured |
 
-## Before each change
+The destination disk was initialized GPT and formatted NTFS with a quick format. It was excluded as a backup source.
 
-1. Record the relevant starting state and intended outcome.
-2. Prefer a small reversible change and document its rollback.
-3. Apply one step and inspect its result.
-4. Record verified outcomes in GitHub so a rebuild is repeatable.
+## Limits and fallback
 
-## First network change — planned, not executed
+This backup may help recover guest configuration/OS problems while the backup remains intact. It cannot protect against loss of the physical host storage, and an attached writable backup can also be affected by guest compromise. Backup success is not proof of restore success.
 
-- Baseline: previous Get-VMSwitch returned no switches; NIC1 was the active 1 Gbps adapter.
-- Proposed action: create a private switch named LAB-PRIVATE.
-- Scope: new isolated switch only; no physical adapter binding or existing VM attachment changes.
-- Validation: output must show LAB-PRIVATE with SwitchType Private.
-- Rollback: remove the newly created switch through Hyper-V Virtual Switch Manager while it has no attached guests.
-- Later uplink changes require their own network baseline and isolation validation.
+The operator previously reported approval for a disposable lab with wipe-and-rebuild recovery. Rebuild remains the fallback for host/storage loss. Existing ninjatest, VulScan, and Wazuh are preserved; their backup coverage is unverified. No deletion or restore is currently authorized by this record.
 
-## Other open items
+## Recovery planning
 
-Host evaluation activation failed with a timeout and remains the server administrator's responsibility. This is tracked as a reliability issue, not a reason to continue activation changes without the owner. Recovery installation media and access should be documented as the build proceeds.
+1. Retain the installation ISO for recovery; it can remain ejected during normal use.
+2. Keep the DSRM recovery password in the operator's private password manager, never GitHub.
+3. Plan a restore test in an isolated environment without connecting a duplicate DC to the live lab.
+4. Verify AD, DNS, shares, and client behavior after an actual restore.
+5. Decide on scheduled backups, retention, and off-host copies separately.
+6. Refresh the recovery baseline after meaningful configuration changes.
+
+No restore procedure has yet been exercised. Record measured results before marking recovery tested.
+
+## Change handling
+
+Record the starting state, intended outcome, rollback, and result. For new firewall work, preserve console access and document adapter/switch assignments before adding an uplink. Reverting uplink configuration must not disrupt unrelated guests or host management.
+
+Guest activation and updates remain pending controlled connectivity.

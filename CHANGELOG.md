@@ -1,5 +1,18 @@
 # Change log
 
+## 2026-09-10 — DC01 deployment, verification, and backup
+
+- Updated current architecture to keep the lab on the Hyper-V test server.
+- Recorded Lab-Private-Switch, 10.50.10.0/24, and reserved gateway/server/client addresses.
+- Deployed N3M0-DC01 with Windows Server 2025, AD DS, DNS, GC, n3m0.test/N3M0, and 2025 functional levels.
+- Verified DC object, host A record, LDAP/Kerberos SRV records, NETLOGON, and SYSVOL through screenshots.
+- Recorded VM boot and duplicate-VHDX troubleshooting and host-versus-guest context lesson.
+- Recorded 4 GB RAM, 60 GB OS disk, and observed 20 vCPUs; original 2-vCPU proposal remains a review item.
+- Added a 100 GB GPT/NTFS backup disk; Windows Server Backup completed 15.32 GB to E:, including System State and bare-metal recovery.
+- Replaced obsolete no-backup statements with current DC01 coverage and explicit limits: same host storage, no restore test, no recurring schedule or off-host copy.
+- Added GUI-first guidance and a detailed DC01 build journal. Raw screenshots and secrets were not uploaded.
+- Firewall selection, controlled uplink, guest activation/updates, and client validation remain open. No firewall product selected by the operator.
+
 ## 2026-09-08 — Initial planning baseline
 
 - Established the private Security-Engineering-Lab repository.
@@ -9,25 +22,10 @@
 - Corrected the earlier chat's vCPU total of 24 to 22.
 - Added a proposed isolated network diagram; uplink and address space remain undecided.
 - Added the penetration-testing-to-AI-security roadmap and evidence workflow.
-- Recorded Windows notification mode as unresolved.
 - Deferred physical disk/RAID details and iDRAC discovery.
 - No host configuration, existing VM, or networking changes made.
 
-Next: investigate licensing, verify recovery arrangements, then finalize isolated networking.
-
-## 2026-09-08 — License details reviewed
-
-- Confirmed TIMEBASED_EVAL channel and Notification status with reason `0xC004FC07` from `/dlv`.
-- Recorded remaining Windows/SKU rearm counts of 1 without assuming an extension is available.
-- Kept activation identifiers and the screenshot out of GitHub.
-- Normal activation attempt proposed; outcome pending. No host changes performed in this step.
-
-## 2026-09-08 — Activation attempt and ownership boundary
-
-- Operator ran `/ato`; it failed with `0x80072EE2` (operation timed out). Activation success has not been established.
-- Operator clarified the host belongs to the company. Further licensing changes are deferred to the server owner/administrator.
-- Planning and read-only inventory may continue. Host evaluation status remains an unresolved reliability dependency before sustained lab use.
-- No rearm, key replacement, edition conversion, or reinstall is planned by this project at this point.
+Next at that milestone: verify recovery arrangements, then finalize isolated networking.
 
 ## 2026-09-08 — Operator VM cleanup and backup check
 
