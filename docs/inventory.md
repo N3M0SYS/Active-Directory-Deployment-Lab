@@ -1,6 +1,6 @@
 # Host and VM inventory
 
-**Current update: 2026-09-10.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
+**Current update: 2026-09-11.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
 
 Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are snapshots, not live monitoring. Commands labeled GB used PowerShell binary units (GiB).
 
@@ -64,15 +64,21 @@ The operator reports deleting the other six VMs. Hyper-V Manager now shows only:
 
 Preserve these three guests. Possible future deletion was discussed but is not an instruction to delete them now. Original allocations were 4, 8, and 8 GiB respectively; not re-queried after cleanup. Removal of VM entries does not establish deletion of their virtual disks or reclaimed space. Current disk free space has not been re-measured. No new lab guests deployed.
 
-## Current deployment — 2026-09-10
+## Current deployment — 2026-09-11
 
 - Later host C: screenshot showed 3,723 GiB total and 2,940.3 GiB free before DC01 installation/backup. Current free space after the backup has not been measured.
-- Switch: Lab-Private-Switch, Private.
+- Switches: Lab-Private-Switch (Private) and Lab-WAN-Switch (External, NIC2, management OS sharing disabled).
+- NIC1 remains host management; NIC2 was cabled to the existing physical switch and confirmed Up at 1 Gbps. NIC2 maps to Intel(R) Gigabit 4P I350-t rNDC #4.
+- N3M0-FW01 deployed: pfSense CE, Generation 2, 2 vCPUs, 4096 MB fixed RAM, 32 GB VHDX, Secure Boot disabled per guided build. WAN hn0 via Lab-WAN-Switch; LAN hn1 at 10.50.10.1/24 via Lab-Private-Switch. Exact installed CE release not captured.
 - N3M0-DC01 deployed and running; the three retained guests have not been removed.
 - DC01: Generation 2; 4096 MB RAM; 2 virtual processors (operator confirmed the correction on 2026-09-10).
 - Disks: 60 GB OS VHDX and 100 GB dynamic backup VHDX on host storage.
-- IPv4 10.50.10.10/24; preferred DNS 10.50.10.10; gateway and alternate DNS blank; IPv6 enabled.
+- IPv4 10.50.10.10/24; preferred DNS 10.50.10.10; gateway 10.50.10.1 and alternate DNS blank; IPv6 enabled.
 - AD domain/forest n3m0.test, NetBIOS N3M0, Windows Server 2025 functional levels; DNS and GC enabled.
 - Windows Server Backup completed to guest E: (DC01-Backup), 15.32 GB. This is DC01-only coverage, not host or retained-guest coverage.
 
-See [DC01 build journal](dc01-build.md), [address plan](architecture.md), and [backup limits](recovery.md). Firewall, DHCP, guest internet access, activation, restore test, and client validation remain pending.
+- DC01 DNS forwards to 10.50.10.1. DHCP role installed and post-install authorization completed per operator.
+- DHCP scope N3M0-Clients configured and activated per operator: 10.50.10.100–199/24, eight-day leases, gateway 10.50.10.1, DNS 10.50.10.10, suffix n3m0.test.
+- No Windows client VM has been created. DHCP lease acquisition and domain join remain untested.
+
+See [DC01 build journal](dc01-build.md), [firewall/DHCP journal](firewall-dhcp-build.md), [address plan](architecture.md), and [backup limits](recovery.md). External DNS, TCP 443, and the upstream router block were verified; activation, updates, restore testing, and client validation remain pending.

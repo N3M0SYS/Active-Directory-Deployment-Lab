@@ -1,5 +1,16 @@
 # Change log
 
+## 2026-09-11 — pfSense, DNS forwarding, and Windows DHCP
+
+- Deployed pfSense CE N3M0-FW01 with NIC2 / Lab-WAN-Switch uplink and 10.50.10.1/24 LAN on Lab-Private-Switch.
+- Configured the DNS exception above the logged RFC1918 destination block; disabled the default IPv6 LAN allow rule.
+- Set DC01 gateway and DNS forwarder to 10.50.10.1; retained DC01 itself as preferred DNS at 10.50.10.10.
+- Verified external DNS, outbound TCP 443, AD SRV discovery, and logged ICMP denial to the upstream router.
+- Installed/authorized Windows DHCP and configured N3M0-Clients, 10.50.10.100–199/24, with gateway/DNS/domain options (operator reported completion).
+- Updated current diagram, inventory, journals, and roadmap. No Windows client has been created; client DHCP and domain join are next and remain untested.
+- Clarified the disposable test-server rebuild policy: host backups are not a prerequisite. Existing DC01 backup predates these changes.
+
+
 ## 2026-09-10 — DC01 CPU allocation corrected
 
 - Operator confirmed N3M0-DC01 is now configured with 2 vCPUs, matching the original proposal.

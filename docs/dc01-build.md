@@ -2,7 +2,7 @@
 
 ## Scope and evidence
 
-Work completed across the 2026-09-09–10 session; documentation updated 2026-09-10. Results below come from operator reports and reviewed screenshots. Raw screenshots are not committed in this update. No credentials, keys, or backup images are included.
+Work completed across the 2026-09-09–10 session; documentation updated 2026-09-11. Results below come from operator reports and reviewed screenshots. Raw screenshots are not committed in this update. No credentials, keys, or backup images are included.
 
 ## Final configuration
 
@@ -18,13 +18,15 @@ Work completed across the 2026-09-09–10 session; documentation updated 2026-09
 | OS | Windows Server 2025 Standard Evaluation, Desktop Experience selected during guided installation |
 | Network | Lab-Private-Switch; Private |
 | IPv4 / mask | 10.50.10.10 / 255.255.255.0 |
-| Gateway | Blank until firewall deployment |
+| Gateway | 10.50.10.1 |
 | DNS client | Preferred 10.50.10.10; alternate blank |
 | IPv6 | Enabled; automatic settings |
 | Domain / forest | n3m0.test |
 | NetBIOS | N3M0 |
 | Functional levels | Windows Server 2025 for domain and forest |
-| Roles | AD DS, DNS, Global Catalog; writable DC |
+| Roles | AD DS, DNS, DHCP Server, Global Catalog; writable DC |
+| DNS forwarder | 10.50.10.1 |
+| DHCP scope | N3M0-Clients; 10.50.10.100–199/24; client lease validation pending |
 | AD database and logs | `C:\Windows\NTDS` |
 | SYSVOL | `C:\Windows\SYSVOL` |
 | Backup disk | N3M0-DC01-Backup.vhdx; 100 GB dynamic; GPT/NTFS; E:; DC01-Backup |
@@ -70,11 +72,20 @@ These are initial GUI checks. They do not establish client domain-join success, 
 - Installation media can be ejected after installation; avoid booting into Setup again during OS restarts.
 - Prefer GUI instructions and distinguish host actions from guest actions.
 
+## 2026-09-11 — Firewall integration and DHCP
+
+- Set gateway to 10.50.10.1. The IPv4 screenshot showed loopback DNS 127.0.0.1; changed preferred DNS to the explicit DC01 address 10.50.10.10 following the session guidance.
+- Added DNS forwarder 10.50.10.1 to the previously empty forwarder list.
+- External DNS query through 10.50.10.10 returned A/AAAA records; TCP 443 to 1.1.1.1 succeeded.
+- AD SRV lookup returned n3m0-dc01.n3m0.test with its A record 10.50.10.10.
+- Installed DHCP Server and completed post-install configuration/AD authorization per operator.
+- Created and activated N3M0-Clients per operator; this exact name supersedes the suggested Lab-Clients name.
+- No Windows client exists yet. See [firewall and DHCP journal](firewall-dhcp-build.md).
+
 ## Open work
 
-- Select and deploy a firewall with a controlled uplink and isolation tests.
 - Activate/update the guest using the approved path; neither is verified complete.
-- Test restore capability and decide backup retention/off-host protection.
+- Restore capability remains untested; it is not a prerequisite for continued work on this disposable lab.
 - Deploy a client and verify actual domain join, authentication, and Group Policy.
 - Add OUs, separate admin/user accounts, DC02, FS01, and monitoring in later steps.
 

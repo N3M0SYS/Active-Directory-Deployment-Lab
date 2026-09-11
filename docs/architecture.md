@@ -1,62 +1,59 @@
 # Current and planned architecture
 
-Updated 2026-09-10. Current and proposed components are separated below.
+Updated 2026-09-11. Results are based on session screenshots and operator reports.
 
 ## Deployed
 
-All project workloads currently run on the authorized Hyper-V test server. Management uses the existing host access and VM consoles.
-
 ```mermaid
 flowchart TD
-    Host["Hyper-V host"] -. "VM console access" .-> DC["N3M0-DC01: AD DS and DNS"]
-    Switch["Lab-Private-Switch: 10.50.10.0/24"] --- DC
-    DC --- OS["60 GB OS VHDX"]
-    DC --- Backup["100 GB backup VHDX: E:"]
+    Router["Upstream router"] --- Physical["Physical managed switch"]
+    Physical --- NIC1["NIC1: Hyper-V host management"]
+    Physical --- WAN["NIC2: Lab-WAN-Switch, External"]
+    WAN --- FW["N3M0-FW01: pfSense CE"]
+    FW --- LAN["Lab-Private-Switch: 10.50.10.0/24"]
+    LAN --- DC["N3M0-DC01: AD DS, DNS, DHCP"]
+    LAN -. "Next: not created" .-> Client["First Windows client"]
 ```
 
-Console access is not an IP route. A private switch does not provide host-to-guest network access or internet connectivity. Both VHDX files reside on the same host storage; the backup is not an independent failure domain.
+Host sharing is disabled on Lab-WAN-Switch. NIC1 remains the host management connection; NIC2 is dedicated to the firewall uplink through the existing physical switch. No direct cable to the router was needed. Lab targets attach only to the private switch. Hyper-V console access remains available independently of guest IP connectivity.
 
 ## Address plan
 
 | Device/purpose | Address | State |
 |---|---|---|
-| Network | 10.50.10.0/24; mask 255.255.255.0 | Selected |
-| Firewall LAN / future gateway | 10.50.10.1 | Reserved; not deployed |
+| Lab network | 10.50.10.0/24; mask 255.255.255.0 | Deployed |
+| N3M0-FW01 LAN / gateway | 10.50.10.1 | Configured |
+| N3M0-FW01 WAN | DHCP on upstream network | Lease observed; not a static reservation |
 | N3M0-DC01 | 10.50.10.10 | Configured |
 | Future DC02 | 10.50.10.11 | Reserved |
 | Future file server | 10.50.10.20 | Reserved |
-| Future DHCP client pool | 10.50.10.100–10.50.10.199 | Planned; no DHCP scope exists |
+| N3M0-Clients DHCP pool | 10.50.10.100–10.50.10.199 | Configured; client lease test pending |
 
-DC01's gateway is blank. Preferred DNS is 10.50.10.10; alternate DNS is blank. IPv6 remains enabled with automatic settings. Forest/domain: n3m0.test; NetBIOS: N3M0. Forest and domain functional levels: Windows Server 2025. Future DCs must support that functional level.
+DC01 uses gateway 10.50.10.1 and preferred DNS 10.50.10.10, with alternate DNS blank. Its DNS forwarder is 10.50.10.1. Domain/forest: n3m0.test; NetBIOS: N3M0; functional levels: Windows Server 2025. The previously recorded guest IPv6 configuration remains enabled; the pfSense default IPv6 LAN allow rule is disabled.
 
-## Next network phase — not deployed
+## Firewall policy and validation
 
-```mermaid
-flowchart TD
-    Uplink["Approved uplink: design pending"] --> FW["Firewall: platform undecided"]
-    FW --> LAN["Lab-Private-Switch"]
-    LAN --> DC["N3M0-DC01"]
-    LAN --> Future["Future clients and servers"]
-    Attack["Future simulated external attacker segment"] -. "Scoped assessment" .-> FW
-```
+LAN rules, in order: anti-lockout; allow TCP/UDP DNS from LAN subnets to LAN address; block/log LAN traffic to PRIVATE_NETWORKS; default IPv4 allow; disabled default IPv6 allow. PRIVATE_NETWORKS contains 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16.
 
-Select the firewall platform before provisioning. OPNsense and pfSense CE are candidates, not approved selections. Validate current Hyper-V compatibility, release notes, and sizing at installation time.
+The DNS allowance must precede the private-address block. The block affects routed traffic and traffic to private firewall addresses unless explicitly allowed; it does not filter communication directly between guests in the same subnet.
 
-Before enabling an uplink, record the host network and recovery access, check address overlap, define denial of company/client and other protected networks, and allow only required destinations. Test the policy in both directions. Keep lab DHCP confined to its segment. Do not put targets directly on an external switch. A second attacker segment can simulate external penetration testing without publishing services to the internet.
+DC01 external DNS and outbound TCP 443 passed. Firewall logs showed the test ICMP traffic from DC01 to the upstream router blocked by the named private-network rule. This is evidence for that tested path, not comprehensive segmentation or reverse-direction validation. Future inter-subnet services require explicit policy review.
 
 ## Resource plan
 
 | Workload | vCPU | RAM | Disk | State |
 |---|---:|---:|---:|---|
 | N3M0-DC01 | 2 | 4 GB | 60 GB OS + 100 GB backup | Deployed |
-| Firewall | TBD | TBD | TBD | Platform and sizing pending |
+| N3M0-FW01 | 2 | 4 GB fixed | 32 GB | Deployed following guided configuration |
 | DC02 | 2 | 4 GB | 80 GB | Proposed |
 | FS01 | 2 | 4 GB | 150 GB | Proposed |
-| IT-ADMIN | 2 | 4 GB | 80 GB | Proposed |
-| CLIENT01 / CLIENT02, each | 2 | 4 GB | 80 GB | Proposed |
+| IT-ADMIN | 2 | 4 GB | 80 GB | Proposed; not created |
+| CLIENT01 / CLIENT02, each | 2 | 4 GB | 80 GB | Proposed; not created |
 | Kali / attacker VM | 4 | 4 GB | 80 GB | Placement and sizing proposed |
 | Wazuh | 4 | 8 GB | 200 GB | Prior sizing proposal; inspect existing VM first |
 
-DC01 is now configured with 2 vCPUs, as confirmed by the operator on 2026-09-10. This supersedes the earlier screenshot showing 20 processors. Do not treat the old nine-VM totals as current allocations. The original firewall estimate of 2 GB RAM requires replacement after platform selection.
+All current project workloads run on the Hyper-V test server. Preserve retained ninjatest, VulScan, and Wazuh guests. Start workloads in phases and measure utilization. DC01's 2-vCPU correction was confirmed on 2026-09-10; older 20-vCPU observations are historical.
 
-Preserve existing shared guests. Start workloads in phases, measure utilization, and add CLIENT03/04 only if resources permit. Defer Security Onion and local AI model hosting.
+A simulated external attacker segment remains a later option. No public service exposure is needed.
+
+See [firewall and DHCP journal](firewall-dhcp-build.md) for settings, tests, and the next step.

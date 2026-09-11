@@ -1,6 +1,6 @@
 # Roadmap
 
-**Current milestone (2026-09-10):** DC01 and first local guest backup complete; firewall selection/uplink and client validation pending. Work proceeded with isolated DC01 before firewall deployment.
+**Current milestone (2026-09-11):** pfSense deployed; external DNS, outbound TCP 443, AD discovery, and upstream router block verified. N3M0-Clients DHCP scope configured. No Windows client created; first client and lease validation are next.
 
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
@@ -14,19 +14,20 @@ Goal: penetration testing foundations, detection and remediation, then AI securi
 - [x] Document recovery approach; DC01 now has a local guest backup, with wipe-and-rebuild still the fallback for host loss.
 - [ ] Confirm local recovery access and a rollback procedure.
 - [x] Select lab IPv4 addressing and domain name.
-- [ ] Finalize uplink design and isolation rules.
+- [x] Configure NIC2 uplink and initial IPv4 isolation rules; broader isolation tests remain below.
 
 Deliverable: verified baseline, decision log, and recovery plan.
 
 ## Phase 1 — Isolated networking
 
-- [ ] Select the lab firewall and validate its requirements.
+- [x] Select and deploy pfSense CE as N3M0-FW01.
 - [x] Create the private lab virtual switch: `Lab-Private-Switch` (properties reviewed 2026-09-09; operator reports applied).
 - [ ] Validate guest connectivity after deploying and attaching test VMs.
-- [ ] Configure the approved uplink and access restrictions.
+- [x] Configure Lab-WAN-Switch on NIC2 and LAN private-network block with DNS exception.
+- [x] Verify DC01 external DNS, outbound TCP 443, and a logged block to the upstream router.
 - [ ] Verify lab DHCP remains contained.
 - [ ] Verify required access works and access to company/client networks is blocked.
-- [ ] Document configuration and recovery steps.
+- [x] Document firewall configuration, validation limits, and console-based rollback.
 
 Deliverable: network diagram and isolation test evidence.
 
@@ -35,12 +36,15 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Deploy N3M0-DC01 with AD DS and DNS in n3m0.test.
 - [x] Verify DC object, DNS A/SRV records, NETLOGON, and SYSVOL.
 - [x] Complete first Windows Server Backup to E: (15.32 GB).
-- [ ] Test restoration and decide retention/off-host protection.
+- [ ] Optional later recovery exercise: test restoration; not a prerequisite for this disposable lab.
 - [ ] Complete guest activation and updates through controlled connectivity.
 - [x] Correct DC01 CPU allocation to 2 vCPUs (operator confirmed 2026-09-10).
 - [ ] Deploy DC02 and verify replication.
 - [ ] Configure organizational units, users, groups, and separate admin accounts.
 - [ ] Deploy FS01 and test share/NTFS permissions.
+- [x] Install/authorize Windows DHCP and configure scope N3M0-Clients (operator reported).
+- [ ] Create the first Windows client VM; none exists yet.
+- [ ] Verify client DHCP lease, gateway, DNS, and suffix.
 - [ ] Deploy IT-ADMIN and two employee clients.
 - [ ] Join clients to the domain and verify DNS and Group Policy.
 - [x] Document the initial DC01 configuration and backup baseline.

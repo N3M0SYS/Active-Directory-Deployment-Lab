@@ -1,6 +1,8 @@
 # Recovery and backup status
 
-## Current state — 2026-09-10
+## Current state — 2026-09-11
+
+The operator explicitly confirms this is a disposable test server and accepts a full rebuild. Host backups are not a prerequisite, and the operator did not request a backup-before-changes policy.
 
 A first Windows Server Backup of N3M0-DC01 completed successfully. This supersedes the previous blanket statement that no local backups are configured. It does not establish host backup coverage or backups of retained shared guests.
 
@@ -32,7 +34,7 @@ The operator previously reported approval for a disposable lab with wipe-and-reb
 2. Keep the DSRM recovery password in the operator's private password manager, never GitHub.
 3. Plan a restore test in an isolated environment without connecting a duplicate DC to the live lab.
 4. Verify AD, DNS, shares, and client behavior after an actual restore.
-5. Decide on scheduled backups, retention, and off-host copies separately.
+5. Scheduled backups, retention, and off-host copies are not part of the current task.
 6. Refresh the recovery baseline after meaningful configuration changes.
 
 No restore procedure has yet been exercised. Record measured results before marking recovery tested.
@@ -41,4 +43,10 @@ No restore procedure has yet been exercised. Record measured results before mark
 
 Record the starting state, intended outcome, rollback, and result. For new firewall work, preserve console access and document adapter/switch assignments before adding an uplink. Reverting uplink configuration must not disrupt unrelated guests or host management.
 
-Guest activation and updates remain pending controlled connectivity.
+Controlled connectivity is now tested; guest activation and updates remain unverified.
+
+## Firewall rollback and backup freshness
+
+Use Hyper-V console access to correct guest networking. If the firewall uplink needs isolation, disconnect N3M0-FW01's WAN virtual adapter; preserve NIC1 host management and Lab-Private-Switch. These rollback steps are documented, not exercised.
+
+The existing DC01 backup predates the gateway, DNS forwarder, and DHCP changes. No new backup or pfSense configuration export was reported. Neither is a gate for creating the first client.
