@@ -21,17 +21,17 @@ A hands-on progression from Active Directory administration and penetration test
 
 ## Learning outcomes
 
-Build and administer a small Windows domain, assess it using authorized lab targets, detect activity using Wazuh, remediate findings, and demonstrate improvement. Extend those skills into AI application security, including prompt injection, data exposure, agent permissions, and MCP tool access.
+Build and administer a small enterprise Windows domain, assess it using authorized lab Windows clients, detect activity using Wazuh, remediate findings, and demonstrate improvement. Extend those skills into AI application security, including prompt injection, data exposure, agent permissions, and MCP tool access.
 
 ## Current state
 
 - All current project workloads remain on the Hyper-V server.
 - Private switch: `Lab-Private-Switch`; subnet: `10.50.10.0/24`.
-- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; CPU: 2 vCPUs (operator confirmed).
+- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; vCPU: '2'; Memory: '4096 MB'; Generation: '2'  .
 - AD DS, DNS, Global Catalog, DNS A/SRV records, and NETLOGON/SYSVOL presence verified through GUI screenshots.
 - Windows Server Backup completed to `DC01-Backup (E:)`, transferring 15.32 GB. Restore testing and off-host protection remain pending.
 - pfSense N3M0-FW01: WAN via NIC2 / Lab-WAN-Switch; LAN 10.50.10.1/24 on Lab-Private-Switch.
-- DC01 gateway 10.50.10.1; preferred DNS 10.50.10.10; DNS forwarder 10.50.10.1.
+- N3M0-DC01 gateway 10.50.10.1; preferred DNS 10.50.10.10; DNS forwarder 10.50.10.1.
 - Windows DHCP on DC01: N3M0-Clients, 10.50.10.100–10.50.10.199; router 10.50.10.1; DNS 10.50.10.10; suffix n3m0.test.
 - External DNS and TCP 443 tested successfully; pfSense logs confirmed the upstream router ICMP test was blocked. Client DHCP and domain join are not yet tested.
 - Existing ninjatest, VulScan, and Wazuh guests are retained.
