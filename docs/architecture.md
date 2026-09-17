@@ -1,6 +1,6 @@
 # Current and planned architecture
 
-Updated 2026-09-11. Results are based on session screenshots and operator reports.
+Updated 2026-09-17. Results are based on session screenshots and operator reports.
 
 ## Deployed
 
@@ -12,7 +12,10 @@ flowchart TD
     WAN --- FW["N3M0-FW01: pfSense CE"]
     FW --- LAN["Lab-Private-Switch: 10.50.10.0/24"]
     LAN --- DC["N3M0-DC01: AD DS, DNS, DHCP"]
-    LAN -. "Next: not created" .-> Client["First Windows client"]
+    LAN --- CL01["N3M0-CL01: IT"]
+    LAN --- CL02["N3M0-CL02: Finance"]
+    LAN --- CL03["N3M0-CL03: HR"]
+    LAN -. "Planned" .-> FS["N3M0-FS01: file shares"]
 ```
 
 Host sharing is disabled on Lab-WAN-Switch. NIC1 remains the host management connection; NIC2 is dedicated to the firewall uplink through the existing physical switch. No direct cable to the router was needed. Lab targets attach only to the private switch. Hyper-V console access remains available independently of guest IP connectivity.
@@ -26,8 +29,11 @@ Host sharing is disabled on Lab-WAN-Switch. NIC1 remains the host management con
 | N3M0-FW01 WAN | DHCP on upstream network | Lease observed; not a static reservation |
 | N3M0-DC01 | 10.50.10.10 | Configured |
 | Future DC02 | 10.50.10.11 | Reserved |
-| Future file server | 10.50.10.20 | Reserved |
-| N3M0-Clients DHCP pool | 10.50.10.100–10.50.10.199 | Configured; client lease test pending |
+| N3M0-FS01 | 10.50.10.20 | Reserved; not deployed |
+| N3M0-CL01 | 10.50.10.100 | Observed DHCP lease |
+| N3M0-CL02 | 10.50.10.101 | Observed DHCP lease |
+| N3M0-CL03 | 10.50.10.102 | Observed DHCP lease |
+| N3M0-Clients DHCP pool | 10.50.10.100–10.50.10.199 | Active; three client leases observed |
 
 DC01 uses gateway 10.50.10.1 and preferred DNS 10.50.10.10, with alternate DNS blank. Its DNS forwarder is 10.50.10.1. Domain/forest: n3m0.test; NetBIOS: N3M0; functional levels: Windows Server 2025. The previously recorded guest IPv6 configuration remains enabled; the pfSense default IPv6 LAN allow rule is disabled.
 
@@ -47,8 +53,9 @@ DC01 external DNS and outbound TCP 443 passed. Firewall logs showed the test ICM
 | N3M0-FW01 | 2 | 4 GB fixed | 32 GB | Deployed following guided configuration |
 | DC02 | 2 | 4 GB | 80 GB | Proposed |
 | FS01 | 2 | 4 GB | 150 GB | Proposed |
-| IT-ADMIN | 2 | 4 GB | 80 GB | Proposed; not created |
-| CLIENT01 / CLIENT02, each | 2 | 4 GB | 80 GB | Proposed; not created |
+| N3M0-CL01 (IT) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
+| N3M0-CL02 (Finance) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
+| N3M0-CL03 (HR) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | Kali / attacker VM | 4 | 4 GB | 80 GB | Placement and sizing proposed |
 | Wazuh | 4 | 8 GB | 200 GB | Prior sizing proposal; inspect existing VM first |
 
@@ -57,3 +64,7 @@ All current project workloads run on the Hyper-V test server. Preserve retained 
 A simulated external attacker segment remains a later option. No public service exposure is needed.
 
 See [firewall and DHCP journal](firewall-dhcp-build.md) for settings, tests, and the next step.
+
+## Active Directory organization
+
+Under n3m0.test, N3M0-Lab contains Users (rafa, finance.user, hr.user), Workstations (CL01–CL03 computer accounts), and Groups (GG-Finance, GG-HR). The domain controller stays in its existing Domain Controllers OU. N3M0-Workstations-LogonNotice is linked to Workstations. Departmental security groups are intended for future resource permissions; they do not create network segmentation. See [client journal](windows-clients-build.md) for membership and validation details.

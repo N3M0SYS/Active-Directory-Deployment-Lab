@@ -1,8 +1,8 @@
 # Firewall, DNS, and DHCP build journal
 
-## Status — 2026-09-11
+## Status — 2026-09-17
 
-pfSense CE N3M0-FW01 is installed and configured. DC01 DNS and internet tests passed, and pfSense logged the upstream router block. Windows DHCP scope **N3M0-Clients** is configured per operator report. **No Windows client VM has been created.** DHCP lease acquisition and domain join remain untested.
+pfSense CE N3M0-FW01 is installed and configured. DC01 DNS and internet tests passed, and pfSense logged the upstream router block. Windows DHCP scope **N3M0-Clients** is configured per operator report. Three Windows 11 Pro clients now exist; their leases were observed in DC01 DHCP and domain joins/sign-ins succeeded per operator.
 
 Evidence consists of reviewed screenshots and operator reports from the session; raw screenshots and credentials are not committed. Guided settings completed by the operator are distinguished from directly observed test results below.
 
@@ -54,7 +54,7 @@ A screenshot initially showed the block above the DNS exception; the operator co
 | Option 015 DNS Domain Name | n3m0.test |
 | WINS | Not configured |
 | Scope activation | Completed per operator |
-| Client validation | Pending; first Windows client not created |
+| Client validation | CL01 10.50.10.100, CL02 .101, CL03 .102 observed in Address Leases; operator reports leasing works |
 
 The scope name is N3M0-Clients, not the initially suggested Lab-Clients. Domain clients use DC01 for DNS; DC01 forwards external queries to pfSense.
 
@@ -66,8 +66,10 @@ The scope name is N3M0-Clients, not the initially suggested Lab-Clients. Domain 
 | Test-NetConnection 1.1.1.1 -Port 443 | TcpTestSucceeded True, operator reported | Verifies this outbound TCP path |
 | ping -n 2 to upstream router from DC01 | Timed out; reviewed pfSense logs show two matching ICMP blocks by the named private-network rule | Verifies tested destination/protocol, not all isolation paths |
 | DNS Manager zones | n3m0.test and _msdcs.n3m0.test are AD-integrated and Running | Not a complete AD health check |
-| Resolve-DnsName _ldap._tcp.dc._msdcs.n3m0.test -Type SRV -Server 10.50.10.10 | Returned n3m0-dc01.n3m0.test and A record 10.50.10.10 | Client authentication and domain join remain pending |
-| DHCP installation and scope | Operator reported successful completion | No lease yet observed |
+| Resolve-DnsName _ldap._tcp.dc._msdcs.n3m0.test -Type SRV -Server 10.50.10.10 | Returned n3m0-dc01.n3m0.test and A record 10.50.10.10 | Later client joins and authentication succeeded per operator |
+| DHCP installation and scope | Operator reported successful completion | Client-side option values not separately captured |
+| Client DHCP leases | Reviewed Address Leases screenshot: CL01 10.50.10.100, CL02 .101, CL03 .102 | Dynamic leases, not reservations; does not prove DHCP containment |
+| Domain sign-ins and workstation GPO | All three clients passed per operator | See client journal; no packet capture or policy-results export |
 
 AAAA records do not establish working IPv6 connectivity. Browser HTTPS access was requested but no explicit success report was supplied.
 
@@ -77,4 +79,4 @@ This is an authorized disposable test server; full rebuild is accepted. No host-
 
 Hyper-V console access remains available. To isolate the uplink if needed, disconnect the firewall WAN virtual adapter while preserving NIC1 host management and the private switch; rollback has not been tested.
 
-Next: create the first Windows client on Lab-Private-Switch, verify a N3M0-Clients lease and options, then join n3m0.test and validate authentication and Group Policy. Do not repeat a check for whether a client already exists without new evidence of a change.
+Client deployment, DHCP leases, joins, domain authentication, and the logon-notice GPO milestone are complete. Next: N3M0-FS01 and departmental permissions. Client-side option capture and broader isolation validation remain separate pending checks. See [Windows client journal](windows-clients-build.md).

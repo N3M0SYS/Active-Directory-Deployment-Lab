@@ -1,6 +1,6 @@
 # Roadmap
 
-**Current milestone (2026-09-11):** pfSense deployed; external DNS, outbound TCP 443, AD discovery, and upstream router block verified. N3M0-Clients DHCP scope configured. No Windows client created; first client and lease validation are next.
+**Current milestone (2026-09-17):** Three Windows 11 Pro clients deployed, leased addresses, joined n3m0.test, and tested with standard domain users and a workstation GPO. Client updates complete per operator; activation pending. N3M0-FS01 and departmental permissions are next.
 
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
@@ -22,7 +22,7 @@ Deliverable: verified baseline, decision log, and recovery plan.
 
 - [x] Select and deploy pfSense CE as N3M0-FW01.
 - [x] Create the private lab virtual switch: `Lab-Private-Switch` (properties reviewed 2026-09-09; operator reports applied).
-- [ ] Validate guest connectivity after deploying and attaching test VMs.
+- [x] Validate client-to-domain services through DHCP leases, joins, and domain sign-ins.
 - [x] Configure Lab-WAN-Switch on NIC2 and LAN private-network block with DNS exception.
 - [x] Verify DC01 external DNS, outbound TCP 443, and a logged block to the upstream router.
 - [ ] Verify lab DHCP remains contained.
@@ -37,18 +37,25 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Verify DC object, DNS A/SRV records, NETLOGON, and SYSVOL.
 - [x] Complete first Windows Server Backup to E: (15.32 GB).
 - [ ] Optional later recovery exercise: test restoration; not a prerequisite for this disposable lab.
-- [ ] Complete guest activation and updates through controlled connectivity.
+- [x] Complete Windows 11 client updates (operator reported).
+- [ ] Complete Windows 11 Pro activation; currently pending.
+- [ ] Verify infrastructure guest activation/update status.
+- [ ] Confirm client installation ISOs ejected (operator announced intent).
 - [x] Correct DC01 CPU allocation to 2 vCPUs (operator confirmed 2026-09-10).
 - [ ] Deploy DC02 and verify replication.
-- [ ] Configure organizational units, users, groups, and separate admin accounts.
+- [x] Configure N3M0-Lab Users, Workstations, and Groups OUs; standard IT/Finance/HR users and departmental groups per guided workflow.
+- [ ] Create separate administration accounts and define delegated privileges.
 - [ ] Deploy FS01 and test share/NTFS permissions.
 - [x] Install/authorize Windows DHCP and configure scope N3M0-Clients (operator reported).
-- [ ] Create the first Windows client VM; none exists yet.
-- [ ] Verify client DHCP lease, gateway, DNS, and suffix.
-- [ ] Deploy IT-ADMIN and two employee clients.
-- [ ] Join clients to the domain and verify DNS and Group Policy.
+- [x] Deploy N3M0-CL01, N3M0-CL02, and N3M0-CL03 for IT, Finance, and HR.
+- [x] Verify client DHCP leases in DC01 DHCP console; operator reports leasing works properly.
+- [ ] Capture client-side gateway, DNS, mask, and suffix details explicitly; server lease screenshot alone does not show all options.
+- [x] Join all three clients to n3m0.test and move computer objects to N3M0-Lab/Workstations.
+- [x] Validate domain user sign-ins and initial password changes.
+- [x] Validate N3M0-Workstations-LogonNotice on all three clients (operator reported).
+- [ ] Capture client DNS registration and a detailed Group Policy results report if needed for later troubleshooting.
 - [x] Document the initial DC01 configuration and backup baseline.
-- [ ] Refresh baseline after updates and expanded configuration.
+- [x] Refresh client inventory, architecture, build journal, and change log after this milestone.
 
 Deliverable: domain design, permissions matrix, and validation screenshots.
 

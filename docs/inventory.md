@@ -1,6 +1,6 @@
 # Host and VM inventory
 
-**Current update: 2026-09-11.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
+**Current update: 2026-09-17.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
 
 Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are snapshots, not live monitoring. Commands labeled GB used PowerShell binary units (GiB).
 
@@ -64,7 +64,7 @@ The operator reports deleting the other six VMs. Hyper-V Manager now shows only:
 
 Preserve these three guests. Possible future deletion was discussed but is not an instruction to delete them now. Original allocations were 4, 8, and 8 GiB respectively; not re-queried after cleanup. Removal of VM entries does not establish deletion of their virtual disks or reclaimed space. Current disk free space has not been re-measured. No new lab guests deployed.
 
-## Current deployment — 2026-09-11
+## Current deployment — 2026-09-17
 
 - Later host C: screenshot showed 3,723 GiB total and 2,940.3 GiB free before DC01 installation/backup. Current free space after the backup has not been measured.
 - Switches: Lab-Private-Switch (Private) and Lab-WAN-Switch (External, NIC2, management OS sharing disabled).
@@ -79,6 +79,16 @@ Preserve these three guests. Possible future deletion was discussed but is not a
 
 - DC01 DNS forwards to 10.50.10.1. DHCP role installed and post-install authorization completed per operator.
 - DHCP scope N3M0-Clients configured and activated per operator: 10.50.10.100–199/24, eight-day leases, gateway 10.50.10.1, DNS 10.50.10.10, suffix n3m0.test.
-- No Windows client VM has been created. DHCP lease acquisition and domain join remain untested.
+- Three Windows 11 Pro clients deployed on Lab-Private-Switch; DHCP leases observed and domain joins/sign-ins confirmed by operator.
 
-See [DC01 build journal](dc01-build.md), [firewall/DHCP journal](firewall-dhcp-build.md), [address plan](architecture.md), and [backup limits](recovery.md). External DNS, TCP 443, and the upstream router block were verified; activation, updates, restore testing, and client validation remain pending.
+| Client | Role | Observed DHCP IP | Local account | Tested domain account |
+|---|---|---|---|---|
+| N3M0-CL01 | IT workstation | 10.50.10.100 | IT Admin | rafa@n3m0.test |
+| N3M0-CL02 | Finance workstation | 10.50.10.101 | Finance Team | finance.user@n3m0.test |
+| N3M0-CL03 | HR workstation | 10.50.10.102 | HR Team | hr.user@n3m0.test |
+
+Client build settings: Generation 2, 2 vCPUs, 4096 MB fixed RAM, 80 GB dynamically expanding OS VHDX, Secure Boot using Microsoft Windows template, and vTPM. These are guided settings, not a fresh configuration export of all three VMs. CL01 screenshots showed 2 processors, 4096 MB, and enabled Secure Boot/vTPM; Secure Boot was temporarily disabled for diagnosis and re-enabling was instructed before installation. Final security state was not separately recaptured.
+
+All client computer objects are in N3M0-Lab/Workstations. Domain users remain standard users; departmental groups do not imply administrative privileges or workstation logon restrictions. Updates and GPO notices passed per operator on all clients. Activation pending; ISO ejection not yet confirmed. DHCP addresses can change.
+
+See [DC01 build journal](dc01-build.md), [firewall/DHCP journal](firewall-dhcp-build.md), [address plan](architecture.md), and [backup limits](recovery.md). External DNS, TCP 443, and the upstream router block were verified; client authentication and logon-notice policy tests now pass per operator. Activation, infrastructure update verification, restore testing, and broader security validation remain pending. See [client journal](windows-clients-build.md).

@@ -1,5 +1,17 @@
 # Change log
 
+## 2026-09-17 — Windows clients, domain identities, and workstation GPO
+
+- Deployed Windows 11 Pro clients N3M0-CL01 (IT), N3M0-CL02 (Finance), and N3M0-CL03 (HR) on Lab-Private-Switch using the guided 2-vCPU / 4-GB / 80-GB configuration.
+- Resolved the DVD boot-prompt problem using a physical keyboard/mouse; operator identified ScreenConnect input as the cause. Secure Boot and alternate-ISO tests had not resolved it.
+- Reviewed DC01 DHCP leases: CL01 10.50.10.100, CL02 .101, CL03 .102; these are dynamic leases, not reservations.
+- Joined all three clients to n3m0.test and moved their computer objects into N3M0-Lab/Workstations.
+- Created Users, Workstations, and Groups OUs, standard users rafa/finance.user/hr.user, and global security groups GG-Finance/GG-HR through the guided workflow.
+- Validated domain sign-ins and initial password changes per operator; kept local setup accounts separate.
+- Created N3M0-Workstations-LogonNotice and verified its sign-in notice on all three clients per operator.
+- Client updates completed per operator. Windows 11 Pro activation remains pending; ISO ejection was announced but not confirmed.
+- Added client build journal and refreshed README, inventory, architecture, DHCP journal, and roadmap. Next: N3M0-FS01 and departmental permissions; separate administration identities remain pending.
+
 ## 2026-09-11 — pfSense, DNS forwarding, and Windows DHCP
 
 - Deployed pfSense CE N3M0-FW01 with NIC2 / Lab-WAN-Switch uplink and 10.50.10.1/24 LAN on Lab-Private-Switch.
