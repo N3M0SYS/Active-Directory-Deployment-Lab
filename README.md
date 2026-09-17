@@ -39,14 +39,14 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 - N3M0-Lab contains Users, Workstations, and Groups OUs; all three computer accounts were moved to Workstations.
 - Standard domain users rafa, finance.user, and hr.user signed in and changed initial passwords. GG-Finance and GG-HR are global security groups configured in the guided workflow.
 - N3M0-Workstations-LogonNotice is linked to Workstations; its sign-in notice appeared on all three clients per operator.
-- Client updates completed per operator; Windows 11 Pro activation pending; ISO ejection announced but not confirmed. Separate delegated admin accounts remain planned.
+- Client updates completed per operator; Windows 11 Pro activation pending; installation ISOs ejected from all three clients per operator. Separate delegated admin accounts remain planned.
 - Existing ninjatest, VulScan, and Wazuh guests are retained.
 
 ## Current priorities
 
 1. Deploy N3M0-FS01 and validate Finance/HR share and NTFS permissions.
 2. Create separate administration accounts and define delegated permissions.
-3. Track client activation and ISO ejection; later expand with DC02 and monitoring.
+3. Track client activation; later expand with DC02 and monitoring.
 4. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
 
 ## Working agreement

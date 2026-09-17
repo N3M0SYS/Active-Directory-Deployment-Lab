@@ -2,7 +2,7 @@
 
 ## Status — 2026-09-17
 
-N3M0-CL01, N3M0-CL02, and N3M0-CL03 run Windows 11 Pro on the Hyper-V test server and are joined to n3m0.test. DHCP leases were reviewed in a screenshot. Domain sign-ins, initial password changes, Windows updates, and the workstation sign-in notice succeeded per operator reports. Activation remains pending. ISO ejection was announced but not explicitly confirmed.
+N3M0-CL01, N3M0-CL02, and N3M0-CL03 run Windows 11 Pro on the Hyper-V test server and are joined to n3m0.test. DHCP leases were reviewed in a screenshot. Domain sign-ins, initial password changes, Windows updates, and the workstation sign-in notice succeeded per operator reports. Activation remains pending. Operator subsequently confirmed installation ISOs ejected from all three clients.
 
 This journal covers work performed during September 15–17. It records guided configuration separately from screenshots and operator-reported outcomes. No credentials or raw screenshots are committed.
 
@@ -101,7 +101,7 @@ CL02 showed the notice following restart. Operator subsequently reported the rem
 | Logon-notice GPO | CL02 explicitly passed; other clients confirmed in baseline completion report |
 | Windows client updates | Complete per operator; individual KB/build inventory not captured |
 | Windows 11 Pro activation | Pending on clients |
-| Installation ISO ejection | Operator intended to eject; completion unconfirmed |
+| Installation ISO ejection | Complete on all three clients per operator confirmation |
 | Client DNS registrations and detailed applied-policy report | Not independently captured |
 | New backup or restore test | None claimed |
 

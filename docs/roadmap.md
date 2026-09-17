@@ -40,7 +40,7 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Complete Windows 11 client updates (operator reported).
 - [ ] Complete Windows 11 Pro activation; currently pending.
 - [ ] Verify infrastructure guest activation/update status.
-- [ ] Confirm client installation ISOs ejected (operator announced intent).
+- [x] Confirm client installation ISOs ejected (operator confirmed all three).
 - [x] Correct DC01 CPU allocation to 2 vCPUs (operator confirmed 2026-09-10).
 - [ ] Deploy DC02 and verify replication.
 - [x] Configure N3M0-Lab Users, Workstations, and Groups OUs; standard IT/Finance/HR users and departmental groups per guided workflow.

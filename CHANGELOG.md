@@ -1,5 +1,10 @@
 # Change log
 
+## 2026-09-17 — Client media cleanup confirmed
+
+- Operator confirmed installation ISOs ejected from all three Windows clients.
+- Activation remains pending. Next session starts with N3M0-FS01 and Finance/HR file permissions; no file server has been created.
+
 ## 2026-09-17 — Windows clients, domain identities, and workstation GPO
 
 - Deployed Windows 11 Pro clients N3M0-CL01 (IT), N3M0-CL02 (Finance), and N3M0-CL03 (HR) on Lab-Private-Switch using the guided 2-vCPU / 4-GB / 80-GB configuration.
