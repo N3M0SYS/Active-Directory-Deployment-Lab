@@ -4,7 +4,7 @@ A hands-on progression from Active Directory administration and penetration test
 
 **Owner:** N3M0SYS  
 **Platform:** Authorized company test server running Hyper-V  
-**Status (2026-09-17):** Three Windows 11 Pro clients deployed and joined to n3m0.test. DHCP leases, domain user sign-ins/password changes, and the workstation logon-notice GPO validated. Client updates completed per operator; activation pending. Next: N3M0-FS01 and departmental file permissions.
+**Status (2026-09-29):** N3M0-FS01 deployed and domain joined. Departmental SMB/NTFS access and cross-department denial passed; Finance and HR S: mappings recreated automatically after disconnect/sign-out tests, per operator. FS01 updates complete. Next: separate administration accounts and scoped delegation.
 
 ## Start here
 
@@ -14,6 +14,7 @@ A hands-on progression from Active Directory administration and penetration test
 - [DC01 build journal](docs/dc01-build.md)
 - [Firewall and DHCP build journal](docs/firewall-dhcp-build.md)
 - [Windows clients, domain users, and GPO journal](docs/windows-clients-build.md)
+- [FS01, departmental permissions, and drive mappings](docs/fs01-build.md)
 - [Recovery and backup status](docs/recovery.md)
 - [Documentation and evidence workflow](docs/documentation.md)
 - [Change log](CHANGELOG.md)
@@ -40,13 +41,17 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 - Standard domain users rafa, finance.user, and hr.user signed in and changed initial passwords. GG-Finance and GG-HR are global security groups configured in the guided workflow.
 - N3M0-Workstations-LogonNotice is linked to Workstations; its sign-in notice appeared on all three clients per operator.
 - Client updates completed per operator; Windows 11 Pro activation pending; installation ISOs ejected from all three clients per operator. Separate delegated admin accounts remain planned.
+- N3M0-FS01 uses 10.50.10.20/24, gateway 10.50.10.1, and DNS 10.50.10.10 following the guided configuration. Servers OU placement was part of the completed build batch.
+- Finances and HR shares use domain-local Modify groups containing GG-Finance and GG-HR. The Shared parent share was removed per operator completion report.
+- N3M0-Department-Drives is linked to N3M0-Lab/Users, with user-group item-level targeting for Finance/HR S: mappings. Both automatic recreation tests passed per operator.
+- FS01 updates complete per operator; FS01 ISO ejection and activation unconfirmed.
 - Existing ninjatest, VulScan, and Wazuh guests are retained.
 
 ## Current priorities
 
-1. Deploy N3M0-FS01 and validate Finance/HR share and NTFS permissions.
-2. Create separate administration accounts and define delegated permissions.
-3. Track client activation; later expand with DC02 and monitoring.
+1. Create separate administration accounts and define scoped delegated permissions; keep rafa a standard user.
+2. Track activation and confirm FS01 ISO ejection; these are not host-backup gates.
+3. Later expand with DC02 and monitoring.
 4. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
 
 ## Working agreement

@@ -1,6 +1,6 @@
 # Roadmap
 
-**Current milestone (2026-09-17):** Three Windows 11 Pro clients deployed, leased addresses, joined n3m0.test, and tested with standard domain users and a workstation GPO. Client updates complete per operator; activation pending. N3M0-FS01 and departmental permissions are next.
+**Current milestone (2026-09-29):** FS01 deployed; departmental file operations and cross-department denials passed. Finance and HR S: drives were recreated automatically after disconnect/sign-out tests, per operator. FS01 updated. Next: separate administration accounts and scoped delegation.
 
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
@@ -45,7 +45,10 @@ Deliverable: network diagram and isolation test evidence.
 - [ ] Deploy DC02 and verify replication.
 - [x] Configure N3M0-Lab Users, Workstations, and Groups OUs; standard IT/Finance/HR users and departmental groups per guided workflow.
 - [ ] Create separate administration accounts and define delegated privileges.
-- [ ] Deploy FS01 and test share/NTFS permissions.
+- [x] Deploy FS01 and test departmental file operations plus cross-department share/NTFS denial (operator reported).
+- [x] Configure AGDLP departmental groups and N3M0-Department-Drives; validate automatic S: recreation for both departments after disconnect/sign-out.
+- [x] Complete FS01 Windows updates (operator reported).
+- [ ] Confirm FS01 installation ISO ejected and record activation status.
 - [x] Install/authorize Windows DHCP and configure scope N3M0-Clients (operator reported).
 - [x] Deploy N3M0-CL01, N3M0-CL02, and N3M0-CL03 for IT, Finance, and HR.
 - [x] Verify client DHCP leases in DC01 DHCP console; operator reports leasing works properly.

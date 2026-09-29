@@ -1,6 +1,6 @@
 # Host and VM inventory
 
-**Current update: 2026-09-17.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
+**Current update: 2026-09-29.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
 
 Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are snapshots, not live monitoring. Commands labeled GB used PowerShell binary units (GiB).
 
@@ -92,3 +92,11 @@ Client build settings: Generation 2, 2 vCPUs, 4096 MB fixed RAM, 80 GB dynamical
 All client computer objects are in N3M0-Lab/Workstations. Domain users remain standard users; departmental groups do not imply administrative privileges or workstation logon restrictions. Updates and GPO notices passed per operator on all clients. Activation pending; installation ISOs ejected from all three clients per operator. DHCP addresses can change.
 
 See [DC01 build journal](dc01-build.md), [firewall/DHCP journal](firewall-dhcp-build.md), [address plan](architecture.md), and [backup limits](recovery.md). External DNS, TCP 443, and the upstream router block were verified; client authentication and logon-notice policy tests now pass per operator. Activation, infrastructure update verification, restore testing, and broader security validation remain pending. See [client journal](windows-clients-build.md).
+
+## FS01 deployment — 2026-09-29
+
+N3M0-FS01 is deployed and joined to n3m0.test; domain administrator sign-in succeeded per operator. Guided settings: Windows Server 2025, Generation 2, 2 vCPUs, 4096 MB fixed RAM, 80 GB OS VHDX plus 70 GB dynamically expanding data VHDX, Secure Boot Microsoft Windows template, one adapter on Lab-Private-Switch. Exact edition/build and VM settings were not independently exported.
+
+Guided network configuration completed per operator: 10.50.10.20/24, gateway 10.50.10.1, DNS 10.50.10.10. Servers OU creation and FS01 move were included in the completed build batch. DepartmentData (E:) reported Healthy; screenshot separately showed the 70 GB volume.
+
+Actual paths: E:\Shared\Finances and E:\Shared\HR; direct shares Finances and HR. Shared parent share removed per batch completion report. Department access/denial and automatic S: recreation passed on CL02 and CL03 per operator. FS01 Windows updates complete; FS01 activation and ISO ejection unconfirmed. See [FS01 journal](fs01-build.md).

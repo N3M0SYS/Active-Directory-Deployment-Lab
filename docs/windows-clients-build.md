@@ -105,8 +105,14 @@ CL02 showed the notice following restart. Operator subsequently reported the rem
 | Client DNS registrations and detailed applied-policy report | Not independently captured |
 | New backup or restore test | None claimed |
 
-Next: deploy N3M0-FS01 (planned address 10.50.10.20) and test Finance/HR share and NTFS permissions. DC02, separate delegated administration accounts, and monitoring integration remain future work.
+Update 2026-09-29: FS01 is deployed and departmental permissions passed. See [FS01 journal](fs01-build.md). Next: separate administration accounts and scoped delegation; DC02 and monitoring remain future work.
 
 ## Recovery notes
 
 This remains an authorized disposable lab; host backups are not a prerequisite. Existing DC01 backup predates these AD changes and client deployment; no refreshed backup or client backup is claimed. Local accounts remain available for local recovery. If the notice policy needs to be withdrawn, clear both defined notice values and allow clients to process that change before removing the GPO link; rollback has not been tested.
+
+## 2026-09-29 — Departmental drive mappings verified
+
+N3M0-Department-Drives is linked to N3M0-Lab/Users. User Configuration > Preferences > Windows Settings > Drive Maps contains two Update items, Reconnect checked, drive S:. Finance maps \\N3M0-FS01\Finances with label Finance and user-security-group targeting GG-Finance; HR maps \\N3M0-FS01\HR with label HR and targeting GG-HR. Default Authenticated Users GPO filtering retained per guided workflow.
+
+Operator initially had manual S: mappings, so their initial presence was not sufficient evidence. After disconnecting the mappings and signing out/in with finance.user on CL02 and hr.user on CL03, the operator confirmed both S: drives returned automatically and opened. Departmental file create/edit/save/reopen/rename/delete tests and reciprocal access denial also passed per operator. No policy-results export was captured.

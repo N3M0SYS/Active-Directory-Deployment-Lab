@@ -1,5 +1,15 @@
 # Change log
 
+## 2026-09-29 — FS01, departmental permissions, and automated drives
+
+- Recorded FS01 build, domain sign-in, guided 10.50.10.20/24 networking, Servers OU batch, and 80 GB OS + 70 GB data disk split.
+- Created domain-local Modify groups and nested GG-Finance/GG-HR; applied departmental NTFS and share permissions.
+- Screenshot established actual Finances -> E:\Shared\Finances and Shared -> E:\Shared mappings. Corrected missing direct HR share; stopped sharing parent Shared per completion report.
+- Operator confirmed departmental file operations and reciprocal access denial passed.
+- Created N3M0-Department-Drives linked to Users with user-group targeting. Both S: mappings recreated after removing prior manual mappings and signing out/in, per operator.
+- FS01 updates complete; ISO ejection and activation unconfirmed. No new backups or restore tests claimed.
+- Added FS01 journal; refreshed README, inventory, architecture, roadmap, and client/network cross-references. Next: separate administration accounts and scoped delegation.
+
 ## 2026-09-17 — Client media cleanup confirmed
 
 - Operator confirmed installation ISOs ejected from all three Windows clients.

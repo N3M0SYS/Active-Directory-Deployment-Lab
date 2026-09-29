@@ -1,6 +1,6 @@
 # Current and planned architecture
 
-Updated 2026-09-17. Results are based on session screenshots and operator reports.
+Updated 2026-09-29. Results are based on session screenshots and operator reports.
 
 ## Deployed
 
@@ -15,7 +15,7 @@ flowchart TD
     LAN --- CL01["N3M0-CL01: IT"]
     LAN --- CL02["N3M0-CL02: Finance"]
     LAN --- CL03["N3M0-CL03: HR"]
-    LAN -. "Planned" .-> FS["N3M0-FS01: file shares"]
+    LAN --- FS["N3M0-FS01: Finances and HR shares"]
 ```
 
 Host sharing is disabled on Lab-WAN-Switch. NIC1 remains the host management connection; NIC2 is dedicated to the firewall uplink through the existing physical switch. No direct cable to the router was needed. Lab targets attach only to the private switch. Hyper-V console access remains available independently of guest IP connectivity.
@@ -29,7 +29,7 @@ Host sharing is disabled on Lab-WAN-Switch. NIC1 remains the host management con
 | N3M0-FW01 WAN | DHCP on upstream network | Lease observed; not a static reservation |
 | N3M0-DC01 | 10.50.10.10 | Configured |
 | Future DC02 | 10.50.10.11 | Reserved |
-| N3M0-FS01 | 10.50.10.20 | Reserved; not deployed |
+| N3M0-FS01 | 10.50.10.20 | Configured per guided build/operator report |
 | N3M0-CL01 | 10.50.10.100 | Observed DHCP lease |
 | N3M0-CL02 | 10.50.10.101 | Observed DHCP lease |
 | N3M0-CL03 | 10.50.10.102 | Observed DHCP lease |
@@ -52,7 +52,7 @@ DC01 external DNS and outbound TCP 443 passed. Firewall logs showed the test ICM
 | N3M0-DC01 | 2 | 4 GB | 60 GB OS + 100 GB backup | Deployed |
 | N3M0-FW01 | 2 | 4 GB fixed | 32 GB | Deployed following guided configuration |
 | DC02 | 2 | 4 GB | 80 GB | Proposed |
-| FS01 | 2 | 4 GB | 150 GB | Proposed |
+| N3M0-FS01 | 2 | 4 GB fixed | 80 GB OS + 70 GB data | Deployed; guided sizing |
 | N3M0-CL01 (IT) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | N3M0-CL02 (Finance) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | N3M0-CL03 (HR) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
@@ -67,4 +67,4 @@ See [firewall and DHCP journal](firewall-dhcp-build.md) for settings, tests, and
 
 ## Active Directory organization
 
-Under n3m0.test, N3M0-Lab contains Users (rafa, finance.user, hr.user), Workstations (CL01–CL03 computer accounts), and Groups (GG-Finance, GG-HR). The domain controller stays in its existing Domain Controllers OU. N3M0-Workstations-LogonNotice is linked to Workstations. Departmental security groups are intended for future resource permissions; they do not create network segmentation. See [client journal](windows-clients-build.md) for membership and validation details.
+Under n3m0.test, N3M0-Lab contains Users (rafa, finance.user, hr.user), Workstations (CL01–CL03 computer accounts), and Groups (GG-Finance, GG-HR). The domain controller stays in its existing Domain Controllers OU. N3M0-Workstations-LogonNotice is linked to Workstations. The completed FS01 workflow adds a Servers OU for FS01 and domain-local groups DL-FS01-Finance-Modify and DL-FS01-HR-Modify containing the respective global departmental groups. These groups grant departmental file permissions; they do not create network segmentation. N3M0-Department-Drives is linked to Users and maps S: by user membership in GG-Finance or GG-HR. See [FS01 journal](fs01-build.md) for actual paths, permissions, and validation. See [client journal](windows-clients-build.md) for membership and validation details.

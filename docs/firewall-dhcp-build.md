@@ -79,4 +79,4 @@ This is an authorized disposable test server; full rebuild is accepted. No host-
 
 Hyper-V console access remains available. To isolate the uplink if needed, disconnect the firewall WAN virtual adapter while preserving NIC1 host management and the private switch; rollback has not been tested.
 
-Client deployment, DHCP leases, joins, domain authentication, and the logon-notice GPO milestone are complete. Next: N3M0-FS01 and departmental permissions. Client-side option capture and broader isolation validation remain separate pending checks. See [Windows client journal](windows-clients-build.md).
+Client deployment, DHCP leases, joins, domain authentication, and the logon-notice GPO milestone are complete. Update 2026-09-29: FS01 and departmental permission tests are complete; see [FS01 journal](fs01-build.md). Next: separate administration accounts and scoped delegation. Client-side option capture and broader isolation validation remain separate pending checks. See [Windows client journal](windows-clients-build.md).
