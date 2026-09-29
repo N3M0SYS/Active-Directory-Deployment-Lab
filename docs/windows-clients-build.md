@@ -44,9 +44,9 @@ Operational lesson: confirm boot-prompt keystrokes reach the VM when accessing H
 
 | Computer | Role | Local setup account | Domain account | Observed DHCP address |
 |---|---|---|---|---|
-| N3M0-CL01 | IT workstation | IT Admin | rafa@n3m0.test | 10.50.10.100 |
-| N3M0-CL02 | Finance workstation | Finance Team | finance.user@n3m0.test | 10.50.10.101 |
-| N3M0-CL03 | HR workstation | HR Team | hr.user@n3m0.test | 10.50.10.102 |
+| N3M0-CL01 | IT workstation | IT Admin | lchen@n3m0.test | 10.50.10.100 |
+| N3M0-CL02 | Finance workstation | Finance Team | finance@n3m0.test | 10.50.10.101 |
+| N3M0-CL03 | HR workstation | HR Team | hr@n3m0.test | 10.50.10.102 |
 
 Local setup accounts remain separate from domain identities. The standard domain users were not granted administrative group membership in this workflow. CL01's IT role does not itself confer elevated privileges.
 
@@ -60,7 +60,7 @@ Created the following organization in Active Directory Users and Computers:
 
 | OU path under n3m0.test | Contents |
 |---|---|
-| N3M0-Lab/Users | rafa, finance.user, hr.user |
+| N3M0-Lab/Users | lchen, finance, hr |
 | N3M0-Lab/Workstations | N3M0-CL01, N3M0-CL02, N3M0-CL03 |
 | N3M0-Lab/Groups | GG-Finance, GG-HR |
 
