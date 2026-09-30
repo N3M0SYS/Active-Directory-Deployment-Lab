@@ -4,7 +4,7 @@ A hands-on progression from Active Directory administration and penetration test
 
 **Owner:** N3M0SYS  
 **Platform:** Authorized company test server running Hyper-V  
-**Status (2026-09-29):** N3M0-FS01 deployed and domain joined. Departmental SMB/NTFS access and cross-department denial passed; Finance and HR S: mappings recreated automatically after disconnect/sign-out tests, per operator. FS01 updates complete. Next: separate administration accounts and scoped delegation.
+**Status (2026-09-29):** N3M0-FS01 is deployed and departmental access is verified. Separate administration identities and scoped least-privilege delegation are also verified. Next major infrastructure milestone: DC02 and replication; activation/media-status cleanup remains open.
 
 ## Start here
 
@@ -29,7 +29,7 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 
 - All current project workloads remain on the Hyper-V server.
 - Private switch: `Lab-Private-Switch`; subnet: `10.50.10.0/24`.
-- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; vCPU: '2'; Memory: '4096 MB'; Generation: '2'  .
+- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; vCPU: `2`; Memory: `4096 MB`; Generation: `2`.
 - AD DS, DNS, Global Catalog, DNS A/SRV records, and NETLOGON/SYSVOL presence verified through GUI screenshots.
 - Windows Server Backup completed to `DC01-Backup (E:)`, transferring 15.32 GB. Restore testing and off-host protection remain pending.
 - pfSense N3M0-FW01: WAN via NIC2 / Lab-WAN-Switch; LAN 10.50.10.1/24 on Lab-Private-Switch.
@@ -37,10 +37,18 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 - Windows DHCP on DC01: N3M0-Clients, 10.50.10.100–10.50.10.199; router 10.50.10.1; DNS 10.50.10.10; suffix n3m0.test.
 - External DNS and TCP 443 tested successfully; pfSense logs confirmed the upstream router ICMP test was blocked. Client leases are observed and all three domain joins/sign-ins succeeded per operator.
 - N3M0-CL01 (IT), CL02 (Finance), and CL03 (HR) use Lab-Private-Switch; observed DHCP addresses are 10.50.10.100, .101, and .102 respectively (not reservations).
-- N3M0-Lab contains Users, Workstations, and Groups OUs; all three computer accounts were moved to Workstations.
-- Standard domain users rafa, finance.user, and hr.user signed in and changed initial passwords. GG-Finance and GG-HR are global security groups configured in the guided workflow.
+- N3M0-Lab contains Admins, Users, Workstations, Servers, and Groups OUs; all three client computer accounts are in Workstations.
+- Current standard domain users are `finance` (Finance Team), `hr` (HR Team), `lchen` (Lucy Chen, fictional IT user), and `rafa` (standard daily-use IT account).
+- `GG-Finance` and `GG-HR` represent Finance/HR membership. `GG-IT` is Global/Security and contains `lchen` and `rafa`; it grants no administrative privilege by itself.
+- `rafa-admin` exists in N3M0-Lab/Admins as a separate administrative identity. It is not a Domain Admin and is not in GG-IT.
+- Delegation on N3M0-Lab/Users grants `rafa-admin` password reset/force-change and custom Read/Write `lockoutTime` on User objects for account-unlock support.
+- Positive validation: `rafa-admin` reset Finance's password and forced a password change; Finance authenticated and changed it successfully. HR was intentionally subjected to failed logons under the configured lockout policy; `rafa-admin` unlocked HR and HR then authenticated successfully.
+- Negative validation: `rafa-admin` could not create users (New User unavailable) and could not modify GG-IT membership (Add disabled). Standard `rafa` attempted to reset HR's password and received Access is denied.
+- The separate Admins-OU password-reset boundary was not tested: ADUC displayed Reset Password on `rafa-admin`, but no reset was attempted.
+- CL01 is the IT management workstation and has the RSAT Active Directory DS/LDS tools installed. CL02 and CL03 remain ordinary department clients and do not require RSAT.
+- Default Domain Policy account-lockout settings observed after configuration: threshold 5 invalid attempts, duration 10 minutes, reset counter after 10 minutes; Allow Administrator account lockout showed Enabled.
 - N3M0-Workstations-LogonNotice is linked to Workstations; its sign-in notice appeared on all three clients per operator.
-- Client updates completed per operator; Windows 11 Pro activation pending; installation ISOs ejected from all three clients per operator. Separate delegated admin accounts remain planned.
+- Client updates completed per operator; Windows 11 Pro activation pending; installation ISOs ejected from all three clients per operator.
 - N3M0-FS01 uses 10.50.10.20/24, gateway 10.50.10.1, and DNS 10.50.10.10 following the guided configuration. Servers OU placement was part of the completed build batch.
 - Finances and HR shares use domain-local Modify groups containing GG-Finance and GG-HR. The Shared parent share was removed per operator completion report.
 - N3M0-Department-Drives is linked to N3M0-Lab/Users, with user-group item-level targeting for Finance/HR S: mappings. Both automatic recreation tests passed per operator.
@@ -49,9 +57,9 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 
 ## Current priorities
 
-1. Create separate administration accounts and define scoped delegated permissions; keep rafa a standard user.
-2. Track activation and confirm FS01 ISO ejection; these are not host-backup gates.
-3. Later expand with DC02 and monitoring.
+1. Deploy DC02 and verify AD/DNS replication when ready for the next major infrastructure milestone.
+2. Track Windows activation and confirm FS01 ISO ejection/activation; these are not host-backup gates.
+3. Later expand monitoring/detection with Wazuh.
 4. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
 
 ## Working agreement
