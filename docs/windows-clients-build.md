@@ -1,10 +1,10 @@
 # Windows clients, domain users, and Group Policy
 
-## Status — 2026-09-17
+## Status — 2026-09-29
 
-N3M0-CL01, N3M0-CL02, and N3M0-CL03 run Windows 11 Pro on the Hyper-V test server and are joined to n3m0.test. DHCP leases were reviewed in a screenshot. Domain sign-ins, initial password changes, Windows updates, and the workstation sign-in notice succeeded per operator reports. Activation remains pending. Operator subsequently confirmed installation ISOs ejected from all three clients.
+N3M0-CL01, N3M0-CL02, and N3M0-CL03 run Windows 11 Pro on the Hyper-V test server and are joined to n3m0.test. DHCP leases, domain sign-ins, workstation notice, client updates, departmental drive mappings, and the current least-privilege administration workflow have been validated as described below. Windows 11 Pro activation remains pending. Installation ISOs were ejected from all three clients per operator.
 
-This journal covers work performed during September 15–17. It records guided configuration separately from screenshots and operator-reported outcomes. No credentials or raw screenshots are committed.
+No credentials or raw screenshots are committed.
 
 ## Build settings and installation
 
@@ -42,40 +42,93 @@ Operational lesson: confirm boot-prompt keystrokes reach the VM when accessing H
 
 ## Client and account mapping
 
-| Computer | Role | Local setup account | Domain account | Observed DHCP address |
+| Computer | Role | Local setup account | Standard domain account | Observed DHCP address |
 |---|---|---|---|---|
-| N3M0-CL01 | IT workstation | IT Admin | lchen@n3m0.test | 10.50.10.100 |
+| N3M0-CL01 | IT management workstation | IT Admin | lchen@n3m0.test and rafa@n3m0.test are IT users; rafa is the operator's daily-use account | 10.50.10.100 |
 | N3M0-CL02 | Finance workstation | Finance Team | finance@n3m0.test | 10.50.10.101 |
 | N3M0-CL03 | HR workstation | HR Team | hr@n3m0.test | 10.50.10.102 |
 
-Local setup accounts remain separate from domain identities. The standard domain users were not granted administrative group membership in this workflow. CL01's IT role does not itself confer elevated privileges.
+Local setup accounts remain separate from domain identities. Standard domain users were not granted administrative group membership merely because of their workstation or department role.
 
-DHCP server: N3M0-DC01, scope N3M0-Clients. Scope configuration remains /24, gateway 10.50.10.1, DNS 10.50.10.10, and suffix n3m0.test. The Address Leases screenshot showed all three client names and addresses. These are dynamic observations, not static assignments or reservations. Operator reported leasing works properly; a client-side Details screenshot showing every option was not supplied.
+DHCP server: N3M0-DC01, scope N3M0-Clients. Scope configuration remains /24, gateway 10.50.10.1, DNS 10.50.10.10, and suffix n3m0.test. The Address Leases screenshot showed all three client names and addresses. These are dynamic observations, not static assignments or reservations.
 
 ## Domain joins and OU layout
 
-Joined each client through Settings > System > About > Domain or workgroup > Change, selecting n3m0.test and supplying domain Administrator credentials. CL01's welcome message and restart were explicitly reported. The subsequent guided CL02/CL03 joins, computer-object moves, and successful domain sign-ins were confirmed through operator completion reports.
+Joined each client through Settings > System > About > Domain or workgroup > Change, selecting n3m0.test and supplying domain Administrator credentials. CL01's welcome message and restart were explicitly reported. The subsequent CL02/CL03 joins, computer-object moves, and successful domain sign-ins were confirmed through operator completion reports.
 
-Created the following organization in Active Directory Users and Computers:
+Current Active Directory layout relevant to these clients:
 
 | OU path under n3m0.test | Contents |
 |---|---|
-| N3M0-Lab/Users | lchen, finance, hr |
+| N3M0-Lab/Admins | rafa-admin |
+| N3M0-Lab/Users | finance, hr, lchen, rafa |
 | N3M0-Lab/Workstations | N3M0-CL01, N3M0-CL02, N3M0-CL03 |
-| N3M0-Lab/Groups | GG-Finance, GG-HR |
+| N3M0-Lab/Groups | GG-Finance, GG-HR, GG-IT, DL-FS01-Finance-Modify, DL-FS01-HR-Modify |
 
-Moved the three client computer objects from the default Computers container to Workstations. No domain controller move was instructed.
+The standard-user identities currently observed are:
+- Finance Team: `finance@n3m0.test`
+- HR Team: `hr@n3m0.test`
+- Lucy Chen: `lchen@n3m0.test` (fictional IT user)
+- Rafa: `rafa@n3m0.test` (standard daily-use IT account)
 
-Created each standard user with a temporary password and User must change password at next logon. Operator confirmed rafa signed in and changed the password, followed by successful Finance and HR desktop sign-ins after the same guided process.
+Finance and HR had Password never expires removed during the 2026-09-29 cleanup. Rafa was created as a standard user. Lucy remained a standard user.
 
-## Departmental groups
+## Departmental and IT groups
 
-| Group | Scope/type | Guided member |
+| Group | Scope/type | Current members / role |
 |---|---|---|
-| GG-Finance | Global / Security | finance.user |
-| GG-HR | Global / Security | hr.user |
+| GG-Finance | Global / Security | finance |
+| GG-HR | Global / Security | hr |
+| GG-IT | Global / Security | lchen, rafa |
+| DL-FS01-Finance-Modify | Domain Local / Security | contains GG-Finance for FS01 resource permissions |
+| DL-FS01-HR-Modify | Domain Local / Security | contains GG-HR for FS01 resource permissions |
 
-Group creation and membership were part of the completed guided batch; no independent membership screenshot/export was supplied. These groups are prepared for future resource permissions. They do not by themselves restrict workstation sign-ins, grant administration, or isolate network traffic. Separate administration identities/delegation remain pending.
+`GG-IT` models IT department membership only; it does not grant Domain Admin, local admin, GPO, or delegated AD rights.
+
+## Separate administration identity and scoped delegation
+
+A separate `N3M0-Lab/Admins` OU was created and `rafa-admin@n3m0.test` was added there as the operator's privileged identity. `rafa-admin` is not a Domain Admin and is not a member of GG-IT.
+
+The intended workflow is:
+- Sign in to CL01 using standard `N3M0\rafa`.
+- Launch Active Directory Users and Computers with **Run as different user** using `N3M0\rafa-admin`.
+- Use `rafa-admin` only for delegated AD administration.
+
+CL01 received the RSAT **Active Directory Domain Services and Lightweight Directory Services Tools** feature. CL02 and CL03 do not require RSAT.
+
+Delegation is scoped to `N3M0-Lab/Users`:
+- Reset user passwords and force password change at next logon.
+- Custom delegation on User objects: Read `lockoutTime` and Write `lockoutTime` for account unlocking.
+
+No Domain Admin membership, user-creation delegation, group-membership delegation, GPO delegation, server-administration delegation, or broad domain-level privilege was granted in this workflow.
+
+### Delegation validation — 2026-09-29
+
+| Test | Expected | Result |
+|---|---|---|
+| rafa-admin resets Finance password | Allowed | Passed |
+| Force Finance password change at next logon | Allowed | Passed |
+| Finance signs in with temporary password, changes it, reaches desktop | Allowed | Passed |
+| rafa-admin creates a new user in N3M0-Lab/Users | Denied | Passed: New User was unavailable |
+| rafa-admin modifies GG-IT membership | Denied | Passed: Add was disabled |
+| rafa-admin unlocks HR after intentional failed-logon test | Allowed | Passed |
+| HR signs in with correct password after delegated unlock | Allowed | Passed |
+| Standard rafa resets HR password | Denied | Passed: Access is denied |
+
+ADUC displayed **Reset Password** on the `rafa-admin` account in the Admins OU, but no reset was attempted. Therefore the separate Admins-OU password-reset boundary is not claimed as validated.
+
+## Domain account-lockout policy
+
+To validate delegated account unlocking, the Default Domain Policy was configured and observed as:
+
+| Setting | Value |
+|---|---|
+| Account lockout threshold | 5 invalid logon attempts |
+| Account lockout duration | 10 minutes |
+| Reset account lockout counter after | 10 minutes |
+| Allow Administrator account lockout | Enabled |
+
+HR was used for the controlled lockout/unlock validation. After the failed-logon sequence, `rafa-admin` successfully applied the unlock action and HR subsequently authenticated with the correct password.
 
 ## First workstation Group Policy
 
@@ -97,22 +150,22 @@ CL02 showed the notice following restart. Operator subsequently reported the rem
 | Three client DHCP leases | Reviewed DC01 Address Leases screenshot |
 | CL01 domain join | Welcome message and restart reported |
 | All client computer objects in Workstations | Operator confirmed moves |
-| Domain user sign-ins and password changes | Operator reported successful completion |
+| Standard user sign-ins | Operator reported successful completion |
 | Logon-notice GPO | CL02 explicitly passed; other clients confirmed in baseline completion report |
 | Windows client updates | Complete per operator; individual KB/build inventory not captured |
 | Windows 11 Pro activation | Pending on clients |
 | Installation ISO ejection | Complete on all three clients per operator confirmation |
+| CL01 RSAT AD tools | Installed and ADUC launched successfully |
+| Separate admin/delegation workflow | Passed positive and negative tests described above |
 | Client DNS registrations and detailed applied-policy report | Not independently captured |
 | New backup or restore test | None claimed |
-
-Update 2026-09-29: FS01 is deployed and departmental permissions passed. See [FS01 journal](fs01-build.md). Next: separate administration accounts and scoped delegation; DC02 and monitoring remain future work.
-
-## Recovery notes
-
-This remains an authorized disposable lab; host backups are not a prerequisite. Existing DC01 backup predates these AD changes and client deployment; no refreshed backup or client backup is claimed. Local accounts remain available for local recovery. If the notice policy needs to be withdrawn, clear both defined notice values and allow clients to process that change before removing the GPO link; rollback has not been tested.
 
 ## 2026-09-29 — Departmental drive mappings verified
 
 N3M0-Department-Drives is linked to N3M0-Lab/Users. User Configuration > Preferences > Windows Settings > Drive Maps contains two Update items, Reconnect checked, drive S:. Finance maps \\N3M0-FS01\Finances with label Finance and user-security-group targeting GG-Finance; HR maps \\N3M0-FS01\HR with label HR and targeting GG-HR. Default Authenticated Users GPO filtering retained per guided workflow.
 
-Operator initially had manual S: mappings, so their initial presence was not sufficient evidence. After disconnecting the mappings and signing out/in with finance.user on CL02 and hr.user on CL03, the operator confirmed both S: drives returned automatically and opened. Departmental file create/edit/save/reopen/rename/delete tests and reciprocal access denial also passed per operator. No policy-results export was captured.
+Operator initially had manual S: mappings, so their initial presence was not sufficient evidence. After disconnecting the mappings and signing out/in with finance on CL02 and hr on CL03, the operator confirmed both S: drives returned automatically and opened. Departmental file create/edit/save/reopen/rename/delete tests and reciprocal access denial also passed per operator.
+
+## Recovery notes
+
+This remains an authorized disposable lab; host backups are not a prerequisite. Existing DC01 backup predates these AD changes, client deployment, FS01 permissions, and delegation changes; no refreshed backup or client backup is claimed. Local client setup accounts remain available for local recovery. Rollback of the new delegation or lockout policy has not been exercised.
