@@ -4,7 +4,7 @@ A hands-on progression from Active Directory administration and penetration test
 
 **Owner:** N3M0SYS  
 **Platform:** Authorized company test server running Hyper-V  
-**Status (2026-09-29):** N3M0-FS01 is deployed and departmental access is verified. Separate administration identities and scoped least-privilege delegation are also verified. Next major infrastructure milestone: DC02 and replication; activation/media-status cleanup remains open.
+**Status (2026-09-29):** N3M0-FS01 is deployed and departmental access is verified. Separate administration identities and scoped least-privilege delegation are also verified. Windows activation is intentionally not being pursued for this disposable lab. Next major infrastructure milestone: DC02 and replication; FS01 installation-media cleanup remains open.
 
 ## Start here
 
@@ -48,17 +48,17 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 - CL01 is the IT management workstation and has the RSAT Active Directory DS/LDS tools installed. CL02 and CL03 remain ordinary department clients and do not require RSAT.
 - Default Domain Policy account-lockout settings observed after configuration: threshold 5 invalid attempts, duration 10 minutes, reset counter after 10 minutes; Allow Administrator account lockout showed Enabled.
 - N3M0-Workstations-LogonNotice is linked to Workstations; its sign-in notice appeared on all three clients per operator.
-- Client updates completed per operator; Windows 11 Pro activation pending; installation ISOs ejected from all three clients per operator.
+- Client updates completed per operator; installation ISOs ejected from all three clients per operator. Windows activation is intentionally not being purchased or pursued for these disposable project VMs.
 - N3M0-FS01 uses 10.50.10.20/24, gateway 10.50.10.1, and DNS 10.50.10.10 following the guided configuration. Servers OU placement was part of the completed build batch.
 - Finances and HR shares use domain-local Modify groups containing GG-Finance and GG-HR. The Shared parent share was removed per operator completion report.
 - N3M0-Department-Drives is linked to N3M0-Lab/Users, with user-group item-level targeting for Finance/HR S: mappings. Both automatic recreation tests passed per operator.
-- FS01 updates complete per operator; FS01 ISO ejection and activation unconfirmed.
+- FS01 updates complete per operator; FS01 ISO ejection is unconfirmed. Activation is intentionally not being pursued for this lab VM.
 - Existing ninjatest, VulScan, and Wazuh guests are retained.
 
 ## Current priorities
 
 1. Deploy DC02 and verify AD/DNS replication when ready for the next major infrastructure milestone.
-2. Track Windows activation and confirm FS01 ISO ejection/activation; these are not host-backup gates.
+2. Confirm FS01 installation ISO ejection.
 3. Later expand monitoring/detection with Wazuh.
 4. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
 
