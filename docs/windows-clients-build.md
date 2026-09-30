@@ -2,7 +2,7 @@
 
 ## Status — 2026-09-29
 
-N3M0-CL01, N3M0-CL02, and N3M0-CL03 run Windows 11 Pro on the Hyper-V test server and are joined to n3m0.test. DHCP leases, domain sign-ins, workstation notice, client updates, departmental drive mappings, and the current least-privilege administration workflow have been validated as described below. Windows 11 Pro activation remains pending. Installation ISOs were ejected from all three clients per operator.
+N3M0-CL01, N3M0-CL02, and N3M0-CL03 run Windows 11 Pro on the Hyper-V test server and are joined to n3m0.test. DHCP leases, domain sign-ins, workstation notice, client updates, departmental drive mappings, and the current least-privilege administration workflow have been validated as described below. Installation ISOs were ejected from all three clients per operator. Windows activation is intentionally not being purchased or pursued for these disposable project VMs.
 
 No credentials or raw screenshots are committed.
 
@@ -153,7 +153,7 @@ CL02 showed the notice following restart. Operator subsequently reported the rem
 | Standard user sign-ins | Operator reported successful completion |
 | Logon-notice GPO | CL02 explicitly passed; other clients confirmed in baseline completion report |
 | Windows client updates | Complete per operator; individual KB/build inventory not captured |
-| Windows 11 Pro activation | Pending on clients |
+| Windows activation | Intentionally not pursued for disposable project VMs; no license purchase planned |
 | Installation ISO ejection | Complete on all three clients per operator confirmation |
 | CL01 RSAT AD tools | Installed and ADUC launched successfully |
 | Separate admin/delegation workflow | Passed positive and negative tests described above |
