@@ -2,7 +2,7 @@
 
 ## Status — 2026-09-29
 
-FS01 deployment, domain sign-in, departmental file operations, reciprocal access denial, and automatic Finance/HR S: drive recreation passed per operator. Windows updates complete per operator. FS01 installation ISO ejection is unconfirmed. Windows activation is intentionally not being purchased or pursued for this disposable project VM.
+FS01 deployment, domain sign-in, departmental file operations, reciprocal access denial, and automatic Finance/HR S: drive recreation passed per operator. Windows updates complete per operator. FS01 installation ISO ejection is confirmed. Windows activation is intentionally not being purchased or pursued for this disposable project VM.
 
 This journal distinguishes guided settings and operator completion reports from reviewed screenshots. No raw screenshots, passwords, or credentials are committed.
 
@@ -88,7 +88,7 @@ Reconnect checked; default Authenticated Users security filtering retained. The 
 | Finance S: automatic recreation | Disconnected manual S:, signed out/in; returned and opened, operator confirmed |
 | HR S: automatic recreation | Operator explicitly confirmed both clients checked using disconnect/sign-out workflow |
 | FS01 Windows Update | Up to date, operator reported |
-| FS01 ISO ejection | Instructed, not confirmed |
+| FS01 ISO ejection | Confirmed by operator |
 | FS01 activation | Intentionally not pursued for this disposable project VM |
 | New backups / restore testing | None claimed |
 
@@ -100,4 +100,4 @@ This is an authorized disposable test host; host backups are not a prerequisite.
 
 For troubleshooting, retain console access and distinguish share removal from file deletion. Drive-map policy removal alone does not guarantee existing persistent mappings disappear; clean up mappings explicitly if withdrawing this policy. Rollback procedures have not been exercised.
 
-Separate administration identities and narrowly scoped delegation were completed and validated on 2026-09-29; see the Windows client/domain-user journal for the permission design and tests. The next major infrastructure milestone is DC02 replication. FS01 installation-media cleanup remains a separate open item; activation is intentionally out of scope.
+Separate administration identities and narrowly scoped delegation were completed and validated on 2026-09-29; see the Windows client/domain-user journal for the permission design and tests. FS01 cleanup is complete for the current build. The next major infrastructure milestone is DC02 replication.
