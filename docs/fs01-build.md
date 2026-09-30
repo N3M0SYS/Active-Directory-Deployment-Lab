@@ -43,8 +43,8 @@ Accounts -> global department groups -> domain-local resource groups -> permissi
 
 | User | Global security group | Domain-local security group | Resource |
 |---|---|---|---|
-| finance.user | GG-Finance | DL-FS01-Finance-Modify | Finances |
-| hr.user | GG-HR | DL-FS01-HR-Modify | HR |
+| finance | GG-Finance | DL-FS01-Finance-Modify | Finances |
+| hr | GG-HR | DL-FS01-HR-Modify | HR |
 
 Created domain-local Security groups under N3M0-Lab/Groups. Added the global groups on each domain-local group's Members tab; completion explicitly reported.
 
@@ -81,10 +81,10 @@ Reconnect checked; default Authenticated Users security filtering retained. The 
 |---|---|
 | FS01 domain sign-in | Success, operator reported |
 | E: volume health | Healthy, operator reported; 70 GB DepartmentData shown in screenshot |
-| CL02 finance.user -> Finances | Create/edit/save/reopen/rename/delete passed, operator batch confirmation |
-| CL02 finance.user -> HR | Access denied, operator batch confirmation |
-| CL03 hr.user -> HR | Create/edit/save/reopen/rename/delete passed, operator batch confirmation |
-| CL03 hr.user -> Finances | Access denied, operator batch confirmation |
+| CL02 finance -> Finances | Create/edit/save/reopen/rename/delete passed, operator batch confirmation |
+| CL02 finance -> HR | Access denied, operator batch confirmation |
+| CL03 hr -> HR | Create/edit/save/reopen/rename/delete passed, operator batch confirmation |
+| CL03 hr -> Finances | Access denied, operator batch confirmation |
 | Finance S: automatic recreation | Disconnected manual S:, signed out/in; returned and opened, operator confirmed |
 | HR S: automatic recreation | Operator explicitly confirmed both clients checked using disconnect/sign-out workflow |
 | FS01 Windows Update | Up to date, operator reported |
@@ -100,4 +100,4 @@ This is an authorized disposable test host; host backups are not a prerequisite.
 
 For troubleshooting, retain console access and distinguish share removal from file deletion. Drive-map policy removal alone does not guarantee existing persistent mappings disappear; clean up mappings explicitly if withdrawing this policy. Rollback procedures have not been exercised.
 
-Next recommended milestone: separate administration identities and narrowly scoped delegation. Keep rafa as a standard daily-use account; define required tasks and allowed/denied scope before granting privileges. Later milestones remain DC02 replication and monitoring. Confirm FS01 media cleanup and track activation separately.
+Separate administration identities and narrowly scoped delegation were completed and validated on 2026-09-29; see the Windows client/domain-user journal for the permission design and tests. The next major infrastructure milestone is DC02 replication, while FS01 media cleanup and activation remain separate open items.
