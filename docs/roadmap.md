@@ -1,6 +1,6 @@
 # Roadmap
 
-**Current milestone (2026-09-29):** FS01 departmental access and automatic S: mappings are verified. Separate administration identities, scoped delegation, positive/negative authorization tests, and delegated account unlock are also verified. Windows activation is intentionally out of scope for these disposable project VMs. Next major infrastructure milestone: DC02 deployment and replication; FS01 installation-media cleanup remains open.
+**Current milestone (2026-09-29):** FS01 departmental access, automatic S: mappings, updates, and installation-media cleanup are verified. Separate administration identities, scoped delegation, positive/negative authorization tests, and delegated account unlock are also verified. Windows activation is intentionally out of scope for these disposable project VMs. Next major infrastructure milestone: DC02 deployment and replication.
 
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
@@ -50,7 +50,7 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Deploy FS01 and test departmental file operations plus cross-department share/NTFS denial (operator reported).
 - [x] Configure AGDLP departmental groups and N3M0-Department-Drives; validate automatic S: recreation for both departments after disconnect/sign-out.
 - [x] Complete FS01 Windows updates (operator reported).
-- [ ] Confirm FS01 installation ISO ejected.
+- [x] Confirm FS01 installation ISO ejected (operator confirmed 2026-09-29).
 - [x] Record FS01 activation as intentionally out of scope for this disposable project VM.
 - [x] Install/authorize Windows DHCP and configure scope N3M0-Clients (operator reported).
 - [x] Deploy N3M0-CL01, N3M0-CL02, and N3M0-CL03 for IT, Finance, and HR.
