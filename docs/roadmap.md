@@ -1,6 +1,6 @@
 # Roadmap
 
-**Current milestone (2026-09-29):** FS01 deployed; departmental file operations and cross-department denials passed. Finance and HR S: drives were recreated automatically after disconnect/sign-out tests, per operator. FS01 updated. Next: separate administration accounts and scoped delegation.
+**Current milestone (2026-09-29):** FS01 departmental access and automatic S: mappings are verified. Separate administration identities, scoped delegation, positive/negative authorization tests, and delegated account unlock are also verified. Next major infrastructure milestone: DC02 deployment and replication; activation/media-status cleanup remains open.
 
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
@@ -43,8 +43,11 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Confirm client installation ISOs ejected (operator confirmed all three).
 - [x] Correct DC01 CPU allocation to 2 vCPUs (operator confirmed 2026-09-10).
 - [ ] Deploy DC02 and verify replication.
-- [x] Configure N3M0-Lab Users, Workstations, and Groups OUs; standard IT/Finance/HR users and departmental groups per guided workflow.
-- [ ] Create separate administration accounts and define delegated privileges.
+- [x] Configure N3M0-Lab Users, Workstations, Groups, Servers, and Admins OUs with current standard IT/Finance/HR users and departmental groups.
+- [x] Create separate administration identity and define scoped delegated privileges; positive and negative authorization tests passed.
+- [x] Install RSAT AD tools on CL01 and validate the standard-session / run-as-different-user administration workflow.
+- [x] Configure and validate delegated password reset/force-change and account unlock on N3M0-Lab/Users.
+- [x] Configure domain account-lockout policy used for the controlled unlock test: 5 attempts, 10-minute duration, 10-minute counter reset.
 - [x] Deploy FS01 and test departmental file operations plus cross-department share/NTFS denial (operator reported).
 - [x] Configure AGDLP departmental groups and N3M0-Department-Drives; validate automatic S: recreation for both departments after disconnect/sign-out.
 - [x] Complete FS01 Windows updates (operator reported).
@@ -58,7 +61,7 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Validate N3M0-Workstations-LogonNotice on all three clients (operator reported).
 - [ ] Capture client DNS registration and a detailed Group Policy results report if needed for later troubleshooting.
 - [x] Document the initial DC01 configuration and backup baseline.
-- [x] Refresh client inventory, architecture, build journal, and change log after this milestone.
+- [x] Refresh client/domain-user documentation and change log after the delegation milestone.
 
 Deliverable: domain design, permissions matrix, and validation screenshots.
 
