@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-09-29 — Windows activation intentionally out of scope
+
+- Recorded the operator decision not to purchase or pursue Windows activation for the disposable project VMs.
+- Removed activation from the active to-do list for the Windows 11 clients and N3M0-FS01.
+- Preserved FS01 installation ISO ejection as an open cleanup item.
+- Updated README, Windows client journal, FS01 journal, and roadmap so activation is documented as intentionally out of scope rather than pending.
+
 ## 2026-09-29 — Separate administration and least-privilege delegation
 
 - Corrected the current AD user inventory to Finance Team (`finance`), HR Team (`hr`), Lucy Chen (`lchen`, fictional IT user), and Rafa (`rafa`, standard daily-use IT account).
@@ -21,13 +28,14 @@
 - Screenshot established actual Finances -> E:\Shared\Finances and Shared -> E:\Shared mappings. Corrected missing direct HR share; stopped sharing parent Shared per completion report.
 - Operator confirmed departmental file operations and reciprocal access denial passed.
 - Created N3M0-Department-Drives linked to Users with user-group targeting. Both S: mappings recreated after removing prior manual mappings and signing out/in, per operator.
-- FS01 updates complete; ISO ejection and activation unconfirmed. No new backups or restore tests claimed.
+- FS01 updates complete; ISO ejection and activation unconfirmed at that milestone. No new backups or restore tests claimed.
 - Added FS01 journal; refreshed README, inventory, architecture, roadmap, and client/network cross-references. Next: separate administration accounts and scoped delegation.
 
 ## 2026-09-17 — Client media cleanup confirmed
 
 - Operator confirmed installation ISOs ejected from all three Windows clients.
-- Activation remains pending. Next session starts with N3M0-FS01 and Finance/HR file permissions; no file server has been created.
+- Activation was still listed as pending at that milestone; the 2026-09-29 decision above supersedes it for the disposable lab.
+- Next session starts with N3M0-FS01 and Finance/HR file permissions; no file server has been created.
 
 ## 2026-09-17 — Windows clients, domain identities, and workstation GPO
 
@@ -38,7 +46,7 @@
 - Initial documentation used stale/currently incorrect user names in places; the 2026-09-29 administration milestone above records the corrected current identities.
 - Validated domain sign-ins and initial password changes per operator; kept local setup accounts separate.
 - Created N3M0-Workstations-LogonNotice and verified its sign-in notice on all three clients per operator.
-- Client updates completed per operator. Windows 11 Pro activation remains pending; ISO ejection was announced but not confirmed.
+- Client updates completed per operator. Windows 11 Pro activation was still listed as pending at that milestone; the 2026-09-29 project decision above supersedes that item.
 - Added client build journal and refreshed README, inventory, architecture, DHCP journal, and roadmap. Next: N3M0-FS01 and departmental permissions; separate administration identities remain pending.
 
 ## 2026-09-11 — pfSense, DNS forwarding, and Windows DHCP
