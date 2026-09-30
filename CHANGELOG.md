@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-09-29 — FS01 installation media cleanup complete
+
+- Operator confirmed the Windows Server installation ISO was ejected from N3M0-FS01 in Hyper-V.
+- Marked FS01 installation-media cleanup complete in the README, FS01 build journal, and roadmap.
+- FS01 activation remains intentionally out of scope for this disposable project VM.
+- Next major infrastructure milestone is DC02 deployment and AD/DNS replication validation.
+
 ## 2026-09-29 — Windows activation intentionally out of scope
 
 - Recorded the operator decision not to purchase or pursue Windows activation for the disposable project VMs.
