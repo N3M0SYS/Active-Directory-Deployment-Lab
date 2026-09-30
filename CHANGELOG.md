@@ -1,5 +1,19 @@
 # Change log
 
+## 2026-09-29 — Separate administration and least-privilege delegation
+
+- Corrected the current AD user inventory to Finance Team (`finance`), HR Team (`hr`), Lucy Chen (`lchen`, fictional IT user), and Rafa (`rafa`, standard daily-use IT account).
+- Added `GG-IT` as a Global/Security department group containing `lchen` and `rafa`; it grants no administrative privilege by itself.
+- Added N3M0-Lab/Admins and the separate `rafa-admin` identity. `rafa-admin` is not Domain Admin and is not in GG-IT.
+- Installed RSAT Active Directory DS/LDS tools on CL01 and validated the intended workflow: sign into Windows as standard `rafa`, then launch ADUC with **Run as different user** using `rafa-admin`.
+- Delegated password reset/force-change on N3M0-Lab/Users to `rafa-admin`.
+- Added custom User-object delegation for Read/Write `lockoutTime` to support account unlocking.
+- Positive tests passed: `rafa-admin` reset Finance's password, forced change at next sign-in, and Finance authenticated and changed it; `rafa-admin` later unlocked HR after the controlled failed-logon test, and HR authenticated successfully.
+- Negative tests passed: `rafa-admin` could not create users (New User unavailable), could not modify GG-IT membership (Add disabled), and standard `rafa` received Access is denied when attempting to reset HR's password.
+- Did not claim an Admins-OU password-reset boundary test: ADUC displayed Reset Password on `rafa-admin`, but no reset was submitted.
+- Configured/observed Default Domain Policy lockout settings for validation: 5 invalid attempts, 10-minute duration, 10-minute counter reset; Allow Administrator account lockout showed Enabled.
+- Refreshed README, client/domain-user journal, FS01 cross-reference, roadmap, and this change log. No passwords, secrets, or raw screenshots were committed.
+
 ## 2026-09-29 — FS01, departmental permissions, and automated drives
 
 - Recorded FS01 build, domain sign-in, guided 10.50.10.20/24 networking, Servers OU batch, and 80 GB OS + 70 GB data disk split.
@@ -21,7 +35,7 @@
 - Resolved the DVD boot-prompt problem using a physical keyboard/mouse; operator identified ScreenConnect input as the cause. Secure Boot and alternate-ISO tests had not resolved it.
 - Reviewed DC01 DHCP leases: CL01 10.50.10.100, CL02 .101, CL03 .102; these are dynamic leases, not reservations.
 - Joined all three clients to n3m0.test and moved their computer objects into N3M0-Lab/Workstations.
-- Created Users, Workstations, and Groups OUs, standard users rafa/finance.user/hr.user, and global security groups GG-Finance/GG-HR through the guided workflow.
+- Initial documentation used stale/currently incorrect user names in places; the 2026-09-29 administration milestone above records the corrected current identities.
 - Validated domain sign-ins and initial password changes per operator; kept local setup accounts separate.
 - Created N3M0-Workstations-LogonNotice and verified its sign-in notice on all three clients per operator.
 - Client updates completed per operator. Windows 11 Pro activation remains pending; ISO ejection was announced but not confirmed.
@@ -37,14 +51,12 @@
 - Updated current diagram, inventory, journals, and roadmap. No Windows client has been created; client DHCP and domain join are next and remain untested.
 - Clarified the disposable test-server rebuild policy: host backups are not a prerequisite. Existing DC01 backup predates these changes.
 
-
 ## 2026-09-10 — DC01 CPU allocation corrected
 
 - Operator confirmed N3M0-DC01 is now configured with 2 vCPUs, matching the original proposal.
 - Updated current configuration in the README, architecture, inventory, and build journal; marked the CPU review item complete in the roadmap.
 - Preserved the operator's existing architecture-table edit to 2 vCPUs.
 - Earlier 20-vCPU observations remain historical; no current CPU discrepancy is open.
-
 
 ## 2026-09-10 — DC01 deployment, verification, and backup
 
