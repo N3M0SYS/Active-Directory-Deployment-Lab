@@ -1,5 +1,15 @@
 # Change log
 
+## 2026-10-05 — DC02 and bidirectional replication verified
+
+- Deployed N3M0-DC02 at 10.50.10.11 as writable AD DS/DNS/GC; all FSMO roles remain on DC01.
+- Corrected public DNS client settings causing DC01 error 8524; final DC01 resolver list is only 10.50.10.10.
+- Verified all five AD naming contexts in both directions, automatic AD object and DNS record changes both ways, basic DNS, Advertising, SYSVOL/NETLOGON, and DFSR State 4 on both DCs. Final summary: zero failures.
+- Configured root PDC external time and DC02 domain time; disabled guest Hyper-V Windows Time provider on both. Synchronized sources and Leap Indicator 0 observed; transient DC02 resync failure cause remains unproven.
+- Updated DHCP scope DNS option to DC01 then DC02; CL01 lease/options captured.
+- Verified fresh standard rafa TGT/service tickets issued by DC02 and successful user policy refresh. Removed temporary KDC preference, test group/record, and debug logging.
+- Added DC02 journal and refreshed current documentation. No full outage failover, DC02 updates/ISO cleanup, external-forwarder capture, or new backup claimed. DC01 local ADUC status anomaly remains documented.
+
 ## 2026-09-29 — FS01 installation media cleanup complete
 
 - Operator confirmed the Windows Server installation ISO was ejected from N3M0-FS01 in Hyper-V.
