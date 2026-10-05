@@ -4,7 +4,7 @@ A hands-on progression from Active Directory administration and penetration test
 
 **Owner:** N3M0SYS  
 **Platform:** Authorized company test server running Hyper-V  
-**Status (2026-09-29):** N3M0-FS01 is deployed and departmental access is verified. Separate administration identities and scoped least-privilege delegation are also verified. Windows activation is intentionally not being pursued for this disposable lab. FS01 installation media is now ejected. Next major infrastructure milestone: DC02 and replication.
+**Status (2026-10-05):** N3M0-DC02 is deployed. Two-way AD/DNS replication, SYSVOL/NETLOGON, time synchronization, and fresh standard-user Kerberos authentication through DC02 are verified. DHCP remains on DC01 and advertises both DNS servers. Windows activation remains out of scope.
 
 ## Start here
 
@@ -12,6 +12,7 @@ A hands-on progression from Active Directory administration and penetration test
 - [Host and VM inventory](docs/inventory.md)
 - [Current and planned architecture](docs/architecture.md)
 - [DC01 build journal](docs/dc01-build.md)
+- [DC02 build and replication validation](docs/dc02-build.md)
 - [Firewall and DHCP build journal](docs/firewall-dhcp-build.md)
 - [Windows clients, domain users, and GPO journal](docs/windows-clients-build.md)
 - [FS01, departmental permissions, and drive mappings](docs/fs01-build.md)
@@ -30,11 +31,13 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 - All current project workloads remain on the Hyper-V server.
 - Private switch: `Lab-Private-Switch`; subnet: `10.50.10.0/24`.
 - DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; vCPU: `2`; Memory: `4096 MB`; Generation: `2`.
-- AD DS, DNS, Global Catalog, DNS A/SRV records, and NETLOGON/SYSVOL presence verified through GUI screenshots.
+- N3M0-DC02: 10.50.10.11/24; Generation 2, 2 vCPUs, 4096 MB; writable AD DS/DNS/GC. Both DCs remain in Domain Controllers.
+- Both DCs pass basic DNS, Advertising, SYSVOL/NETLOGON, and report SYSVOL DFSR State 4. Final replication summary: zero failures in both directions; automatic AD object and DNS create/delete tests passed and test objects were removed.
+- DC01 DNS client was corrected to 10.50.10.10 only after public resolver settings caused replication failure. DC01 synchronizes time externally; DC02 follows DC01. All FSMO roles remain on DC01.
 - Windows Server Backup completed to `DC01-Backup (E:)`, transferring 15.32 GB. Restore testing and off-host protection remain pending.
 - pfSense N3M0-FW01: WAN via NIC2 / Lab-WAN-Switch; LAN 10.50.10.1/24 on Lab-Private-Switch.
 - N3M0-DC01 gateway 10.50.10.1; preferred DNS 10.50.10.10; DNS forwarder 10.50.10.1.
-- Windows DHCP on DC01: N3M0-Clients, 10.50.10.100–10.50.10.199; router 10.50.10.1; DNS 10.50.10.10; suffix n3m0.test.
+- Windows DHCP on DC01: N3M0-Clients, 10.50.10.100–10.50.10.199; router 10.50.10.1; DNS 10.50.10.10 then 10.50.10.11; suffix n3m0.test.
 - External DNS and TCP 443 tested successfully; pfSense logs confirmed the upstream router ICMP test was blocked. Client leases are observed and all three domain joins/sign-ins succeeded per operator.
 - N3M0-CL01 (IT), CL02 (Finance), and CL03 (HR) use Lab-Private-Switch; observed DHCP addresses are 10.50.10.100, .101, and .102 respectively (not reservations).
 - N3M0-Lab contains Admins, Users, Workstations, Servers, and Groups OUs; all three client computer accounts are in Workstations.
@@ -53,11 +56,12 @@ Build and administer a small enterprise Windows domain, assess it using authoriz
 - Finances and HR shares use domain-local Modify groups containing GG-Finance and GG-HR. The Shared parent share was removed per operator completion report.
 - N3M0-Department-Drives is linked to N3M0-Lab/Users, with user-group item-level targeting for Finance/HR S: mappings. Both automatic recreation tests passed per operator.
 - FS01 updates complete and installation ISO ejected per operator. Activation is intentionally not being pursued for this lab VM.
+- CL01 renewed DHCP options and received both DNS servers. Standard rafa obtained fresh TGT/service tickets with DC02 as Kdc Called; user policy refresh passed. Temporary DC preference was removed. Full outage failover was not tested.
 - Existing ninjatest, VulScan, and Wazuh guests are retained.
 
 ## Current priorities
 
-1. Deploy DC02 and verify AD/DNS replication.
+1. Finish DC02 housekeeping: updates, ISO ejection, and external DNS/forwarder verification; replication milestone is complete.
 2. Later expand monitoring/detection with Wazuh.
 3. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
 
