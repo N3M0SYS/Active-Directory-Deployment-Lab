@@ -1,6 +1,6 @@
 # Roadmap
 
-**Current milestone (2026-09-29):** FS01 departmental access, automatic S: mappings, updates, and installation-media cleanup are verified. Separate administration identities, scoped delegation, positive/negative authorization tests, and delegated account unlock are also verified. Windows activation is intentionally out of scope for these disposable project VMs. Next major infrastructure milestone: DC02 deployment and replication.
+**Current milestone (2026-10-05):** DC02 deployment and replication verified: all five AD partitions both ways, automatic AD/DNS changes both ways, SYSVOL/NETLOGON, DFSR State 4, synchronized time, and fresh rafa Kerberos tickets issued by DC02. DHCP remains on DC01 and advertises both DNS servers. DC02 updates/media cleanup and external DNS forwarding are separate follow-ups.
 
 Goal: penetration testing foundations, detection and remediation, then AI security engineering. Check an item only after its outcome is verified.
 
@@ -41,7 +41,8 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Record Windows activation as intentionally out of scope for disposable project VMs; no license purchase planned.
 - [x] Confirm client installation ISOs ejected (operator confirmed all three).
 - [x] Correct DC01 CPU allocation to 2 vCPUs (operator confirmed 2026-09-10).
-- [ ] Deploy DC02 and verify replication.
+- [x] Deploy DC02 and verify replication; see [DC02 journal](dc02-build.md) for evidence and limits.
+- [ ] Finish DC02 updates, ISO ejection, and explicit external DNS/forwarder verification.
 - [x] Configure N3M0-Lab Users, Workstations, Groups, Servers, and Admins OUs with current standard IT/Finance/HR users and departmental groups.
 - [x] Create separate administration identity and define scoped delegated privileges; positive and negative authorization tests passed.
 - [x] Install RSAT AD tools on CL01 and validate the standard-session / run-as-different-user administration workflow.
@@ -55,7 +56,7 @@ Deliverable: network diagram and isolation test evidence.
 - [x] Install/authorize Windows DHCP and configure scope N3M0-Clients (operator reported).
 - [x] Deploy N3M0-CL01, N3M0-CL02, and N3M0-CL03 for IT, Finance, and HR.
 - [x] Verify client DHCP leases in DC01 DHCP console; operator reports leasing works properly.
-- [ ] Capture client-side gateway, DNS, mask, and suffix details explicitly; server lease screenshot alone does not show all options.
+- [x] Capture CL01 client-side gateway, DNS, mask, and suffix; 2026-10-05 ipconfig confirms both DNS servers. CL02/CL03 option recapture remains unclaimed.
 - [x] Join all three clients to n3m0.test and move computer objects to N3M0-Lab/Workstations.
 - [x] Validate domain user sign-ins and initial password changes.
 - [x] Validate N3M0-Workstations-LogonNotice on all three clients (operator reported).
