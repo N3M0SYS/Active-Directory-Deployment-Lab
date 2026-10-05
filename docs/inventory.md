@@ -1,6 +1,6 @@
 # Host and VM inventory
 
-**Current update: 2026-09-29.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
+**Current update: 2026-10-05.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
 
 Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are snapshots, not live monitoring. Commands labeled GB used PowerShell binary units (GiB).
 
@@ -84,8 +84,8 @@ Preserve these three guests. Possible future deletion was discussed but is not a
 | Client | Role | Observed DHCP IP | Local account | Tested domain account |
 |---|---|---|---|---|
 | N3M0-CL01 | IT workstation | 10.50.10.100 | IT Admin | rafa@n3m0.test |
-| N3M0-CL02 | Finance workstation | 10.50.10.101 | Finance Team | finance.user@n3m0.test |
-| N3M0-CL03 | HR workstation | 10.50.10.102 | HR Team | hr.user@n3m0.test |
+| N3M0-CL02 | Finance workstation | 10.50.10.101 | Finance Team | finance@n3m0.test |
+| N3M0-CL03 | HR workstation | 10.50.10.102 | HR Team | hr@n3m0.test |
 
 Client build settings: Generation 2, 2 vCPUs, 4096 MB fixed RAM, 80 GB dynamically expanding OS VHDX, Secure Boot using Microsoft Windows template, and vTPM. These are guided settings, not a fresh configuration export of all three VMs. CL01 screenshots showed 2 processors, 4096 MB, and enabled Secure Boot/vTPM; Secure Boot was temporarily disabled for diagnosis and re-enabling was instructed before installation. Final security state was not separately recaptured.
 
@@ -99,4 +99,12 @@ N3M0-FS01 is deployed and joined to n3m0.test; domain administrator sign-in succ
 
 Guided network configuration completed per operator: 10.50.10.20/24, gateway 10.50.10.1, DNS 10.50.10.10. Servers OU creation and FS01 move were included in the completed build batch. DepartmentData (E:) reported Healthy; screenshot separately showed the 70 GB volume.
 
-Actual paths: E:\Shared\Finances and E:\Shared\HR; direct shares Finances and HR. Shared parent share removed per batch completion report. Department access/denial and automatic S: recreation passed on CL02 and CL03 per operator. FS01 Windows updates complete; FS01 activation and ISO ejection unconfirmed. See [FS01 journal](fs01-build.md).
+Actual paths: E:\Shared\Finances and E:\Shared\HR; direct shares Finances and HR. Shared parent share removed per batch completion report. Department access/denial and automatic S: recreation passed on CL02 and CL03 per operator. FS01 Windows updates complete and ISO ejection confirmed; activation intentionally out of scope. See [FS01 journal](fs01-build.md).
+
+## DC02 deployment and client DNS — 2026-10-05
+
+N3M0-DC02 deployed: Generation 2, 2 vCPUs, 4096 MB, Lab-Private-Switch observed. Guided 80 GB OS VHDX named N3M0-DC02.vhdx; capacity/security/fixed-memory final export not captured. Windows Server 2025 Standard Evaluation Desktop Experience installation completed per operator. Static 10.50.10.11/24, gateway 10.50.10.1 captured. Writable AD DS/DNS/GC in n3m0.test, Domain Controllers OU, Default-First-Site-Name. All FSMO roles stay on DC01.
+
+Both-way replication and basic DNS/Advertising/SYSVOL/NETLOGON checks passed; SYSVOL DFSR State 4 on both. DC01 final DNS client list is only 10.50.10.10. DC02 observed DNS list contains DC01 and local loopback after promotion. DC01 uses time.windows.com,0x8; DC02 synchronizes from DC01. Guest VM time provider disabled on both.
+
+DHCP remains on DC01. Scope option 006 now lists 10.50.10.10 then 10.50.10.11. CL01 renewal/ipconfig captured 10.50.10.100/24, gateway 10.50.10.1, n3m0.test suffix, DHCP server 10.50.10.10, both DNS servers. Fresh standard rafa Kerberos through DC02 and user policy update passed. CL02/CL03 renewals and DC02 updates/ISO ejection not confirmed. No new backup. See [DC02 journal](dc02-build.md).
