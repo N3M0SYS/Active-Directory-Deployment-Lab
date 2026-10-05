@@ -95,3 +95,9 @@ These are initial GUI checks. They do not establish client domain-join success, 
 - [Microsoft DNS client recommendations](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/best-practices-for-dns-client-settings)
 - [Microsoft IPv6 guidance](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/configure-ipv6-in-windows)
 - [RFC 2606: reserved test domains](https://www.rfc-editor.org/info/rfc2606/)
+
+## 2026-10-05 — DC02 replication and DC01 corrections
+
+DC01 retains all five FSMO roles. Public DNS client settings (8.8.8.8 and 1.1.1.1) caused error 8524 for inbound replication from DC02; final adapter DNS is verified as 10.50.10.10 only. KCC and inbound synchronization succeeded afterward. Both DCs now pass basic DNS, Advertising, SysVolCheck, NetLogons and show SYSVOL DFSR State 4. Final replication summary has zero failures for both sources/destinations. Automatic AD/DNS tests passed both ways and were cleaned up.
+
+DC01 is configured as reliable forest-root PDC using time.windows.com,0x8; its guest VMICTimeProvider Enabled value was set to 0, Windows Time restarted, and Leap Indicator 0/external source verified. DC02 follows the domain hierarchy. DHCP scope option 006 advertises both 10.50.10.10 and 10.50.10.11; CL01 lease and fresh rafa authentication through DC02 verified. Local DC01 ADUC selector still showed Unavailable despite successful direct queries; both DCs showed Online from DC02. No outage failover or new backup is claimed. Details and actual commands: [DC02 journal](dc02-build.md).
