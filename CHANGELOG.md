@@ -6,7 +6,7 @@
 - Replaced the cross-discipline roadmap with a domain deployment checklist, retaining unfinished infrastructure checks and validation limits.
 - Moved planned penetration testing/detection and AI application security into a three-project series document; no follow-on implementation is claimed.
 - Removed future attacker/monitoring sizing from the current domain architecture. Retained existing guest inventory and historical change records.
-- GitHub repository name/description updates are tracked separately from documentation changes.
+- Renamed the GitHub repository to Active-Directory-Deployment-Lab and updated its domain-deployment description and topics; visibility remains private.
 
 ## 2026-10-05 — DC02 and bidirectional replication verified
 
