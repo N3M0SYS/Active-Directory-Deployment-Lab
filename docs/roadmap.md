@@ -58,7 +58,7 @@ Core deployment and replication validation are complete as of October 5, 2026. C
 
 - [x] Maintain build journals, architecture, inventory, recovery limits, and change history.
 - [x] Give this repository a domain-deployment-only README and scope.
-- [ ] Complete repository name/description changes in GitHub settings.
+- [x] Rename repository to Active-Directory-Deployment-Lab and update its description/topics.
 - [ ] Review and sanitize operational details before a public portfolio release.
 - [ ] Add approved visual evidence when available.
 
