@@ -9,7 +9,7 @@ GitHub is the source of truth for this project's documentation. Updates occur du
 3. Capture the result and validation evidence. Prefer GUI guidance; use commands when they materially help.
 4. Record problems, corrections, and rollback steps.
 5. Update inventory/architecture if the deployed state changed.
-6. Update the change log and phase checklist.
+6. Update the change log and deployment checklist.
 7. Commit with a short description of the verified outcome.
 
 Use [the exercise template](../templates/lab-exercise.md) for lab write-ups. Mark proposed, observed, and verified information explicitly.
@@ -29,7 +29,7 @@ No extra screenshots or recordings are required now. During deployment, capture 
 
 ## Evidence handling
 
-Suggested locations: evidence/screenshots/, evidence/videos/, and evidence/reports/. Create them when actual artifacts exist. Use names such as YYYY-MM-DD-phase-topic.png. Add a caption describing the test and outcome, and link evidence from its write-up.
+Suggested locations: evidence/screenshots/, evidence/videos/, and evidence/reports/. Create them when actual artifacts exist. Use names such as YYYY-MM-DD-deployment-topic.png. Add a caption describing the test and outcome, and link evidence from its write-up.
 
 Review captures before uploading: remove passwords, tokens, recovery keys, client information, unrelated windows, identifying host details, and management addresses not needed for the lesson. A private repository still needs this review. Prefer synthetic lab accounts/data.
 

@@ -1,5 +1,13 @@
 # Change log
 
+## 2026-10-05 — Domain deployment portfolio scope
+
+- Retitled the project documentation Active Directory Deployment Lab and rebuilt the README around demonstrated domain deployment and administration outcomes.
+- Replaced the cross-discipline roadmap with a domain deployment checklist, retaining unfinished infrastructure checks and validation limits.
+- Moved planned penetration testing/detection and AI application security into a three-project series document; no follow-on implementation is claimed.
+- Removed future attacker/monitoring sizing from the current domain architecture. Retained existing guest inventory and historical change records.
+- GitHub repository name/description updates are tracked separately from documentation changes.
+
 ## 2026-10-05 — DC02 and bidirectional replication verified
 
 - Deployed N3M0-DC02 at 10.50.10.11 as writable AD DS/DNS/GC; all FSMO roles remain on DC01.

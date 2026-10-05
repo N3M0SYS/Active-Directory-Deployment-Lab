@@ -1,4 +1,4 @@
-# Current and planned architecture
+# Domain deployment architecture
 
 Updated 2026-10-05. Results are based on session screenshots and operator reports.
 
@@ -57,12 +57,10 @@ DC01 external DNS and outbound TCP 443 passed. Firewall logs showed the test ICM
 | N3M0-CL01 (IT) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | N3M0-CL02 (Finance) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | N3M0-CL03 (HR) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
-| Kali / attacker VM | 4 | 4 GB | 80 GB | Placement and sizing proposed |
-| Wazuh | 4 | 8 GB | 200 GB | Prior sizing proposal; inspect existing VM first |
 
 All current project workloads run on the Hyper-V test server. Preserve retained ninjatest, VulScan, and Wazuh guests. Start workloads in phases and measure utilization. DC01's 2-vCPU correction was confirmed on 2026-09-10; older 20-vCPU observations are historical.
 
-A simulated external attacker segment remains a later option. No public service exposure is needed.
+Penetration testing and endpoint monitoring are planned in a separate [follow-on project](project-series.md). They are outside this deployment architecture.
 
 See [firewall and DHCP journal](firewall-dhcp-build.md) for settings, tests, and the next step.
 

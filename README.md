@@ -1,72 +1,63 @@
-# Security Engineering Lab
+# Active Directory Deployment Lab
 
-A hands-on progression from Active Directory administration and penetration testing to AI security engineering.
+A hands-on Windows domain deployment demonstrating AD DS, DNS, DHCP, Group Policy, departmental file access, and delegated administration on Hyper-V.
 
-**Owner:** N3M0SYS  
-**Platform:** Authorized company test server running Hyper-V  
-**Status (2026-10-05):** N3M0-DC02 is deployed. Two-way AD/DNS replication, SYSVOL/NETLOGON, time synchronization, and fresh standard-user Kerberos authentication through DC02 are verified. DHCP remains on DC01 and advertises both DNS servers. Windows activation remains out of scope.
+**Status:** Core domain deployment and two-way replication validated — October 5, 2026. Remaining infrastructure checks are tracked in the [deployment checklist](docs/roadmap.md).
 
-## Start here
+## What this project demonstrates
 
-- [Roadmap and phase checklists](docs/roadmap.md)
-- [Host and VM inventory](docs/inventory.md)
-- [Current and planned architecture](docs/architecture.md)
-- [DC01 build journal](docs/dc01-build.md)
-- [DC02 build and replication validation](docs/dc02-build.md)
-- [Firewall and DHCP build journal](docs/firewall-dhcp-build.md)
-- [Windows clients, domain users, and GPO journal](docs/windows-clients-build.md)
-- [FS01, departmental permissions, and drive mappings](docs/fs01-build.md)
-- [Recovery and backup status](docs/recovery.md)
-- [Documentation and evidence workflow](docs/documentation.md)
-- [Change log](CHANGELOG.md)
-- [Lab exercise template](templates/lab-exercise.md)
-- [Evidence folders](evidence/README.md)
+- Deploy a Windows Server 2025 forest and a second writable domain controller.
+- Configure AD-integrated DNS, Windows DHCP, and domain-joined Windows 11 clients.
+- Organize users, computers, and groups into OUs; apply workstation and user policies.
+- Use AGDLP groups, share/NTFS permissions, and group-targeted drive mappings.
+- Separate daily-use and administrative identities; delegate password reset and account unlock.
+- Troubleshoot DNS-related replication failures and validate directory services, time, and authentication.
 
-## Learning outcomes
+## Environment
 
-Build and administer a small enterprise Windows domain, assess it using authorized lab Windows clients, detect activity using Wazuh, remediate findings, and demonstrate improvement. Extend those skills into AI application security, including prompt injection, data exposure, agent permissions, and MCP tool access.
+```mermaid
+flowchart TD
+    FW["pfSense gateway"] --- LAN["Hyper-V private lab network"]
+    LAN --- DC1["DC01: AD DS / DNS / DHCP / FSMO"]
+    LAN --- DC2["DC02: AD DS / DNS / Global Catalog"]
+    LAN --- FS["FS01: Finance and HR file shares"]
+    LAN --- IT["CL01: IT management workstation"]
+    LAN --- FIN["CL02: Finance"]
+    LAN --- HR["CL03: HR"]
+```
 
-## Current state
+The lab uses `n3m0.test` on `10.50.10.0/24`. Both domain controllers run on one Hyper-V host. DHCP runs on DC01 and supplies both domain DNS servers. See the [architecture](docs/architecture.md) for addressing and configuration.
 
-- All current project workloads remain on the Hyper-V server.
-- Private switch: `Lab-Private-Switch`; subnet: `10.50.10.0/24`.
-- DC: `N3M0-DC01`, `10.50.10.10`; forest/domain: `n3m0.test`; vCPU: `2`; Memory: `4096 MB`; Generation: `2`.
-- N3M0-DC02: 10.50.10.11/24; Generation 2, 2 vCPUs, 4096 MB; writable AD DS/DNS/GC. Both DCs remain in Domain Controllers.
-- Both DCs pass basic DNS, Advertising, SYSVOL/NETLOGON, and report SYSVOL DFSR State 4. Final replication summary: zero failures in both directions; automatic AD object and DNS create/delete tests passed and test objects were removed.
-- DC01 DNS client was corrected to 10.50.10.10 only after public resolver settings caused replication failure. DC01 synchronizes time externally; DC02 follows DC01. All FSMO roles remain on DC01.
-- Windows Server Backup completed to `DC01-Backup (E:)`, transferring 15.32 GB. Restore testing and off-host protection remain pending.
-- pfSense N3M0-FW01: WAN via NIC2 / Lab-WAN-Switch; LAN 10.50.10.1/24 on Lab-Private-Switch.
-- N3M0-DC01 gateway 10.50.10.1; preferred DNS 10.50.10.10; DNS forwarder 10.50.10.1.
-- Windows DHCP on DC01: N3M0-Clients, 10.50.10.100–10.50.10.199; router 10.50.10.1; DNS 10.50.10.10 then 10.50.10.11; suffix n3m0.test.
-- External DNS and TCP 443 tested successfully; pfSense logs confirmed the upstream router ICMP test was blocked. Client leases are observed and all three domain joins/sign-ins succeeded per operator.
-- N3M0-CL01 (IT), CL02 (Finance), and CL03 (HR) use Lab-Private-Switch; observed DHCP addresses are 10.50.10.100, .101, and .102 respectively (not reservations).
-- N3M0-Lab contains Admins, Users, Workstations, Servers, and Groups OUs; all three client computer accounts are in Workstations.
-- Current standard domain users are `finance` (Finance Team), `hr` (HR Team), `lchen` (Lucy Chen, fictional IT user), and `rafa` (standard daily-use IT account).
-- `GG-Finance` and `GG-HR` represent Finance/HR membership. `GG-IT` is Global/Security and contains `lchen` and `rafa`; it grants no administrative privilege by itself.
-- `rafa-admin` exists in N3M0-Lab/Admins as a separate administrative identity. It is not a Domain Admin and is not in GG-IT.
-- Delegation on N3M0-Lab/Users grants `rafa-admin` password reset/force-change and custom Read/Write `lockoutTime` on User objects for account-unlock support.
-- Positive validation: `rafa-admin` reset Finance's password and forced a password change; Finance authenticated and changed it successfully. HR was intentionally subjected to failed logons under the configured lockout policy; `rafa-admin` unlocked HR and HR then authenticated successfully.
-- Negative validation: `rafa-admin` could not create users (New User unavailable) and could not modify GG-IT membership (Add disabled). Standard `rafa` attempted to reset HR's password and received Access is denied.
-- The separate Admins-OU password-reset boundary was not tested: ADUC displayed Reset Password on `rafa-admin`, but no reset was attempted.
-- CL01 is the IT management workstation and has the RSAT Active Directory DS/LDS tools installed. CL02 and CL03 remain ordinary department clients and do not require RSAT.
-- Default Domain Policy account-lockout settings observed after configuration: threshold 5 invalid attempts, duration 10 minutes, reset counter after 10 minutes; Allow Administrator account lockout showed Enabled.
-- N3M0-Workstations-LogonNotice is linked to Workstations; its sign-in notice appeared on all three clients per operator.
-- Client updates completed per operator; installation ISOs ejected from all three clients per operator. Windows activation is intentionally not being purchased or pursued for these disposable project VMs.
-- N3M0-FS01 uses 10.50.10.20/24, gateway 10.50.10.1, and DNS 10.50.10.10 following the guided configuration. Servers OU placement was part of the completed build batch.
-- Finances and HR shares use domain-local Modify groups containing GG-Finance and GG-HR. The Shared parent share was removed per operator completion report.
-- N3M0-Department-Drives is linked to N3M0-Lab/Users, with user-group item-level targeting for Finance/HR S: mappings. Both automatic recreation tests passed per operator.
-- FS01 updates complete and installation ISO ejected per operator. Activation is intentionally not being pursued for this lab VM.
-- CL01 renewed DHCP options and received both DNS servers. Standard rafa obtained fresh TGT/service tickets with DC02 as Kdc Called; user policy refresh passed. Temporary DC preference was removed. Full outage failover was not tested.
-- Existing ninjatest, VulScan, and Wazuh guests are retained.
+## Validation highlights
 
-## Current priorities
+| Area | Demonstrated result | Evidence |
+|---|---|---|
+| AD replication | All five naming contexts replicated both ways; final summary showed zero failures | [DC02 deployment](docs/dc02-build.md) |
+| AD-integrated DNS | Test record creation and deletion propagated between both DNS servers | [DC02 deployment](docs/dc02-build.md) |
+| Domain controller services | Basic DNS, Advertising, SYSVOL/NETLOGON passed; SYSVOL DFSR State 4 on both | [DC02 deployment](docs/dc02-build.md) |
+| Authentication | Standard user obtained fresh Kerberos tickets issued by DC02; user policy refresh succeeded | [Client configuration](docs/windows-clients-build.md) |
+| DHCP and clients | Three clients joined the domain; CL01 renewed and received both DNS servers | [Network services](docs/firewall-dhcp-build.md) |
+| Delegated administration | Password reset and unlock succeeded; unauthorized user creation/group changes were denied | [Identity and delegation](docs/windows-clients-build.md) |
+| Departmental access | File operations, cross-department denial, and automatic drive recreation passed per operator | [File server deployment](docs/fs01-build.md) |
 
-1. Finish DC02 housekeeping: updates, ISO ejection, and external DNS/forwarder verification; replication milestone is complete.
-2. Later expand monitoring/detection with Wazuh.
-3. Later evaluate an attacker VM on a separate simulated external segment; public exposure is not required.
+Evidence consists of reviewed session screenshots and operator reports, distinguished in the journals. Raw screenshots and credentials are not committed.
 
-## Working agreement
+## Explore the build
 
-Explain the procedure first and provide GUI steps in useful batches; request screenshots for errors or meaningful validation rather than every wizard page. Prefer the GUI; use PowerShell when it provides a clear benefit. Reuse confirmed information rather than repeating baseline checks without a reason. Document current state, recovery limitations, and relevant rollback. This is a disposable test server: the operator accepts rebuilding it, and host backups are not a prerequisite. Updates are based on session evidence, not unattended monitoring.
+1. [Deployment checklist and remaining work](docs/roadmap.md)
+2. [Network and domain architecture](docs/architecture.md)
+3. [DC01: forest deployment and initial backup](docs/dc01-build.md)
+4. [Firewall, DNS forwarding, and DHCP](docs/firewall-dhcp-build.md)
+5. [Windows clients, OUs, Group Policy, and delegation](docs/windows-clients-build.md)
+6. [FS01: departmental permissions and mapped drives](docs/fs01-build.md)
+7. [DC02: replication troubleshooting and validation](docs/dc02-build.md)
 
-The prior wipe-and-rebuild decision remains relevant to loss of the host. A local DC01 guest backup now exists, superseding the previous blanket statement that no backups are configured. GitHub stores documentation, not VM backups.
+Supporting records: [inventory](docs/inventory.md), [recovery limits](docs/recovery.md), [documentation workflow](docs/documentation.md), and [change log](CHANGELOG.md).
+
+## Scope and limitations
+
+This repository covers domain deployment, configuration, and administration. Penetration testing, endpoint detection/response, and AI application security belong to separate follow-on projects described in the [project series](docs/project-series.md).
+
+Full DC01 outage failover has not been tested. Both DCs share one host; DHCP has no failover partner. DC01 has a local guest backup, with no restore test or off-host protection verified. DC02 updates, installation-media cleanup, external DNS forwarding checks, and broader network-isolation checks remain open. An unresolved local ADUC status label on DC01 is documented alongside successful service and replication checks.
+
+The environment is an authorized disposable lab. Windows activation is intentionally outside project scope.
