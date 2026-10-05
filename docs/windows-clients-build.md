@@ -169,3 +169,9 @@ Operator initially had manual S: mappings, so their initial presence was not suf
 ## Recovery notes
 
 This remains an authorized disposable lab; host backups are not a prerequisite. Existing DC01 backup predates these AD changes, client deployment, FS01 permissions, and delegation changes; no refreshed backup or client backup is claimed. Local client setup accounts remain available for local recovery. Rollback of the new delegation or lockout policy has not been exercised.
+
+## 2026-10-05 — Dual DNS and live DC02 authentication
+
+DC01 DHCP scope option 006 now advertises 10.50.10.10 then 10.50.10.11. CL01 renewed its lease; ipconfig /all captured hostname N3M0-CL01, DHCP enabled, 10.50.10.100/24, gateway 10.50.10.1, n3m0.test primary/connection suffix, DHCP server 10.50.10.10, and both DNS servers. CL02/CL03 options were not recaptured.
+
+In CL01's standard rafa session, whoami showed n3m0\\rafa. An elevated Administrator window temporarily set DC02 as preferred KDC with klist add_bind. Rafa's normal window purged its own tickets and successfully requested host/N3M0-DC02.n3m0.test. New TGT and service ticket both showed Client rafa, AES-256 encryption, and Kdc Called N3M0-DC02.n3m0.test. This proves fresh online Kerberos through DC02 beyond cached interactive sign-in; full DC01 outage failover was not tested. klist purge_bind succeeded in an elevated window to remove the preference. Rafa's gpupdate /target:user /force passed. No standard-user or delegated-admin privileges were expanded. See [DC02 journal](dc02-build.md).
