@@ -50,13 +50,13 @@ A screenshot initially showed the block above the DNS exception; the operator co
 | Lease duration | 8 days |
 | Exclusions | None; infrastructure addresses are outside the pool |
 | Option 003 Router | 10.50.10.1 |
-| Option 006 DNS Servers | 10.50.10.10 only |
+| Option 006 DNS Servers | 10.50.10.10 then 10.50.10.11 (verified 2026-10-05) |
 | Option 015 DNS Domain Name | n3m0.test |
 | WINS | Not configured |
 | Scope activation | Completed per operator |
 | Client validation | CL01 10.50.10.100, CL02 .101, CL03 .102 observed in Address Leases; operator reports leasing works |
 
-The scope name is N3M0-Clients, not the initially suggested Lab-Clients. Domain clients use DC01 for DNS; DC01 forwards external queries to pfSense.
+The scope name is N3M0-Clients, not the initially suggested Lab-Clients. Domain clients receive DC01 and DC02 for DNS; DC01's existing external forwarder is pfSense. DC02 external forwarding has not been separately captured.
 
 ## Validation evidence
 
@@ -80,3 +80,7 @@ This is an authorized disposable test server; full rebuild is accepted. No host-
 Hyper-V console access remains available. To isolate the uplink if needed, disconnect the firewall WAN virtual adapter while preserving NIC1 host management and the private switch; rollback has not been tested.
 
 Client deployment, DHCP leases, joins, domain authentication, and the logon-notice GPO milestone are complete. Update 2026-09-29: FS01 and departmental permission tests are complete; see [FS01 journal](fs01-build.md). Next: separate administration accounts and scoped delegation. Client-side option capture and broader isolation validation remain separate pending checks. See [Windows client journal](windows-clients-build.md).
+
+## 2026-10-05 — DC02 DNS and DHCP option update
+
+DC02 10.50.10.11 is deployed with verified AD-integrated DNS replication. DHCP remains only on DC01; scope option 006 now advertises DC01 then DC02. CL01 renewal and full ipconfig verified both DNS servers, /24 mask, gateway 10.50.10.1, suffix n3m0.test and DHCP server 10.50.10.10. Other clients' option renewal was not recaptured. No firewall rule change or DHCP failover was performed. DC01 public DNS client settings were corrected to internal DNS only; external forwarding remains a DNS-server setting. See [DC02 journal](dc02-build.md).
