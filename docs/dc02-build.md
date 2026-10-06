@@ -126,3 +126,8 @@ klist add_bind and purge_bind require elevation. An elevated CL01 window tempora
 ## 2026-10-06 — DC02 housekeeping and external DNS
 
 Operator confirmed Windows updates completed and the installation ISO was ejected in Hyper-V. Resolve-DnsName www.microsoft.com -Server 10.50.10.11 returned CNAME, AAAA, and A records (observed IPv4 answer 173.223.1.196). DNS Manager on N3M0-DC02 showed forwarder 10.50.10.1 (N3M0-FW01.home.arpa), with root-hints fallback enabled. This verifies external resolution and the configured forwarder; it does not independently establish whether that specific query used forwarding, cache, or root hints. No raw screenshots were committed.
+
+
+## 2026-10-06 — Post-update replication check
+
+Reviewed repadmin /replsummary output captured at guest time 07:24:19. DC01 and DC02 each showed 0/5 failures (0%) in both Source DSA and Destination DSA tables, with no error entries. Largest deltas ranged from 30m10s to 36m27s. This confirms successful replication in the summary after the operator-confirmed DC02 updates; it does not establish full outage failover. No raw screenshot committed.
