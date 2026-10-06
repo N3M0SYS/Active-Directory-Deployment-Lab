@@ -18,9 +18,9 @@ Use [the exercise template](../templates/lab-exercise.md) for lab write-ups. Mar
 
 | Artifact | Workflow |
 |---|---|
-| Notes, checklists, inventories | Assistant drafts and updates from verified session results |
-| Network diagrams | Assistant maintains Mermaid source rendered by GitHub |
-| Screenshots from host/guests | Operator captures when requested and uploads for review |
+| Notes, checklists, inventories | Operator drafts and updates each session results |
+| Network diagrams | Operator maintains Mermaid source rendered by GitHub |
+| Screenshots from host/guests | Operator captures and uploads for review |
 | Videos | Operator records short demonstrations; add approved links or selected clips |
 | PDFs | Optional exports for sharing/printing; Markdown remains the editable source |
 | Commands and scripts | Commit only reviewed procedures actually intended for the lab |
