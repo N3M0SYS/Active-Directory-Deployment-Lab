@@ -13,7 +13,7 @@ Work completed across the 2026-09-09–10 session; documentation updated 2026-09
 | Generation | 2 |
 | Secure Boot | On; MicrosoftWindows template in reviewed firmware output |
 | RAM | 4096 MB |
-| CPU | 2 virtual processors; correction confirmed by the operator on 2026-09-10 |
+| CPU | 2 virtual processors |
 | OS disk | N3M0-DC01.vhdx; 60 GB |
 | OS | Windows Server 2025 Standard Evaluation, Desktop Experience selected during guided installation |
 | Network | Lab-Private-Switch; Private |
