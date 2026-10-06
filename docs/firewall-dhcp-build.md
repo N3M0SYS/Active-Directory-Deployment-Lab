@@ -56,7 +56,7 @@ A screenshot initially showed the block above the DNS exception; the operator co
 | Scope activation | Completed per operator |
 | Client validation | CL01 10.50.10.100, CL02 .101, CL03 .102 observed in Address Leases; operator reports leasing works |
 
-The scope name is N3M0-Clients, not the initially suggested Lab-Clients. Domain clients receive DC01 and DC02 for DNS; DC01's existing external forwarder is pfSense. DC02 external forwarding has not been separately captured.
+The scope name is N3M0-Clients, not the initially suggested Lab-Clients. Domain clients receive DC01 and DC02 for DNS; DC01's existing external forwarder is pfSense. DC02 forwarder 10.50.10.1 and enabled root-hints fallback were captured 2026-10-06; external resolution through DC02 passed.
 
 ## Validation evidence
 
@@ -84,3 +84,8 @@ Client deployment, DHCP leases, joins, domain authentication, and the logon-noti
 ## 2026-10-05 — DC02 DNS and DHCP option update
 
 DC02 10.50.10.11 is deployed with verified AD-integrated DNS replication. DHCP remains only on DC01; scope option 006 now advertises DC01 then DC02. CL01 renewal and full ipconfig verified both DNS servers, /24 mask, gateway 10.50.10.1, suffix n3m0.test and DHCP server 10.50.10.10. Other clients' option renewal was not recaptured. No firewall rule change or DHCP failover was performed. DC01 public DNS client settings were corrected to internal DNS only; external forwarding remains a DNS-server setting. See [DC02 journal](dc02-build.md).
+
+
+## 2026-10-06 — DC02 housekeeping and external DNS
+
+Operator confirmed Windows updates completed and the installation ISO was ejected in Hyper-V. Resolve-DnsName www.microsoft.com -Server 10.50.10.11 returned CNAME, AAAA, and A records (observed IPv4 answer 173.223.1.196). DNS Manager on N3M0-DC02 showed forwarder 10.50.10.1 (N3M0-FW01.home.arpa), with root-hints fallback enabled. This verifies external resolution and the configured forwarder; it does not independently establish whether that specific query used forwarding, cache, or root hints. No raw screenshots were committed.
