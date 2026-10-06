@@ -1,5 +1,10 @@
 # Change log
 
+## 2026-10-06 — Post-update replication verified
+
+- Reviewed repadmin /replsummary: both DCs showed 0/5 failures (0%) as sources and destinations, with no errors.
+- Largest deltas ranged from 30m10s to 36m27s; no forced synchronization or additional configuration change was needed.
+
 ## 2026-10-06 — DC02 housekeeping complete
 
 - Operator confirmed DC02 Windows updates completed and its installation ISO was ejected.
