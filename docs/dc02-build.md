@@ -21,7 +21,7 @@ Evidence is reviewed session screenshots and explicit operator confirmations acr
 | Roles | Writable AD DS, DNS, GC; both DCs shown as GC |
 | FSMO | All five roles remain on N3M0-DC01, verified with netdom query fsmo |
 | DHCP | DC01 only; no DHCP failover configured |
-| DNS forwarder | DC01's previously verified forwarder is 10.50.10.1; DC02 forwarder not separately captured |
+| DNS forwarder | DC01's previously verified forwarder is 10.50.10.1; DC02 forwarder 10.50.10.1 captured 2026-10-06; root-hints fallback enabled |
 | Time | DC01 uses time.windows.com,0x8; DC02 uses N3M0-DC01.n3m0.test |
 
 Installed/renamed Windows, configured static networking and DC01 DNS, joined the existing domain, then installed AD DS using Server Manager. Promotion used the existing domain, DNS and GC enabled, RODC unchecked, DC01 as guided replication source, private DSRM password, and default NTDS/log/SYSVOL paths. Prerequisites passed with the expected isolated-domain parent DNS delegation warning. Promotion and restart succeeded.
@@ -106,7 +106,7 @@ klist add_bind and purge_bind require elevation. An elevated CL01 window tempora
 ## Limits, cleanup, and recovery
 
 - A full DC01 outage/failover exercise was not performed. Fresh live Kerberos through DC02 passed while both DCs stayed online.
-- DC02 update completion, installation ISO ejection, explicit external-DNS/forwarder check, and a new backup are not claimed.
+- DC02 updates and ISO ejection were confirmed 2026-10-06; external DNS and forwarder configuration were verified that day. A new backup is not claimed.
 - CL02/CL03 DNS-option renewal was not recaptured; FS01 retains its existing DNS configuration. Departmental shares were not retested during this milestone.
 - Test AD group and DNS record removed; temporary Kerberos preference and debug logging removed.
 - Both DCs share one Hyper-V host. This adds directory/DNS service redundancy, not host-level availability.
@@ -121,3 +121,8 @@ klist add_bind and purge_bind require elevation. An elevated CL01 window tempora
 - [Windows Time tools](https://learn.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings)
 - [Root PDC time source](https://learn.microsoft.com/en-us/services-hub/microsoft-engage-center/health/remediation-steps-ad/configure-the-root-pdc-with-an-authoritative-time-source-and-avoid-widespread-time-skew)
 - [klist](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/klist)
+
+
+## 2026-10-06 — DC02 housekeeping and external DNS
+
+Operator confirmed Windows updates completed and the installation ISO was ejected in Hyper-V. Resolve-DnsName www.microsoft.com -Server 10.50.10.11 returned CNAME, AAAA, and A records (observed IPv4 answer 173.223.1.196). DNS Manager on N3M0-DC02 showed forwarder 10.50.10.1 (N3M0-FW01.home.arpa), with root-hints fallback enabled. This verifies external resolution and the configured forwarder; it does not independently establish whether that specific query used forwarding, cache, or root hints. No raw screenshots were committed.
