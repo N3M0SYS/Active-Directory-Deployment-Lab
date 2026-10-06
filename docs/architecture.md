@@ -58,7 +58,6 @@ DC01 external DNS and outbound TCP 443 passed. Firewall logs showed the test ICM
 | N3M0-CL02 (Finance) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | N3M0-CL03 (HR) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 
-All current project workloads run on the Hyper-V test server. Preserve retained ninjatest, VulScan, and Wazuh guests. Start workloads in phases and measure utilization. DC01's 2-vCPU correction was confirmed on 2026-09-10; older 20-vCPU observations are historical.
 
 Penetration testing and endpoint monitoring are planned in a separate [follow-on project](project-series.md). They are outside this deployment architecture.
 
