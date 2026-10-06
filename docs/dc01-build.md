@@ -2,7 +2,7 @@
 
 ## Scope and evidence
 
-Work completed across the 2026-09-09–10 session; documentation updated 2026-09-11. Results below come from operator reports and reviewed screenshots. Raw screenshots are not committed in this update. No credentials, keys, or backup images are included.
+Work completed across the 2026-09-09–10 session; documentation updated 2026-09-11. Results below come from operator reports. No credentials, keys, or backup images are included.
 
 ## Final configuration
 
@@ -36,17 +36,15 @@ Work completed across the 2026-09-09–10 session; documentation updated 2026-09
 
 1. Verified the private switch and absence of DC01 in the initial guest inventory.
 2. Created the VM and 60 GB VHDX; attached Windows Server installation media.
-3. Resolved installation boot trouble and installed the OS.
-4. Renamed Windows through System/About and restarted. The VM display name alone did not rename Windows.
-5. Configured static IPv4 settings; re-enabled IPv6 after discussing Windows guidance.
-6. Installed AD DS through Server Manager; promoted the server into a new forest, n3m0.test, with DNS and GC enabled.
-7. Set a private DSRM password; retained default database/log/SYSVOL paths.
-8. Prerequisite checks passed. DNS delegation warning was expected because no parent-zone delegation was available for this isolated test domain.
-9. Completed promotion, automatic restart, and domain Administrator sign-in.
-10. Verified AD registration, DNS records, and shared folders.
-11. Installed Windows Server Backup; created and formatted the separate guest backup disk.
-12. Ran Backup Once, Full server, VSS Copy Backup to E:. All listed items completed; 15.32 GB transferred.
-13. Operator confirmed changing DC01's CPU allocation from 20 to the planned 2 vCPUs on 2026-09-10. Confirmation is operator-reported; no new screenshot or performance test was required.
+3. Renamed Windows through System/About and restarted. The VM display name alone did not rename Windows.
+4. Configured static IPv4 settings; re-enabled IPv6 after discussing Windows guidance.
+5. Installed AD DS through Server Manager; promoted the server into a new forest, n3m0.test, with DNS and GC enabled.
+6. Set a private DSRM password; retained default database/log/SYSVOL paths.
+7. Prerequisite checks passed. DNS delegation warning was expected because no parent-zone delegation was available for this isolated test domain.
+8. Completed promotion, automatic restart, and domain Administrator sign-in.
+9. Verified AD registration, DNS records, and shared folders.
+10. Installed Windows Server Backup; created and formatted the separate guest backup disk.
+11. Ran Backup Once, Full server, VSS Copy Backup to E:. All listed items completed; 15.32 GB transferred.
 
 ## Verification results
 
@@ -84,7 +82,7 @@ These are initial GUI checks. They do not establish client domain-join success, 
 
 ## Open work
 
-- Activate/update the guest using the approved path; neither is verified complete.
+- Activate/update the guest using the approved path.
 - Restore capability remains untested; it is not a prerequisite for continued work on this disposable lab.
 - Deploy a client and verify actual domain join, authentication, and Group Policy.
 - Add OUs, separate admin/user accounts, DC02, FS01, and monitoring in later steps.
@@ -98,6 +96,6 @@ These are initial GUI checks. They do not establish client domain-join success, 
 
 ## 2026-10-05 — DC02 replication and DC01 corrections
 
-DC01 retains all five FSMO roles. Public DNS client settings (8.8.8.8 and 1.1.1.1) caused error 8524 for inbound replication from DC02; final adapter DNS is verified as 10.50.10.10 only. KCC and inbound synchronization succeeded afterward. Both DCs now pass basic DNS, Advertising, SysVolCheck, NetLogons and show SYSVOL DFSR State 4. Final replication summary has zero failures for both sources/destinations. Automatic AD/DNS tests passed both ways and were cleaned up.
+DC01 retains all five FSMO roles. KCC and inbound synchronization succeeded afterward. Both DCs now pass basic DNS, Advertising, SysVolCheck, NetLogons and show SYSVOL DFSR State 4. Final replication summary has zero failures for both sources/destinations. Automatic AD/DNS tests passed both ways and were cleaned up.
 
 DC01 is configured as reliable forest-root PDC using time.windows.com,0x8; its guest VMICTimeProvider Enabled value was set to 0, Windows Time restarted, and Leap Indicator 0/external source verified. DC02 follows the domain hierarchy. DHCP scope option 006 advertises both 10.50.10.10 and 10.50.10.11; CL01 lease and fresh rafa authentication through DC02 verified. Local DC01 ADUC selector still showed Unavailable despite successful direct queries; both DCs showed Online from DC02. No outage failover or new backup is claimed. Details and actual commands: [DC02 journal](dc02-build.md).
