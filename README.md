@@ -2,7 +2,7 @@
 
 A hands-on Windows domain deployment demonstrating AD DS, DNS, DHCP, Group Policy, departmental file access, and delegated administration on Hyper-V.
 
-**Status:** Core domain deployment and two-way replication validated — October 5, 2026. Remaining infrastructure checks are tracked in the [deployment checklist](docs/roadmap.md).
+**Status:** Core domain deployment and two-way replication on October 5, 2026. Remaining infrastructure checks are tracked in the [deployment checklist](docs/roadmap.md).
 
 ## What this project demonstrates
 
