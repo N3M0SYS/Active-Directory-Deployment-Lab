@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-10-06 — DC02 housekeeping complete
+
+- Operator confirmed DC02 Windows updates completed and its installation ISO was ejected.
+- Verified external DNS resolution through 10.50.10.11 returned CNAME, IPv4, and IPv6 records.
+- Reviewed DC02 DNS Manager: forwarder 10.50.10.1 (pfSense), with root-hints fallback enabled. Exact query forwarding/cache/fallback path was not independently traced.
+- Updated current deployment documentation; no new backup, outage-failover result, or broader isolation validation claimed.
+
 ## 2026-10-05 — Domain deployment portfolio scope
 
 - Retitled the project documentation Active Directory Deployment Lab and rebuilt the README around demonstrated domain deployment and administration outcomes.
