@@ -58,6 +58,6 @@ Supporting records: [inventory](docs/inventory.md), [recovery limits](docs/recov
 
 This repository covers domain deployment, configuration, and administration. Penetration testing, endpoint detection/response, and AI application security belong to separate follow-on projects described in the [project series](docs/project-series.md).
 
-Full DC01 outage failover has not been tested. Both DCs share one host; DHCP has no failover partner. DC01 has a local guest backup, with no restore test or off-host protection verified. DC02 updates, installation-media cleanup, external DNS forwarding checks, and broader network-isolation checks remain open. An unresolved local ADUC status label on DC01 is documented alongside successful service and replication checks.
+Full DC01 outage failover has not been tested. Both DCs share one host; DHCP has no failover partner. DC01 has a local guest backup, with no restore test or off-host protection verified. DC02 updates and ISO ejection were confirmed by the operator on October 6, 2026; external DNS resolution and its pfSense forwarder configuration were verified. Broader network-isolation checks remain open. An unresolved local ADUC status label on DC01 is documented alongside successful service and replication checks.
 
 The environment is an authorized disposable lab. Windows activation is intentionally outside project scope.
