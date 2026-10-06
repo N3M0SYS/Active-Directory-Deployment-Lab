@@ -50,7 +50,7 @@ Core deployment and replication validation are complete as of October 5, 2026. C
 - [x] Advertise both DNS servers through DHCP and capture CL01 renewal.
 - [x] Verify fresh standard-user Kerberos tickets issued by DC02 and successful user policy refresh.
 - [x] Remove temporary KDC preference and disable diagnostic logging.
-- [ ] Finish DC02 updates, ISO ejection, and explicit external DNS/forwarder checks.
+- [x] Finish DC02 updates and ISO ejection per operator; verify external DNS resolution and pfSense forwarder configuration (2026-10-06).
 - [ ] Investigate the DC01-local ADUC availability label if it persists.
 - [ ] Optional controlled DC01 outage exercise; no failover result is currently claimed.
 
