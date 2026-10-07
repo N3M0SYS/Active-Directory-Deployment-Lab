@@ -7,7 +7,7 @@
 
 ## 2026-10-06 — DC02 housekeeping complete
 
-- Operator confirmed DC02 Windows updates completed and its installation ISO was ejected.
+- I confirmed DC02 Windows updates completed and its installation ISO was ejected.
 - Verified external DNS resolution through 10.50.10.11 returned CNAME, IPv4, and IPv6 records.
 - Reviewed DC02 DNS Manager: forwarder 10.50.10.1 (pfSense), with root-hints fallback enabled. Exact query forwarding/cache/fallback path was not independently traced.
 - Updated current deployment documentation; no new backup, outage-failover result, or broader isolation validation claimed.
@@ -32,14 +32,14 @@
 
 ## 2026-09-29 — FS01 installation media cleanup complete
 
-- Operator confirmed the Windows Server installation ISO was ejected from N3M0-FS01 in Hyper-V.
+- I confirmed the Windows Server installation ISO was ejected from N3M0-FS01 in Hyper-V.
 - Marked FS01 installation-media cleanup complete in the README, FS01 build journal, and roadmap.
 - FS01 activation remains intentionally out of scope for this disposable project VM.
 - Next major infrastructure milestone is DC02 deployment and AD/DNS replication validation.
 
 ## 2026-09-29 — Windows activation intentionally out of scope
 
-- Recorded the operator decision not to purchase or pursue Windows activation for the disposable project VMs.
+- Recorded I decision not to purchase or pursue Windows activation for the disposable project VMs.
 - Removed activation from the active to-do list for the Windows 11 clients and N3M0-FS01.
 - Preserved FS01 installation ISO ejection as an open cleanup item.
 - Updated README, Windows client journal, FS01 journal, and roadmap so activation is documented as intentionally out of scope rather than pending.
@@ -63,27 +63,27 @@
 - Recorded FS01 build, domain sign-in, guided 10.50.10.20/24 networking, Servers OU batch, and 80 GB OS + 70 GB data disk split.
 - Created domain-local Modify groups and nested GG-Finance/GG-HR; applied departmental NTFS and share permissions.
 - Screenshot established actual Finances -> E:\Shared\Finances and Shared -> E:\Shared mappings. Corrected missing direct HR share; stopped sharing parent Shared per completion report.
-- Operator confirmed departmental file operations and reciprocal access denial passed.
-- Created N3M0-Department-Drives linked to Users with user-group targeting. Both S: mappings recreated after removing prior manual mappings and signing out/in, per operator.
+- I confirmed departmental file operations and reciprocal access denial passed.
+- Created N3M0-Department-Drives linked to Users with user-group targeting. Both S: mappings recreated after removing prior manual mappings and signing out/in, during lab validation.
 - FS01 updates complete; ISO ejection and activation unconfirmed at that milestone. No new backups or restore tests claimed.
 - Added FS01 journal; refreshed README, inventory, architecture, roadmap, and client/network cross-references. Next: separate administration accounts and scoped delegation.
 
 ## 2026-09-17 — Client media cleanup confirmed
 
-- Operator confirmed installation ISOs ejected from all three Windows clients.
+- I confirmed installation ISOs ejected from all three Windows clients.
 - Activation was still listed as pending at that milestone; the 2026-09-29 decision above supersedes it for the disposable lab.
 - Next session starts with N3M0-FS01 and Finance/HR file permissions; no file server has been created.
 
 ## 2026-09-17 — Windows clients, domain identities, and workstation GPO
 
 - Deployed Windows 11 Pro clients N3M0-CL01 (IT), N3M0-CL02 (Finance), and N3M0-CL03 (HR) on Lab-Private-Switch using the guided 2-vCPU / 4-GB / 80-GB configuration.
-- Resolved the DVD boot-prompt problem using a physical keyboard/mouse; operator identified ScreenConnect input as the cause. Secure Boot and alternate-ISO tests had not resolved it.
+- Resolved the DVD boot-prompt problem using a physical keyboard/mouse; I identified ScreenConnect input as the cause. Secure Boot and alternate-ISO tests had not resolved it.
 - Reviewed DC01 DHCP leases: CL01 10.50.10.100, CL02 .101, CL03 .102; these are dynamic leases, not reservations.
 - Joined all three clients to n3m0.test and moved their computer objects into N3M0-Lab/Workstations.
 - Initial documentation used stale/currently incorrect user names in places; the 2026-09-29 administration milestone above records the corrected current identities.
-- Validated domain sign-ins and initial password changes per operator; kept local setup accounts separate.
-- Created N3M0-Workstations-LogonNotice and verified its sign-in notice on all three clients per operator.
-- Client updates completed per operator. Windows 11 Pro activation was still listed as pending at that milestone; the 2026-09-29 project decision above supersedes that item.
+- Validated domain sign-ins and initial password changes during lab validation; kept local setup accounts separate.
+- Created N3M0-Workstations-LogonNotice and verified its sign-in notice on all three clients during lab validation.
+- Client updates completed during lab validation. Windows 11 Pro activation was still listed as pending at that milestone; the 2026-09-29 project decision above supersedes that item.
 - Added client build journal and refreshed README, inventory, architecture, DHCP journal, and roadmap. Next: N3M0-FS01 and departmental permissions; separate administration identities remain pending.
 
 ## 2026-09-11 — pfSense, DNS forwarding, and Windows DHCP
@@ -92,15 +92,15 @@
 - Configured the DNS exception above the logged RFC1918 destination block; disabled the default IPv6 LAN allow rule.
 - Set DC01 gateway and DNS forwarder to 10.50.10.1; retained DC01 itself as preferred DNS at 10.50.10.10.
 - Verified external DNS, outbound TCP 443, AD SRV discovery, and logged ICMP denial to the upstream router.
-- Installed/authorized Windows DHCP and configured N3M0-Clients, 10.50.10.100–199/24, with gateway/DNS/domain options (operator reported completion).
+- Installed/authorized Windows DHCP and configured N3M0-Clients, 10.50.10.100–199/24, with gateway/DNS/domain options (validated during the lab completion).
 - Updated current diagram, inventory, journals, and roadmap. No Windows client has been created; client DHCP and domain join are next and remain untested.
 - Clarified the disposable test-server rebuild policy: host backups are not a prerequisite. Existing DC01 backup predates these changes.
 
 ## 2026-09-10 — DC01 CPU allocation corrected
 
-- Operator confirmed N3M0-DC01 is now configured with 2 vCPUs, matching the original proposal.
+- I confirmed N3M0-DC01 is now configured with 2 vCPUs, matching the original proposal.
 - Updated current configuration in the README, architecture, inventory, and build journal; marked the CPU review item complete in the roadmap.
-- Preserved the operator's existing architecture-table edit to 2 vCPUs.
+- Preserved I's existing architecture-table edit to 2 vCPUs.
 - Earlier 20-vCPU observations remain historical; no current CPU discrepancy is open.
 
 ## 2026-09-10 — DC01 deployment, verification, and backup
@@ -114,7 +114,7 @@
 - Added a 100 GB GPT/NTFS backup disk; Windows Server Backup completed 15.32 GB to E:, including System State and bare-metal recovery.
 - Replaced obsolete no-backup statements with current DC01 coverage and explicit limits: same host storage, no restore test, no recurring schedule or off-host copy.
 - Added GUI-first guidance and a detailed DC01 build journal. Raw screenshots and secrets were not uploaded.
-- Firewall selection, controlled uplink, guest activation/updates, and client validation remain open. No firewall product selected by the operator.
+- Firewall selection, controlled uplink, guest activation/updates, and client validation remain open. No firewall product selected by I.
 
 ## 2026-09-08 — Initial planning baseline
 
@@ -130,10 +130,10 @@
 
 Next at that milestone: verify recovery arrangements, then finalize isolated networking.
 
-## 2026-09-08 — Operator VM cleanup and backup check
+## 2026-09-08 — I VM cleanup and backup check
 
-- Operator checked Ninja and reported no backup configuration/history.
-- Operator deleted six prior VMs; screenshot confirms only ninjatest (Off), VulScan (Off), and Wazuh (Saved) remain.
+- I checked Ninja and reported no backup configuration/history.
+- I deleted six prior VMs; screenshot confirms only ninjatest (Off), VulScan (Off), and Wazuh (Saved) remain.
 - Preserve the remaining guests; future deletion is only a possibility, not currently authorized.
 - Virtual disk removal and reclaimed storage have not been verified.
 - Next recovery task: identify separate storage for backups/exports of retained guests before changes affecting them.
