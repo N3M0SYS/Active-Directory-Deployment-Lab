@@ -38,9 +38,9 @@ The lab uses `n3m0.test` on `10.50.10.0/24`. Both domain controllers run on one 
 | Authentication | Standard user obtained fresh Kerberos tickets issued by DC02; user policy refresh succeeded | [Client configuration](docs/windows-clients-build.md) |
 | DHCP and clients | Three clients joined the domain; CL01 renewed and received both DNS servers | [Network services](docs/firewall-dhcp-build.md) |
 | Delegated administration | Password reset and unlock succeeded; unauthorized user creation/group changes were denied | [Identity and delegation](docs/windows-clients-build.md) |
-| Departmental access | File operations, cross-department denial, and automatic drive recreation passed per operator | [File server deployment](docs/fs01-build.md) |
+| Departmental access | File operations, cross-department denial, and automatic drive recreation passed during lab validation | [File server deployment](docs/fs01-build.md) |
 
-Evidence consists of reviewed session screenshots and operator reports, distinguished in the journals. Raw screenshots and credentials are not committed.
+Evidence consists of reviewed session screenshots and lab notes, distinguished in the journals. Raw screenshots and credentials are not committed.
 
 ## Explore the build
 
@@ -58,6 +58,6 @@ Supporting records: [inventory](docs/inventory.md), [recovery limits](docs/recov
 
 This repository covers domain deployment, configuration, and administration. Penetration testing, endpoint detection/response, and AI application security belong to separate follow-on projects described in the [project series](docs/project-series.md).
 
-Full DC01 outage failover has not been tested. Both DCs share one host; DHCP has no failover partner. DC01 has a local guest backup, with no restore test or off-host protection verified. DC02 updates and ISO ejection were confirmed by the operator on October 6, 2026; external DNS resolution and its pfSense forwarder configuration were verified. Broader network-isolation checks remain open. An unresolved local ADUC status label on DC01 is documented alongside successful service and replication checks.
+Full DC01 outage failover has not been tested. Both DCs share one host; DHCP has no failover partner. DC01 has a local guest backup, with no restore test or off-host protection verified. DC02 updates and ISO ejection were confirmed by I on October 6, 2026; external DNS resolution and its pfSense forwarder configuration were verified. Broader network-isolation checks remain open. An unresolved local ADUC status label on DC01 is documented alongside successful service and replication checks.
 
 The environment is an authorized disposable lab. Windows activation is intentionally outside project scope.
