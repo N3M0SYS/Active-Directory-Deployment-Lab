@@ -2,8 +2,6 @@
 
 **Current update: 2026-10-05.** Historical host measurements below are retained; the current deployment section supersedes earlier switch, guest, and backup status.
 
-Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are snapshots, not live monitoring. Commands labeled GB used PowerShell binary units (GiB).
-
 ## Hyper-V host — verified
 
 | Item | Observed value |
@@ -27,24 +25,6 @@ Observed from operator-provided PowerShell screenshots on 2026-09-08. Values are
 | RACADM | Not on command path or found in searched Dell Program Files folders |
 | Backups | Operator checked Ninja: no backup configured/history reported; other methods unverified |
 
-## Initial VMs — historical baseline before operator cleanup
-
-All have 20 configured vCPUs, dynamic memory disabled, and 0 assigned RAM at capture.
-
-| Name | State | Startup RAM (GiB) |
-|---|---|---:|
-| Buntu-Server | Off | 8 |
-| ninjatest | Off | 4 |
-| Pen-Test Machine | Off | 16 |
-| Test_1 | Off | 16 |
-| Test_2 | Off | 6 |
-| Test_Intune | Saved | 4.9 |
-| Testtt | Off | 8 |
-| VulScan | Off | 8 |
-| Wazuh | Saved | 8 |
-
-The displayed startup allocations total approximately 78.9 GiB, exceeding host RAM if all were started together. Saved/off VMs are not currently consuming assigned guest RAM. Review shared usage before starting guests. Existing Wazuh suitability remains unknown.
-
 ## Outstanding information at the initial baseline
 
 - Backup destination, recovery access, and restore evidence.
@@ -52,9 +32,9 @@ The displayed startup allocations total approximately 78.9 GiB, exceeding host R
 - Lab address range, uplink design, and isolation rules.
 - Drive media, RAID level, and individual drive health if performance or recovery planning requires them.
 
-## VMs after operator cleanup — historical 2026-09-08 baseline
+## VMs baseline
 
-The operator reports deleting the other six VMs. Hyper-V Manager now shows only:
+The initial server for Hyper-V Manager shows:
 
 | Name | Current state |
 |---|---|
