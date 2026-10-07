@@ -2,9 +2,7 @@
 
 ## Current state — 2026-09-11
 
-The operator explicitly confirms this is a disposable test server and accepts a full rebuild. Host backups are not a prerequisite, and the operator did not request a backup-before-changes policy.
-
-A first Windows Server Backup of N3M0-DC01 completed successfully. This supersedes the previous blanket statement that no local backups are configured. It does not establish host backup coverage or backups of retained shared guests.
+This is a disposable test server and is open to a full rebuild. Host backups are not a prerequisite.
 
 | Item | Verified value |
 |---|---|
