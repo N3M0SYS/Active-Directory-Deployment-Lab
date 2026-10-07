@@ -2,9 +2,9 @@
 
 ## Status — 2026-09-29
 
-FS01 deployment, domain sign-in, departmental file operations, reciprocal access denial, and automatic Finance/HR S: drive recreation passed per operator. Windows updates complete per operator. FS01 installation ISO ejection is confirmed. Windows activation is intentionally not being purchased or pursued for this disposable project VM.
+FS01 deployment, domain sign-in, departmental file operations, reciprocal access denial, and automatic Finance/HR S: drive recreation passed during lab validation. Windows updates complete during lab validation. FS01 installation ISO ejection is confirmed. Windows activation is intentionally not being purchased or pursued for this disposable project VM.
 
-This journal distinguishes guided settings and operator completion reports from reviewed screenshots. No raw screenshots, passwords, or credentials are committed.
+This journal distinguishes guided settings and completed lab validation from reviewed screenshots. No raw screenshots, passwords, or credentials are committed.
 
 ## Build and domain configuration
 
@@ -15,10 +15,10 @@ This journal distinguishes guided settings and operator completion reports from 
 | VM | Generation 2; 2 vCPUs; 4096 MB fixed RAM |
 | OS disk | N3M0-FS01-OS.vhdx, 80 GB |
 | Data disk | N3M0-FS01-Data.vhdx, 70 GB dynamically expanding VHDX on SCSI |
-| Data volume | GPT/NTFS, E:, DepartmentData; Healthy per operator; screenshot showed 70 GB volume |
+| Data volume | GPT/NTFS, E:, DepartmentData; Healthy during lab validation; screenshot showed 70 GB volume |
 | Security | Secure Boot enabled, Microsoft Windows template instructed; not independently recaptured |
 | Network | Lab-Private-Switch; 10.50.10.20/24; gateway 10.50.10.1; DNS 10.50.10.10 |
-| Domain | n3m0.test / N3M0; domain Administrator sign-in succeeded per operator |
+| Domain | n3m0.test / N3M0; domain Administrator sign-in succeeded during lab validation |
 | OU | N3M0-Lab/Servers creation and FS01 move included in completed build batch; not separately exported |
 | Role | File Server role installation/check included in completed folder-creation batch |
 
@@ -26,7 +26,7 @@ VM installation and IP/DNS configuration were reported complete before domain jo
 
 ## Actual folders and shares
 
-The initial guidance used E:\Shares\Finance; the operator's actual naming supersedes that proposal:
+The initial guidance used E:\Shares\Finance; I's actual naming supersedes that proposal:
 
 | Share | Local folder | UNC |
 |---|---|---|
@@ -56,7 +56,7 @@ Configured each share via Advanced Sharing > Permissions:
 - Corresponding domain-local group: Allow Change and Read.
 - FS01 local Administrators: Allow Full Control.
 
-These settings were completed per operator; raw ACL exports were not captured. Network tests validate combined SMB/NTFS behavior, not each layer independently.
+These settings were completed during lab validation; raw ACL exports were not captured. Network tests validate combined SMB/NTFS behavior, not each layer independently.
 
 ## Departmental drive GPO
 
@@ -75,16 +75,16 @@ Reconnect checked; default Authenticated Users security filtering retained. The 
 
 | Test | Result / evidence |
 |---|---|
-| FS01 domain sign-in | Success, operator reported |
-| E: volume health | Healthy, operator reported; 70 GB DepartmentData shown in screenshot |
-| CL02 finance -> Finances | Create/edit/save/reopen/rename/delete passed, operator batch confirmation |
-| CL02 finance -> HR | Access denied, operator batch confirmation |
-| CL03 hr -> HR | Create/edit/save/reopen/rename/delete passed, operator batch confirmation |
-| CL03 hr -> Finances | Access denied, operator batch confirmation |
-| Finance S: automatic recreation | Disconnected manual S:, signed out/in; returned and opened, operator confirmed |
-| HR S: automatic recreation | Operator explicitly confirmed both clients checked using disconnect/sign-out workflow |
-| FS01 Windows Update | Up to date, operator reported |
-| FS01 ISO ejection | Confirmed by operator |
+| FS01 domain sign-in | Success, validated during the lab |
+| E: volume health | Healthy, validated during the lab; 70 GB DepartmentData shown in screenshot |
+| CL02 finance -> Finances | Create/edit/save/reopen/rename/delete passed, I batch confirmation |
+| CL02 finance -> HR | Access denied, I batch confirmation |
+| CL03 hr -> HR | Create/edit/save/reopen/rename/delete passed, I batch confirmation |
+| CL03 hr -> Finances | Access denied, I batch confirmation |
+| Finance S: automatic recreation | Disconnected manual S:, signed out/in; returned and opened, I confirmed |
+| HR S: automatic recreation | I explicitly confirmed both clients checked using disconnect/sign-out workflow |
+| FS01 Windows Update | Up to date, validated during the lab |
+| FS01 ISO ejection | Confirmed by I |
 | FS01 activation | Intentionally not pursued for this disposable project VM |
 | New backups / restore testing | None claimed |
 
