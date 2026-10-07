@@ -10,8 +10,6 @@ Core deployment and replication validation are complete as of October 5, 2026. C
 - [x] Deploy the private lab switch and pfSense gateway.
 - [x] Configure controlled uplink, DNS exception, and logged private-address blocking.
 - [x] Verify external DNS, outbound TCP 443, and the tested upstream-router ICMP block.
-- [ ] Complete broader isolation and DHCP-containment checks.
-- [ ] Confirm shared-host resource reserve and local recovery/rollback access.
 
 ## 2. Forest and domain services
 
@@ -19,7 +17,6 @@ Core deployment and replication validation are complete as of October 5, 2026. C
 - [x] Create n3m0.test and validate initial DNS/service records and SYSVOL/NETLOGON.
 - [x] Install and authorize DHCP; configure N3M0-Clients scope.
 - [x] Complete an initial local DC01 guest backup and document its limits.
-- [ ] Optional recovery exercise: restore testing and improved backup coverage.
 
 ## 3. Clients, identity, and Group Policy
 
@@ -29,7 +26,6 @@ Core deployment and replication validation are complete as of October 5, 2026. C
 - [x] Install RSAT on CL01 and separate daily-use/admin identities.
 - [x] Delegate password reset and account unlock; validate allowed and denied operations.
 - [x] Complete client updates and media cleanup during lab validation.
-- [ ] Capture a detailed Group Policy results report and client DNS registration if needed.
 
 ## 4. File services and permissions
 
@@ -50,16 +46,11 @@ Core deployment and replication validation are complete as of October 5, 2026. C
 - [x] Advertise both DNS servers through DHCP and capture CL01 renewal.
 - [x] Verify fresh standard-user Kerberos tickets issued by DC02 and successful user policy refresh.
 - [x] Remove temporary KDC preference and disable diagnostic logging.
-- [x] Finish DC02 updates and ISO ejection during lab validation; verify external DNS resolution and pfSense forwarder configuration (2026-10-06).
-- [ ] Investigate the DC01-local ADUC availability label if it persists.
-- [ ] Optional controlled DC01 outage exercise; no failover result is currently claimed.
+- [x] Finish DC02 updates and ISO ejection during lab validation; verify external DNS resolution and pfSense forwarder configuration.
 
 ## 6. Documentation and portfolio finish
 
 - [x] Maintain build journals, architecture, inventory, recovery limits, and change history.
 - [x] Give this repository a domain-deployment-only README and scope.
 - [x] Rename repository to Active-Directory-Deployment-Lab and update its description/topics.
-- [ ] Review and sanitize operational details before a public portfolio release.
-- [ ] Add approved visual evidence when available.
 
-Windows activation is intentionally outside scope. Follow-on security exercises do not count as unfinished phases of this repository.
