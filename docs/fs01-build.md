@@ -33,10 +33,6 @@ The initial guidance used E:\Shares\Finance; the operator's actual naming supers
 | Finances | E:\Shared\Finances | \\N3M0-FS01\Finances |
 | HR | E:\Shared\HR | \\N3M0-FS01\HR |
 
-Screenshot initially showed only Finances -> E:\Shared\Finances and Shared -> E:\Shared. HR was reachable through \\N3M0-FS01\Shared\HR but not as a direct share. Created the direct HR share using folder Properties > Sharing > Advanced Sharing. A subsequent screenshot showed the network browse list, not an access error; direct UNC testing was requested and the operator reported the issue fixed.
-
-Stopped sharing the Shared parent through Server Manager > File and Storage Services > Shares; operator confirmed the cleanup/testing batch. This removed the parent SMB share, not its folders or files. No final share-list export was captured.
-
 ## AGDLP and permissions
 
 Accounts -> global department groups -> domain-local resource groups -> permissions:
