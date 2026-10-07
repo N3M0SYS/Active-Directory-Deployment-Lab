@@ -24,12 +24,12 @@ The destination disk was initialized GPT and formatted NTFS with a quick format.
 
 This backup may help recover guest configuration/OS problems while the backup remains intact. It cannot protect against loss of the physical host storage, and an attached writable backup can also be affected by guest compromise. Backup success is not proof of restore success.
 
-The operator previously reported approval for a disposable lab with wipe-and-rebuild recovery. Rebuild remains the fallback for host/storage loss. Existing ninjatest, VulScan, and Wazuh are preserved; their backup coverage is unverified. No deletion or restore is currently authorized by this record.
+I previously reported approval for a disposable lab with wipe-and-rebuild recovery. Rebuild remains the fallback for host/storage loss. Existing ninjatest, VulScan, and Wazuh are preserved; their backup coverage is unverified. No deletion or restore is currently authorized by this record.
 
 ## Recovery planning
 
 1. Retain the installation ISO for recovery; it can remain ejected during normal use.
-2. Keep the DSRM recovery password in the operator's private password manager, never GitHub.
+2. Keep the DSRM recovery password in I's private password manager, never GitHub.
 3. Plan a restore test in an isolated environment without connecting a duplicate DC to the live lab.
 4. Verify AD, DNS, shares, and client behavior after an actual restore.
 5. Scheduled backups, retention, and off-host copies are not part of the current task.
