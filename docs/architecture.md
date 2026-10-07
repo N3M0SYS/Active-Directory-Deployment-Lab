@@ -58,9 +58,6 @@ DC01 external DNS and outbound TCP 443 passed. Firewall logs showed the test ICM
 | N3M0-CL02 (Finance) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 | N3M0-CL03 (HR) | 2 | 4 GB | 80 GB | Deployed; guided sizing |
 
-
-Penetration testing and endpoint monitoring are planned in a separate [follow-on project](project-series.md). They are outside this deployment architecture.
-
 See [firewall and DHCP journal](firewall-dhcp-build.md) for settings, tests, and the next step.
 
 ## Active Directory organization
